@@ -3,13 +3,14 @@ package com.hossein.PermissionTree.dao.config;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 
 @Repository
 public class GenericRepository {
@@ -35,7 +36,7 @@ public class GenericRepository {
 		Query<T> query;
 		
 		if (transformerClass != null) {
-			query = session.createQuery(hql).setResultListTransformer(Transformers.aliasToBean(transformerClass));
+			query = session.createQuery(hql).setResultTransformer(Transformers.aliasToBean(transformerClass));
 		} else {
 			query = session.createQuery(hql);
 		}
