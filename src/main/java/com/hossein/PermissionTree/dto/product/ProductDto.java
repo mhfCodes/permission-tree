@@ -4,8 +4,8 @@ public class ProductDto {
 
 	private Long id;
 	private String name;
-	private double price;
-	private int count;
+	private Double price;
+	private Integer count;
 	private String dateAdded;
 	
 	public Long getId() {
@@ -20,16 +20,16 @@ public class ProductDto {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
-	public void setCount(int count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 	public String getDateAdded() {

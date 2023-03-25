@@ -4,8 +4,8 @@ public class ProductViewModel {
 	
 	private Long productId;
 	private String productName;
-	private double productPrice;
-	private int productCount;
+	private Double productPrice;
+	private Integer productCount;
 	private String productDateAdded;
 	
 	public Long getProductId() {
@@ -20,16 +20,16 @@ public class ProductViewModel {
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	public double getProductPrice() {
+	public Double getProductPrice() {
 		return productPrice;
 	}
-	public void setProductPrice(double productPrice) {
+	public void setProductPrice(Double productPrice) {
 		this.productPrice = productPrice;
 	}
-	public int getProductCount() {
+	public Integer getProductCount() {
 		return productCount;
 	}
-	public void setProductCount(int productCount) {
+	public void setProductCount(Integer productCount) {
 		this.productCount = productCount;
 	}
 	public String getProductDateAdded() {

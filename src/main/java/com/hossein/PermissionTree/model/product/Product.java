@@ -28,10 +28,10 @@ public class Product {
 	private String name;
 	
 	@Column(name = "price")
-	private double price;
+	private Double price;
 	
 	@Column(name = "count")
-	private int count;
+	private Integer count;
 	
 	@Column(name = "dateAdded", length = 50)
 	private String dateAdded;
@@ -39,7 +39,7 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(String name, double price, int count, String dateAdded) {
+	public Product(String name, Double price, Integer count, String dateAdded) {
 		this.name = name;
 		this.price = price;
 		this.count = count;
@@ -62,19 +62,19 @@ public class Product {
 		this.name = name;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 

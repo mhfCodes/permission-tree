@@ -30,12 +30,12 @@ public class ProductCustomRepositoryImpl extends GenericRepository implements Pr
 			params.put("productName", "%"+data.getName()+"%");
 		}
 		
-		if (data.getPrice() >= 0) {
+		if (data.getPrice() != null && data.getPrice() >= -1) {
 			hql.append(" and e.price = :productPrice");
 			params.put("productPrice", data.getPrice());
 		}
 		
-		if (data.getCount() >= 0) {
+		if (data.getCount() != null && data.getCount() >= -1) {
 			hql.append(" and e.count = :productCount");
 			params.put("productCount", data.getCount());
 		}
