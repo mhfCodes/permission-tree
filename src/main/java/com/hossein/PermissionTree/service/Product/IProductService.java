@@ -11,4 +11,10 @@ public interface IProductService {
 	List<Product> getAllProducts();
 	
 	List<ProductViewModel> search(ProductDto data);
+	
+	Product load(Long productId);
+	
+	long save(Product entity);
+	
+	Boolean delete(Long productId);
 }
