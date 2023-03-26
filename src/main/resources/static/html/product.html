@@ -36,6 +36,27 @@
                 <button class="btn btn-add"><span class="add-icon">+</span> Add</button>
                 <button class="btn btn-search">Search</button>
             </div>
+            <div class="search-box hidden">
+                <div class="grid">
+                    <div class="grid-item">
+                        <label for="search-name">Name: </label>
+                        <input type="text" id="search-name" name="name" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="price">Price: </label>
+                        <input type="number" id="search-price" name="price" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="date">Date: </label>
+                        <input type="text" id="search-date" name="date" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="search-count">Count: </label>
+                        <input type="number" name="count" id="search-count" class="search-count" />
+                    </div>
+                </div>
+                <button class="btn btn-find">Find</button>
+            </div>
             <table class="styled-table">
                 <thead>
                     <tr>

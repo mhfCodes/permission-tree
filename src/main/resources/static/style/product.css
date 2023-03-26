@@ -209,3 +209,37 @@ li {
     backdrop-filter: blur(3px);
     z-index: 1;
 }
+
+.search-box {
+    margin: 2rem auto -20px auto;
+    max-width: 50%;
+    background-color: #a1cacc;
+    padding: 1rem 2rem;
+    border-radius: 20px;
+}
+
+.search-box .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 1rem;
+}
+
+.search-box .grid-item {
+    text-align: left;
+}
+
+.search-box .grid-item input {
+    padding: 0.7rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.search-box .search-count {
+    width: 5rem;
+}
+
+.btn-find {
+    margin-bottom: -5px;
+    margin-top: 5px;
+}
