@@ -19,6 +19,7 @@ public interface ProductMapper {
 	@Mapping(source = "price", target = "productPrice")
 	@Mapping(source = "count", target = "productCount")
 	@Mapping(source = "dateAdded", target = "productDateAdded")
+	@Mapping(source = "dateModified", target = "productDateModified")
 	ProductViewModel mapEtoV(Product entity);
 	
 	List<ProductViewModel> mapEtoVList(List<Product> entityList);

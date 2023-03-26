@@ -7,6 +7,7 @@ public class ProductDto {
 	private Double price;
 	private Integer count;
 	private String dateAdded;
+	private String dateModified;
 	
 	public Long getId() {
 		return id;
@@ -37,6 +38,12 @@ public class ProductDto {
 	}
 	public void setDateAdded(String dateAdded) {
 		this.dateAdded = dateAdded;
+	}
+	public String getDateModified() {
+		return dateModified;
+	}
+	public void setDateModified(String dateModified) {
+		this.dateModified = dateModified;
 	}
 	
 }

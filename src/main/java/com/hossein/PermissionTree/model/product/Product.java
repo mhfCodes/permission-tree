@@ -36,6 +36,9 @@ public class Product {
 	@Column(name = "dateAdded", length = 50)
 	private String dateAdded;
 	
+	@Column(name = "dateModified")
+	private String dateModified;
+	
 	public Product() {
 	}
 
@@ -84,6 +87,14 @@ public class Product {
 
 	public void setDateAdded(String dateAdded) {
 		this.dateAdded = dateAdded;
+	}
+
+	public String getDateModified() {
+		return dateModified;
+	}
+
+	public void setDateModified(String dateModified) {
+		this.dateModified = dateModified;
 	}
 	
 }

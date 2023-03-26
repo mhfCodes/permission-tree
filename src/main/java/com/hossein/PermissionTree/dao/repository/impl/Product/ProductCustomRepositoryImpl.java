@@ -22,7 +22,7 @@ public class ProductCustomRepositoryImpl extends GenericRepository implements Pr
 		hql.append("select"
 				+ " e.id as productId, e.name as productName,"
 				+ " e.price as productPrice, e.count as productCount,"
-				+ " e.dateAdded as productDateAdded"
+				+ " e.dateAdded as productDateAdded, e.dateModified as productDateModified"
 				+ " from Product e where 1=1");
 		
 		if (StringUtils.hasText(data.getName())) {
@@ -43,6 +43,11 @@ public class ProductCustomRepositoryImpl extends GenericRepository implements Pr
 		if (StringUtils.hasText(data.getDateAdded())) {
 			hql.append(" and e.dateAdded like :dateAdded");
 			params.put("dateAdded", "%"+data.getDateAdded()+"%");
+		}
+		
+		if (StringUtils.hasText(data.getDateModified())) {
+			hql.append(" and e.dateModified like :dateModified");
+			params.put("dateModified", "%"+data.getDateModified()+"%");
 		}
 		
 		return super.getAll(hql.toString(), params, ProductViewModel.class);

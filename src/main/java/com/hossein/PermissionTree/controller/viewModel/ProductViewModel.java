@@ -7,6 +7,7 @@ public class ProductViewModel {
 	private Double productPrice;
 	private Integer productCount;
 	private String productDateAdded;
+	private String productDateModified;
 	
 	public Long getProductId() {
 		return productId;
@@ -37,6 +38,12 @@ public class ProductViewModel {
 	}
 	public void setProductDateAdded(String productDateAdded) {
 		this.productDateAdded = productDateAdded;
+	}
+	public String getProductDateModified() {
+		return productDateModified;
+	}
+	public void setProductDateModified(String productDateModified) {
+		this.productDateModified = productDateModified;
 	}
 	
 }
