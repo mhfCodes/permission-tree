@@ -124,3 +124,88 @@ li {
     background-color: rgb(241, 111, 111);
     color: #000;
 }
+
+.hidden {
+    display: none!important;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 800px;
+    padding: 1.3rem;
+    min-height: 250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    z-index: 2;
+}
+
+.modal .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 1rem;
+    margin-bottom: 15px;
+    justify-content: space-between;
+}
+
+.modal input {
+    padding: 0.7rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.modal .count {
+    width: 5rem;
+}
+
+.btn-close {
+    font-weight: bold;
+    padding: 0.5rem 0.7rem;
+    background: #eee;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    vertical-align: middle;
+}
+
+.btn-close:hover {
+    font-size: initial;
+    padding: 0.5rem 0.7rem;
+    background-color: rgb(26, 26, 26);
+    color: #ddd;
+}
+
+.btn-submit {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -25%);
+    margin-top: 1rem;
+}
+
+.btn-submit:hover {
+    font-size: initial;
+    font-weight: bold;
+    background-color: #96e5fb;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 1;
+}

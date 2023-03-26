@@ -1,6 +1,10 @@
 (function() {
 
     const tableBody = document.querySelector(".table-body");
+    const addBtn = document.querySelector(".btn-add");
+    const modal = document.querySelector(".modal");
+    const overlay = document.querySelector(".overlay");
+    const closeBtn = document.querySelector(".btn-close");
 
     const init = async () => {
         const products = await fetchProducts();
@@ -18,4 +22,13 @@
     }
 
     document.addEventListener('DOMContentLoaded', init);
+    addBtn.addEventListener('click', () => {
+        modal.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+    });
+    closeBtn.addEventListener('click', () => {
+        modal.classList.add("hidden");
+        overlay.classList.add("hidden");
+    })
+    
 })();

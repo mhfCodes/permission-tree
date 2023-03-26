@@ -9,4 +9,4 @@
 <p><strong>GET /api/product/{id}</strong> ===> Get product by id</p>
 <p><strong>POST /api/product/search</strong> ===> Search between products and get founded products</p>
 <p><strong>POST /api/product</strong> ===> Save/Update a product</p>
-<p><strong>Delete /api/product/{id}</strong> ===> Delete a product</p>
+<p><strong>Delete /api/product/{id}</strong> ===> Delete a product by id</p>

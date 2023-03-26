@@ -10,6 +10,27 @@
 <body>
     
     <div class="wrapper">
+        <section class="modal hidden">
+            <button class="btn btn-close">X</button>
+            <form action="#" class="product-form">
+                <div class="grid">
+                    <div class="grid-item">
+                        <label for="name">Name: </label>
+                        <input type="text" id="name" name="name" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="price">Price: </label>
+                        <input type="text" id="price" name="price" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="count">Count: </label>
+                        <input type="number" name="count" id="count" class="count" />
+                    </div>
+                </div>
+                <button class="btn btn-submit">Save</button>
+            </form>
+        </section>
+        <div class="overlay hidden"></div>
         <div class="container">
             <div class="buttons">
                 <button class="btn btn-add"><span class="add-icon">+</span> Add</button>
