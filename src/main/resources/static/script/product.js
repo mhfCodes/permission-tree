@@ -5,6 +5,11 @@
     const modal = document.querySelector(".modal");
     const overlay = document.querySelector(".overlay");
     const closeBtn = document.querySelector(".btn-close");
+    const saveBtn = document.querySelector(".btn-submit");
+
+    const nameInput = document.getElementById("name");
+    const priceInput = document.getElementById("price");
+    const countInput = document.getElementById("count");
 
     const init = async () => {
         const products = await fetchProducts();
@@ -21,6 +26,39 @@
         return data;
     }
 
+    const saveProduct = async (e) => {
+        e.preventDefault();
+
+        if (priceInput.value < 0) {
+            alert("Price can not be less than 0");
+            throw new Error("Price can not be less than 0");
+        }
+
+        if (countInput.value < 0) {
+            alert("Count can not be less than 0");
+            throw new Error("Count can not be less than 0");
+        }
+
+        const productObj = {
+            id: null,
+            name: nameInput.value,
+            price: parseFloat(priceInput.value),
+            count: parseInt(countInput.value),
+            dateAdded: new Date().toString().slice(0, 24) 
+        }
+        const response = await fetch("http://localhost:8080/api/product", {
+            body: JSON.stringify(productObj),
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await response.text();
+        if (data > 0) {
+            window.location.reload();
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', init);
     addBtn.addEventListener('click', () => {
         modal.classList.remove("hidden");
@@ -30,5 +68,6 @@
         modal.classList.add("hidden");
         overlay.classList.add("hidden");
     })
+    saveBtn.addEventListener('click', saveProduct);
     
 })();
