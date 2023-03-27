@@ -1,15 +1,19 @@
 (function() {
     
     const tableBody = document.querySelector(".table-body");
-    const modal = document.querySelector(".modal");
+    const addModal = document.querySelector(".add-modal");
+    const deleteModal = document.querySelector(".delete-modal");
     const overlay = document.querySelector(".overlay");
     const searchBox = document.querySelector(".search-box");
 
     const addBtn = document.querySelector(".btn-add");
-    const closeBtn = document.querySelector(".btn-close");
+    const addModalCloseBtn = document.querySelector(".add-modal-btn-close");
+    const deleteModalCloseBtn = document.querySelector(".delete-modal-btn-close");
     const saveBtn = document.querySelector(".btn-submit");
     const searchBtn = document.querySelector(".btn-search");
     const findBtn = document.querySelector(".btn-find");
+    const yesDelBtn = document.querySelector(".btn-yes");
+    const noDelBtn = document.querySelector(".btn-no");
 
     const nameInput = document.getElementById("name");
     const priceInput = document.getElementById("price");
@@ -22,6 +26,7 @@
     const searchDateModifiedInput = document.getElementById("search-date-modified");
     
     let currentProduct;
+    let currentProductId;
     let isEditing = false;
 
     const init = async () => {
@@ -33,6 +38,7 @@
         });
         
         addEditClickEventListener();
+        addDeleteClickEventListener();
     }
 
     const fetchProducts = async () => {
@@ -112,6 +118,18 @@
         
     }
 
+    const delProduct = async () => {
+        
+        const response = await fetch(`http://localhost:8080/api/product/${currentProductId}`, {
+            method: 'DELETE'
+        })
+        const data = await response.text();
+
+        if (data === "true") {
+            window.location.reload();
+        }
+    }
+
     const find = async () => {
 
         if (searchPriceInput.value < 0) {
@@ -149,13 +167,14 @@
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
+        addDeleteClickEventListener();
     };
 
     const loadProduct = async (e) => {
         const response = await fetch(`http://localhost:8080/api/product/${e.target.dataset.productid}`);
         currentProduct = await response.json();
         
-        modal.classList.remove("hidden");
+        addModal.classList.remove("hidden");
         overlay.classList.remove("hidden");
         saveBtn.textContent = "Edit";
         nameInput.value = currentProduct.productName;
@@ -172,12 +191,24 @@
         })
     }
 
+    const addDeleteClickEventListener = () => {
+        const deleteBtns = document.querySelectorAll(".btn-delete");
+        deleteBtns.forEach(deleteBtn => {
+            deleteBtn.addEventListener('click', (e) => {
+                deleteModal.classList.remove("hidden");
+                overlay.classList.remove("hidden");
+                currentProductId = e.target.dataset.productid;
+            });
+        })
+    }
+
     document.addEventListener('DOMContentLoaded', init);
     saveBtn.addEventListener('click', (e) => isEditing ? editProduct(e) : saveProduct(e));
     findBtn.addEventListener('click', find);
+    yesDelBtn.addEventListener('click', delProduct);
 
     addBtn.addEventListener('click', () => {
-        modal.classList.remove("hidden");
+        addModal.classList.remove("hidden");
         overlay.classList.remove("hidden");
         saveBtn.textContent = "Save";
         nameInput.value = "";
@@ -185,8 +216,16 @@
         countInput.value = "";
         isEditing = false;
     });
-    closeBtn.addEventListener('click', () => {
-        modal.classList.add("hidden");
+    addModalCloseBtn.addEventListener('click', () => {
+        addModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+    })
+    deleteModalCloseBtn.addEventListener('click', () => {
+        deleteModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+    })
+    noDelBtn.addEventListener('click', () => {
+        deleteModal.classList.add("hidden");
         overlay.classList.add("hidden");
     })
     searchBtn.addEventListener('click', () => {
