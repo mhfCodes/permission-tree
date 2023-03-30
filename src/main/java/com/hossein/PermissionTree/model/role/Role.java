@@ -2,6 +2,7 @@ package com.hossein.PermissionTree.model.role;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,7 +36,7 @@ public class Role {
 	@Column(name = "role", length = 50)
 	private String name;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinTable(
 				name = "ROLE_PERMISSION",
 				joinColumns = {@JoinColumn(name = "roleId")},
@@ -44,6 +45,11 @@ public class Role {
 	private Set<Permission> permissions;
 
 	public Role() {
+	}
+
+	public Role(String name, Set<Permission> permissions) {
+		this.name = name;
+		this.permissions = permissions;
 	}
 
 	public Long getId() {

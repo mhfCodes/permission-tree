@@ -1,5 +1,6 @@
 package com.hossein.PermissionTree.model.permission;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,11 +34,22 @@ public class Permission {
 	@Column(name = "hierarchy")
 	private String hierarchy;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@Column(name = "menuItem")
+	private Boolean menuItem;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "parentPermission")
 	private Permission parent;
 
 	public Permission() {
+	}
+
+	public Permission(String name, String hierarchy, Boolean menuItem, Permission parent) {
+		super();
+		this.name = name;
+		this.hierarchy = hierarchy;
+		this.menuItem = menuItem;
+		this.parent = parent;
 	}
 
 	public Long getId() {
@@ -70,6 +82,14 @@ public class Permission {
 
 	public void setParent(Permission parent) {
 		this.parent = parent;
+	}
+
+	public Boolean getMenuItem() {
+		return menuItem;
+	}
+
+	public void setMenuItem(Boolean menuItem) {
+		this.menuItem = menuItem;
 	}
 
 }

@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		
 		userModel.getRoles().forEach(role -> {
 			role.getPermissions().forEach(permission -> {
-				authorities.add(new SimpleGrantedAuthority(permission.getName()));
+				authorities.add(new SimpleGrantedAuthority("ROLE_" + permission.getId()));
 			});
 		});
 		

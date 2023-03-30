@@ -2,6 +2,7 @@ package com.hossein.PermissionTree.model.user;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,7 +45,7 @@ public class UserModel {
 	@Column(name = "lastName", length = 50)
 	private String lastName;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinTable(
 				name = "USER_ROLE",
 				joinColumns = {@JoinColumn(name = "userId")},
@@ -53,6 +54,14 @@ public class UserModel {
 	private Set<Role> roles;
 
 	public UserModel() {
+	}
+
+	public UserModel(String username, String password, String firstName, String lastName, Set<Role> roles) {
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.roles = roles;
 	}
 
 	public Long getId() {
