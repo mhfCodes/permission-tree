@@ -37,7 +37,7 @@ public class Permission {
 	@Column(name = "menuItem")
 	private Boolean menuItem;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parentPermission")
 	private Permission parent;
 

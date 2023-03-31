@@ -45,7 +45,7 @@ public class UserModel {
 	@Column(name = "lastName", length = 50)
 	private String lastName;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 				name = "USER_ROLE",
 				joinColumns = {@JoinColumn(name = "userId")},

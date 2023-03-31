@@ -3,6 +3,7 @@ package com.hossein.PermissionTree.controller.product;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,26 +29,31 @@ public class ProductController {
 	private IProductService iProductService;
 	
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_3')")
 	public List<ProductViewModel> getAll() {
 		return this.mapper.mapEtoVList(this.iProductService.getAllProducts());
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_3')")
 	public ProductViewModel load(@PathVariable Long id) {
 		return this.mapper.mapEtoV(this.iProductService.load(id));
 	}
 	
 	@PostMapping("/search")
+	@PreAuthorize("hasRole('ROLE_3')")
 	public List<ProductViewModel> search(@RequestBody ProductDto data) {
 		return this.iProductService.search(data);
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAnyRole('ROLE_2', 'ROLE_4')")
 	public long save(@RequestBody ProductDto dto) {
 		return this.iProductService.save(this.mapper.mapDtoE(dto));
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_5')")
 	public Boolean delete(@PathVariable Long id) {
 		return this.iProductService.delete(id);
 	}
