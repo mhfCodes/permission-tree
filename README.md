@@ -5,6 +5,8 @@
 <h5>API Doc:</h5>
 
 <p><strong>GET /</strong> ===> Get current date as string</p>
+<p><strong>POST /signup</strong> ===> Signup as a user</p>
+<p><strong>POST /login</strong> ===> Login with username and password</p>
 <p><strong>GET /api/product</strong> ===> Get all products</p>
 <p><strong>GET /api/product/{id}</strong> ===> Get product by id</p>
 <p><strong>POST /api/product/search</strong> ===> Search between products and get founded products</p>
