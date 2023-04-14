@@ -25,11 +25,26 @@
     const searchDateAddedInput = document.getElementById("search-date-added");
     const searchDateModifiedInput = document.getElementById("search-date-modified");
     
+    const navLogin = document.querySelector(".nav-login");
+    const navLogout = document.querySelector(".nav-logout");
+    const logoutBtn = document.querySelector(".logout");
+    
     let currentProduct;
     let currentProductId;
     let isEditing = false;
+    let jwtToken = "";
 
     const init = async () => {
+
+        if (localStorage.getItem("jwt") != null && localStorage.getItem("jwt") != "undefined") {
+            jwtToken = "Bearer " + localStorage.getItem("jwt");
+            navLogin.classList.add("hidden");
+            navLogout.classList.remove("hidden");
+        } else {
+            window.location.replace("/html/login.html");
+        }
+
+
         const products = await fetchProducts();
         products.forEach(product => {
             const tr = document.createElement("tr");
@@ -42,7 +57,11 @@
     }
 
     const fetchProducts = async () => {
-        const response = await fetch("http://localhost:8080/api/product");
+        const response = await fetch("http://localhost:8080/api/product", {
+            headers: {
+                Authorization: jwtToken
+            }
+        });
         const data = await response.json();
         return data;
     }
@@ -72,7 +91,8 @@
             body: JSON.stringify(productObj),
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: jwtToken
             }
         });
         const data = await response.text();
@@ -107,7 +127,8 @@
             body: JSON.stringify(productObj),
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: jwtToken
             }
         });
 
@@ -121,7 +142,10 @@
     const delProduct = async () => {
         
         const response = await fetch(`http://localhost:8080/api/product/${currentProductId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                Authorization: jwtToken
+            }
         })
         const data = await response.text();
 
@@ -155,7 +179,8 @@
             method: 'POST',
             body: JSON.stringify(searchProductObj),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                Authorization: jwtToken
             }
         });
         const data = await response.json();
@@ -171,7 +196,11 @@
     };
 
     const loadProduct = async (e) => {
-        const response = await fetch(`http://localhost:8080/api/product/${e.target.dataset.productid}`);
+        const response = await fetch(`http://localhost:8080/api/product/${e.target.dataset.productid}`, {
+            headers: {
+                Authorization: jwtToken
+            }
+        });
         currentProduct = await response.json();
         
         addModal.classList.remove("hidden");
@@ -202,10 +231,16 @@
         })
     }
 
+    const logout = () => {
+        localStorage.removeItem("jwt");
+        window.location.replace("/html/index.html");
+    }
+
     document.addEventListener('DOMContentLoaded', init);
     saveBtn.addEventListener('click', (e) => isEditing ? editProduct(e) : saveProduct(e));
     findBtn.addEventListener('click', find);
     yesDelBtn.addEventListener('click', delProduct);
+    logoutBtn.addEventListener('click', logout);
 
     addBtn.addEventListener('click', () => {
         addModal.classList.remove("hidden");

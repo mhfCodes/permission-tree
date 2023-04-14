@@ -70,4 +70,7 @@ li {
     padding: 5px 14px;
 }
 
+.hidden {
+    display: none!important;
+}
 

@@ -137,6 +137,11 @@ input#password {
     font-size: 3rem;
 }
 
-
+.invalid-cred {
+    color: red;
+    font-size: 1.5rem;
+    margin-bottom: -150px;
+    margin-top: 150px;
+}
 
 

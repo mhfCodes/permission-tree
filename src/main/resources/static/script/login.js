@@ -10,6 +10,7 @@
     const navLogin = document.querySelector(".nav-login");
     const navLogout = document.querySelector(".nav-logout");
     const logoutBtn = document.querySelector(".logout");
+    const invCred = document.querySelector(".invalid-cred");
 
 
     const init = async () => {
@@ -56,7 +57,12 @@
 
         const data = await response.json();
         
-        if (data && response.status == 200) {
+        if (response.status == 400) {
+            invCred.classList.remove("hidden");
+            setTimeout(() => {
+                invCred.classList.add("hidden");
+            }, 3000);
+        } else if (data && response.status == 200) {
             localStorage.setItem("jwt", data.jwtToken);
             window.location.reload();
         }
@@ -64,7 +70,7 @@
 
     const logout = () => {
         localStorage.removeItem("jwt");
-        window.location.reload();
+        window.location.replace("/html/index.html");
     }
 
     const getUserData = async () => {
