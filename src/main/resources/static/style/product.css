@@ -9,6 +9,10 @@
 body {
     font-family: 'Times New Roman', Times, serif;
     font-size: 18px;
+    background-image: linear-gradient(rgb(32, 253, 234), rgb(217, 253, 250));
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-attachment: fixed;
 }
 
 a {

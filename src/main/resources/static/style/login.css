@@ -23,6 +23,10 @@ li {
     list-style: none;
 }
 
+.hidden {
+    display: none;
+}
+
 .wrapper {
     width: 100%;
 }
@@ -31,6 +35,39 @@ li {
     max-width: 80%;
     margin: 0 auto;
     text-align: center;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: teal;
+    color: #fff;
+}
+
+.nav-links a {
+    color: #fff;
+}
+
+.logo {
+    font-size: 32px;
+}
+
+.menu ul {
+    display: flex;
+    gap: 1em;
+    font-size: 18px;
+}
+
+.menu li:hover {
+    background-color: #4c9e9e;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.menu li {
+    padding: 5px 14px;
 }
 
 .container form {
@@ -92,7 +129,13 @@ input#password {
     background-color: #96e5fb;
 }
 
+.container h1 {
+    margin-top: 200px;
+}
 
+.loggedin-text {
+    font-size: 3rem;
+}
 
 
 

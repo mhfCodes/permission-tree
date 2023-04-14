@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,13 @@ public class UserService implements IUserService {
 		entity.setRoles(userRoles);
 		entity.setPassword(passwordEncoder.encode(entity.getPassword()));
 		return this.iUserRepository.saveAndFlush(entity).getId();
+	}
+
+	@Override
+	public UserModel loadLoggedInUser() {
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserModel loggedInUser = this.iUserRepository.findByUsername(user.getUsername()).orElse(null);
+		return loggedInUser;
 	}
 
 }
