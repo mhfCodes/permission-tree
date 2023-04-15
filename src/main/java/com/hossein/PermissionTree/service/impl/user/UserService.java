@@ -1,6 +1,7 @@
 package com.hossein.PermissionTree.service.impl.user;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.hossein.PermissionTree.dao.repository.role.IRoleRepository;
 import com.hossein.PermissionTree.dao.repository.user.IUserRepository;
+import com.hossein.PermissionTree.exception.ApplicationException;
 import com.hossein.PermissionTree.model.role.Role;
 import com.hossein.PermissionTree.model.user.UserModel;
 import com.hossein.PermissionTree.service.user.IUserService;
@@ -32,6 +34,9 @@ public class UserService implements IUserService {
 	@Override
 	@Transactional
 	public long saveEntity(UserModel entity) {
+		Optional<UserModel> userModel = this.iUserRepository.findByUsername(entity.getUsername());
+		if (userModel.isPresent()) throw new ApplicationException("Username Exists");
+		
 		Set<Role> userRoles = new HashSet<>();
 		Role role = this.iRoleRepository.findById(3L).orElse(null);
 		userRoles.add(role);
