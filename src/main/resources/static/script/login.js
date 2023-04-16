@@ -11,6 +11,9 @@
     const navLogout = document.querySelector(".nav-logout");
     const logoutBtn = document.querySelector(".logout");
     const invCred = document.querySelector(".invalid-cred");
+    const navSignup = document.querySelector(".nav-signup");
+    const navProducts = document.querySelector(".nav-products");
+    const noAccount = document.querySelector(".no-account");
 
 
     const init = async () => {
@@ -23,6 +26,9 @@
             navLogout.classList.remove("hidden");
             loginForm.classList.add("hidden");
             navLogin.classList.add("hidden");
+            navSignup.classList.add("hidden");
+            navProducts.classList.remove("hidden");
+            noAccount.classList.add("hidden");
 
             const userData = await getUserData();
             name.textContent = userData.userFirstName + " " + userData.userLastName;
@@ -33,6 +39,9 @@
             navLogout.classList.add("hidden");
             loginForm.classList.remove("hidden");
             navLogin.classList.remove("hidden");
+            navSignup.classList.remove("hidden");
+            navProducts.classList.add("hidden");
+            noAccount.classList.remove("hidden");
 
             name.textContent = "";
         }

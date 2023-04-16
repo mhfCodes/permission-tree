@@ -144,4 +144,11 @@ input#password {
     margin-top: 150px;
 }
 
+.no-account {
+    margin-top: 50px;
+    font-size: 1.3rem;
+}
 
+.no-account a:hover {
+    text-decoration: underline;
+}

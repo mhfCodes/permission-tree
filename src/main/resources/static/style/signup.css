@@ -71,7 +71,7 @@ li {
 }
 
 .container form {
-    margin-top: 200px;
+    margin-top: 150px;
 }
 
 .btn {
@@ -133,6 +133,10 @@ input#password {
     margin-top: 200px;
 }
 
+.name-container {
+    margin-top: 150px;
+}
+
 .loggedin-text {
     font-size: 3rem;
 }
@@ -140,8 +144,17 @@ input#password {
 .username-exists {
     color: red;
     font-size: 1.5rem;
-    margin-bottom: -150px;
+    margin-bottom: -130px;
     margin-top: 150px;
+}
+
+.have-account {
+    margin-top: 50px;
+    font-size: 1.3rem;
+}
+
+.have-account a:hover {
+    text-decoration: underline;
 }
 
 

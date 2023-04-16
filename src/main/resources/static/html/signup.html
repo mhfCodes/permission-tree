@@ -10,22 +10,23 @@
 <body>
     
     <div class="wrapper">
-        <!-- <nav class="navbar">
+        <nav class="navbar">
             <div class="logo">PRODPRO</div>
             <div class="menu">
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="product.html">Products</a></li>
+                    <li class="nav-products hidden"><a href="product.html">Products</a></li>
                     <li class="nav-login"><a href="login.html">Login</a></li>
                     <li class="nav-logout hidden"><a href="#" class="logout">Logout</a></li>
+                    <li class="nav-signup"><a href="signup.html" class="signup">Sign up</a></li>
                 </ul>
             </div>
-        </nav> -->
+        </nav>
         <div class="container">
             <h1 class="name-container hidden">Hello, <span class="name"></span></h1>
             <p class="loggedin-text hidden">You Are Logged In</p>
             <p class="username-exists hidden">Username Exists</p>
-            <form action="#" method="post" class="sign-form">
+            <form action="#" method="post" class="signup-form">
                 <div class="signup-box flex">
                     <div class="flex-item">
                         <label for="firstName">First Name: </label>
@@ -43,9 +44,10 @@
                         <label for="password">Password: </label>
                         <input type="password" id="password" name="password">
                     </div>
-                    <button class="btn btn-signup">Log in</button>
+                    <button class="btn btn-signup">Sign up</button>
                 </div>
             </form>
+            <p class="have-account">Already have an account? <a href="login.html">Login</a>.</p>
         </div>
     </div>
 
