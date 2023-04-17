@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.hossein.PermissionTree.controller.viewModel.ProductViewModel;
+import com.hossein.PermissionTree.controller.viewModel.Product.ProductViewModel;
 import com.hossein.PermissionTree.dao.config.GenericRepository;
 import com.hossein.PermissionTree.dto.product.ProductDto;
 

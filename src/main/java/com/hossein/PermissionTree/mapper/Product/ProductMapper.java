@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.hossein.PermissionTree.controller.viewModel.ProductViewModel;
+import com.hossein.PermissionTree.controller.viewModel.Product.ProductViewModel;
 import com.hossein.PermissionTree.dto.product.ProductDto;
 import com.hossein.PermissionTree.model.product.Product;
 

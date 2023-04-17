@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hossein.PermissionTree.controller.viewModel.UserViewModel;
+import com.hossein.PermissionTree.controller.viewModel.User.UserViewModel;
 import com.hossein.PermissionTree.mapper.User.UserMapper;
 import com.hossein.PermissionTree.service.user.IUserService;
 

@@ -1,4 +1,4 @@
-package com.hossein.PermissionTree.controller.viewModel;
+package com.hossein.PermissionTree.controller.viewModel.User;
 
 public class UserViewModel {
 

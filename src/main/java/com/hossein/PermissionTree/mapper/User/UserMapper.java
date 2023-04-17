@@ -3,7 +3,7 @@ package com.hossein.PermissionTree.mapper.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import com.hossein.PermissionTree.controller.viewModel.UserViewModel;
+import com.hossein.PermissionTree.controller.viewModel.User.UserViewModel;
 import com.hossein.PermissionTree.dto.user.UserDto;
 import com.hossein.PermissionTree.model.user.UserModel;
 
