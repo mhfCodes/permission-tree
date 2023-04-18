@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.hossein.PermissionTree.controller.viewModel.RoleViewModel;
+import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.dao.config.GenericRepository;
 import com.hossein.PermissionTree.dto.role.RoleDto;
 

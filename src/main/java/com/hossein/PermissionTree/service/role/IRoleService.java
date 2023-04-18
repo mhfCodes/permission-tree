@@ -2,7 +2,7 @@ package com.hossein.PermissionTree.service.role;
 
 import java.util.List;
 
-import com.hossein.PermissionTree.controller.viewModel.RoleViewModel;
+import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.dto.role.RoleDto;
 import com.hossein.PermissionTree.model.role.Role;
 

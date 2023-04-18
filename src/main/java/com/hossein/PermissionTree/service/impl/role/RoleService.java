@@ -7,7 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hossein.PermissionTree.controller.viewModel.RoleViewModel;
+import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.dao.repository.role.IRoleRepository;
 import com.hossein.PermissionTree.dto.role.RoleDto;
 import com.hossein.PermissionTree.exception.ApplicationException;
