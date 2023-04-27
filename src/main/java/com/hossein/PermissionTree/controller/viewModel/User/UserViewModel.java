@@ -1,12 +1,14 @@
 package com.hossein.PermissionTree.controller.viewModel.User;
 
+import java.util.Set;
+
 public class UserViewModel {
 
 	private Long userId;
 	private String username;
 	private String userFirstName;
 	private String userLastName;
-
+	private Set<String> permissionIds;
 	
 	public Long getUserId() {
 		return userId;
@@ -31,6 +33,12 @@ public class UserViewModel {
 	}
 	public void setUserLastName(String userLastName) {
 		this.userLastName = userLastName;
+	}
+	public Set<String> getPermissionIds() {
+		return permissionIds;
+	}
+	public void setPermissionIds(Set<String> permissionIds) {
+		this.permissionIds = permissionIds;
 	}
 	
 }
