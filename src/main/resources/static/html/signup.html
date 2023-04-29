@@ -15,7 +15,15 @@
             <div class="menu">
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
-                    <li class="nav-products hidden"><a href="product.html">Products</a></li>
+                    <li class="nav-products" data-has-permission="ROLE_3"><a href="product.html">Products</a></li>
+                    <li class="nav-management hidden" data-has-any-permission="ROLE_10,ROLE_15">
+                        <button class="btn-dropdown">Management <i class="bx bx-chevron-down" id="arrow-down"></i><i class='bx bx-chevron-up hidden' id="arrow-up"></i></button>
+                        <div class="dropdown-content hidden">
+                            <a href="userManagement.html" data-has-permission="ROLE_10">User Management</a>
+                            <hr />
+                            <a href="roleManagement.html" data-has-permission="ROLE_15">Role Management</a>
+                        </div>
+                    </li>
                     <li class="nav-login"><a href="login.html">Login</a></li>
                     <li class="nav-logout hidden"><a href="#" class="logout">Logout</a></li>
                     <li class="nav-signup"><a href="signup.html" class="signup">Sign up</a></li>

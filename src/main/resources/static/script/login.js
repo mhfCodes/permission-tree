@@ -36,10 +36,9 @@
             loginForm.classList.add("hidden");
             noAccount.classList.add("hidden");
             
-            permissions = await getUserPermissions();
-            auditPermissions();
-
             const userData = await getUserData();
+            permissions = userData.permissionIds;
+            auditPermissions();
             name.textContent = userData.userFirstName + " " + userData.userLastName;
         } else {
             
@@ -101,18 +100,6 @@
         })
         const data = await response.json();
         return data;
-    }
-
-    const getUserPermissions = async () => {
-        const response = await fetch("http://localhost:8080/api/account", {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("jwt")
-            }
-        });
-        const data = await response.json();
-        if (data) {
-            return data.permissionIds;
-        }
     }
 
     const auditPermissions = () => {
