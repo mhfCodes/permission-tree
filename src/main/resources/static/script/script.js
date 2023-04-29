@@ -4,7 +4,7 @@
     const navLogout = document.querySelector(".nav-logout");
     const logoutBtn = document.querySelector(".logout");
     const navSignup = document.querySelector(".nav-signup");
-    const navManagement = document.querySelector(".nav-management");
+    
     const dropdownBtn = document.querySelector(".btn-dropdown");
     const dropdownContent = document.querySelector(".dropdown-content");
     const arrowUp = document.getElementById("arrow-up");
