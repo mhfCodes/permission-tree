@@ -48,7 +48,7 @@
         const products = await fetchProducts();
         products.forEach(product => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td>${product.productDateAdded}</td><td>${product.productDateModified}</td><td><button class="btn btn-small btn-edit" data-productId="${product.productId}">Edit</button><button class="btn btn-small btn-delete" data-productId="${product.productId}">Delete</button></td>`;
+            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td>${product.productDateAdded}</td><td>${product.productDateModified}</td><td><button class="btn btn-small btn-edit" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td>`;
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         
@@ -188,7 +188,7 @@
         tableBody.innerHTML = "";
         data.forEach(product => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td>${product.productDateAdded}</td><td>${product.productDateModified}</td><td><button class="btn btn-small btn-edit" data-productId="${product.productId}">Edit</button><button class="btn btn-small btn-delete" data-productId="${product.productId}">Delete</button></td>`;
+            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td>${product.productDateAdded}</td><td>${product.productDateModified}</td><td><button class="btn btn-small btn-edit" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td>`;
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();

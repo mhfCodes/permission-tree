@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../style/product.css">
     <title>Products</title>
 </head>
@@ -15,13 +16,21 @@
             <div class="menu">
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="product.html">Products</a></li>
+                    <li class="nav-products hidden" data-has-permission="ROLE_3"><a href="product.html">Products</a></li>
+                    <li class="nav-management hidden" data-has-any-permission="ROLE_10,ROLE_15">
+                        <button class="btn-dropdown">Management <i class="bx bx-chevron-down" id="arrow-down"></i><i class='bx bx-chevron-up hidden' id="arrow-up"></i></button>
+                        <div class="dropdown-content hidden">
+                            <a href="userManagement.html" data-has-permission="ROLE_10">User Management</a>
+                            <hr />
+                            <a href="roleManagement.html" data-has-permission="ROLE_15">Role Management</a>
+                        </div>
+                    </li>
                     <li class="nav-login"><a href="login.html">Login</a></li>
                     <li class="nav-logout hidden"><a href="#" class="logout">Logout</a></li>
                 </ul>
             </div>
         </nav>
-        <section class="add-modal hidden">
+        <section class="add-modal" data-has-permission="ROLE_2">
             <button class="btn btn-close add-modal-btn-close">X</button>
             <form action="#" class="product-form">
                 <div class="grid">
@@ -41,7 +50,7 @@
                 <button class="btn btn-submit">Save</button>
             </form>
         </section>
-        <section class="delete-modal hidden">
+        <section class="delete-modal" data-has-permission="ROLE_5">
             <button class="btn btn-close delete-modal-btn-close">X</button>
             <p>Delete This Product?</p>
             <div class="buttons">
@@ -51,11 +60,11 @@
         </section>
         <div class="overlay hidden"></div>
         <div class="container">
-            <div class="buttons">
-                <button class="btn btn-add"><span class="add-icon">+</span> Add</button>
-                <button class="btn btn-search">Search</button>
+            <div class="buttons" data-has-any-permission="ROLE_2,ROLE_3">
+                <button class="btn btn-add" data-has-permission="ROLE_2"><span class="add-icon">+</span> Add</button>
+                <button class="btn btn-search" data-has-permission="ROLE_3">Search</button>
             </div>
-            <div class="search-box hidden">
+            <div class="search-box" data-has-permission="ROLE_3">
                 <div class="grid">
                     <div class="grid-item">
                         <label for="search-name">Name: </label>
@@ -80,7 +89,7 @@
                 </div>
                 <button class="btn btn-find">Find</button>
             </div>
-            <table class="styled-table">
+            <table class="styled-table" data-has-permission="ROLE_3">
                 <thead>
                     <tr>
                         <th>Name</th>
