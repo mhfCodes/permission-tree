@@ -28,7 +28,7 @@ public class SpringSecurityHierarchy1Application {
 //		
 //		return args -> {
 //			
-////			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 ////			
 ////			Permission productsPermission = iPermissionRepository.save(new Permission("Products", "1", true, null));
 ////		
@@ -103,6 +103,32 @@ public class SpringSecurityHierarchy1Application {
 ////				iRoleRepository.save(role);
 ////			});
 //			
+////			Permission productCreatePermission = iPermissionRepository.findById(2L).orElse(null);
+////			
+////			Permission productReadPermission = iPermissionRepository.findById(3L).orElse(null);
+////			
+////			Permission productUpdatePermission = iPermissionRepository.findById(4L).orElse(null);
+////			
+////			Permission productDeletePermission = iPermissionRepository.findById(5L).orElse(null);
+////			
+////			Role productReadOnlyUserRole = iRoleRepository.save(new Role("PRODUCT_READ_ONLY_USER_ROLE", Set.of(productReadPermission)));
+////			
+////			Role productReadAndCreateOnlyUserRole = iRoleRepository.save(new Role("PRODUCT_READ_AND_CREATE_ONLY_USER_ROLE", Set.of(productCreatePermission, productReadPermission)));
+////			
+////			Role productReadAndUpdateOnlyUserRole = iRoleRepository.save(new Role("PRODUCT_READ_AND_UPDATE_ONLY_USER_ROLE", Set.of(productReadPermission, productUpdatePermission)));
+////			
+////			Role productReadAndDeleteOnlyUserRole = iRoleRepository.save(new Role("PRODUCT_READ_AND_DELETE_ONLY_USER_ROLE", Set.of(productReadPermission, productDeletePermission)));
+////			
+////			UserModel productReadOnlyUser = new UserModel("productReadOnlyUser", passwordEncoder.encode("1"), "productReadOnlyUser", "productReadOnlyUser", Set.of(productReadOnlyUserRole));
+////			
+////			UserModel productReadAndCreateOnlyUser = new UserModel("productReadAndCreateOnlyUser", passwordEncoder.encode("1"), "productReadAndCreateOnlyUser", "productReadAndCreateOnlyUser", Set.of(productReadAndCreateOnlyUserRole));
+////			
+////			UserModel productReadAndUpdateOnlyUser = new UserModel("productReadAndUpdateOnlyUser", passwordEncoder.encode("1"), "productReadAndUpdateOnlyUser", "productReadAndUpdateOnlyUser", Set.of(productReadAndUpdateOnlyUserRole));
+////			
+////			UserModel productReadAndDeleteOnlyUser = new UserModel("productReadAndDeleteOnlyUser", passwordEncoder.encode("1"), "productReadAndDeleteOnlyUser", "productReadAndDeleteOnlyUser", Set.of(productReadAndDeleteOnlyUserRole));
+////			
+////			iUserRepository.saveAll(List.of(productReadOnlyUser, productReadAndCreateOnlyUser, productReadAndUpdateOnlyUser, productReadAndDeleteOnlyUser));
+//
 //		};
 //		
 //	}

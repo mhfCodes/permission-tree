@@ -34,26 +34,41 @@
     let isEditing = false;
     let jwtToken = "";
 
+    const dropdownBtn = document.querySelector(".btn-dropdown");
+    const dropdownContent = document.querySelector(".dropdown-content");
+    const arrowUp = document.getElementById("arrow-up");
+    const arrowDown = document.getElementById("arrow-down");
+
+    let hasPermissionElements = document.querySelectorAll("[data-has-permission]");
+    let hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
+    let permissions = [];
+
     const init = async () => {
 
         if (localStorage.getItem("jwt") != null && localStorage.getItem("jwt") != "undefined") {
             jwtToken = "Bearer " + localStorage.getItem("jwt");
             navLogin.classList.add("hidden");
             navLogout.classList.remove("hidden");
+
+            permissions = await getUserPermissions();
+
+            if (permissions.includes("ROLE_3")) {
+                await fetchProducts();
+            }
+
+            hasPermissionElements = document.querySelectorAll("[data-has-permission]");
+            hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
+
+            auditPermissions();
         } else {
+            hasPermissionElements = document.querySelectorAll("[data-has-permission]");
+            hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
+
+            hasPermissionElements.forEach(element => element.remove());
+            hasAnyPermissionsElements.forEach(element => element.remove());
             window.location.replace("/html/login.html");
         }
 
-
-        const products = await fetchProducts();
-        products.forEach(product => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td>${product.productDateAdded}</td><td>${product.productDateModified}</td><td><button class="btn btn-small btn-edit" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td>`;
-            tableBody.insertAdjacentElement("beforeend", tr);
-        });
-        
-        addEditClickEventListener();
-        addDeleteClickEventListener();
     }
 
     const fetchProducts = async () => {
@@ -62,8 +77,15 @@
                 Authorization: jwtToken
             }
         });
-        const data = await response.json();
-        return data;
+        const products = await response.json();
+
+        products.forEach(product => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td>${product.productDateAdded}</td><td>${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td>`;
+            tableBody.insertAdjacentElement("beforeend", tr);
+        });
+        addEditClickEventListener();
+        addDeleteClickEventListener();
     }
 
     const saveProduct = async (e) => {
@@ -188,11 +210,15 @@
         tableBody.innerHTML = "";
         data.forEach(product => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td>${product.productDateAdded}</td><td>${product.productDateModified}</td><td><button class="btn btn-small btn-edit" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td>`;
+            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td>${product.productDateAdded}</td><td>${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td>`;
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
         addDeleteClickEventListener();
+
+        hasPermissionElements = document.querySelectorAll("[data-has-permission]");
+        hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
+        auditPermissions();
     };
 
     const loadProduct = async (e) => {
@@ -216,7 +242,11 @@
     const addEditClickEventListener = () => {
         const editBtns = document.querySelectorAll(".btn-edit");
         editBtns.forEach(editBtn => {
-            editBtn.addEventListener('click', loadProduct);
+            editBtn.addEventListener('click', (e) => {
+                if (permissions.includes("ROLE_3")) {
+                    loadProduct(e);
+                }
+            });
         })
     }
 
@@ -236,10 +266,66 @@
         window.location.replace("/html/index.html");
     }
 
+    const getUserPermissions = async () => {
+        const response = await fetch("http://localhost:8080/api/account", {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("jwt")
+            }
+        });
+        const data = await response.json();
+        if (data) {
+            return data.permissionIds;
+        }
+    }
+
+    const auditPermissions = () => {
+        hasPermissionElements.forEach(element => {
+            const elementPermission = element.dataset.hasPermission;
+            const permissionExists = permissions.includes(elementPermission);
+            if (permissionExists) {
+                element.classList.remove("hidden");
+            } else {
+                element.remove();
+            }
+        });
+        hasAnyPermissionsElements.forEach(element => {
+            const elementPermissions = element.dataset.hasAnyPermission;
+            elementPermissions.split(",").forEach(elementPermission => {
+                if (permissions.includes(elementPermission)) {
+                    element.classList.remove("hidden");
+                }
+            });
+            if (element.classList.contains("hidden")) {
+                element.remove();
+            }
+        });
+    }
+
+    const dropdownContentToggle = () => {
+        dropdownContent.classList.toggle("hidden");
+        arrowUp.classList.toggle("hidden");
+        arrowDown.classList.toggle("hidden");
+    }
+
     document.addEventListener('DOMContentLoaded', init);
-    saveBtn.addEventListener('click', (e) => isEditing ? editProduct(e) : saveProduct(e));
-    findBtn.addEventListener('click', find);
-    yesDelBtn.addEventListener('click', delProduct);
+    saveBtn.addEventListener('click', (e) => {
+        if (isEditing && permissions.includes("ROLE_4")) {
+            editProduct(e);
+        } else if (!isEditing && permissions.includes("ROLE_2")) {
+            saveProduct(e);
+        }
+    });
+    dropdownBtn.addEventListener('click', dropdownContentToggle);
+    findBtn.addEventListener('click', () => {
+        if (permissions.includes("ROLE_3")) {
+            find();
+        }
+    });
+    yesDelBtn.addEventListener('click', () => {
+        if (permissions.includes("ROLE_5")) {
+            delProduct();
+        }
+    });
     logoutBtn.addEventListener('click', logout);
 
     addBtn.addEventListener('click', () => {
