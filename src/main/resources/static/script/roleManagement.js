@@ -174,8 +174,7 @@
     };
 
     const loadRole = async (e) => {
-        //TODO e.target.dataset.roleId is undefined
-        const response = await fetch(`http://localhost:8080/api/role/${e.target.dataset.roleId}`, {
+        const response = await fetch(`http://localhost:8080/api/role/${e.target.dataset.roleid}`, {
             headers: {
                 Authorization: jwtToken
             }
@@ -207,7 +206,7 @@
             deleteBtn.addEventListener('click', (e) => {
                 deleteModal.classList.remove("hidden");
                 overlay.classList.remove("hidden");
-                currentRoleId = e.target.dataset.roleId;
+                currentRoleId = e.target.dataset.roleid;
             });
         })
     }
