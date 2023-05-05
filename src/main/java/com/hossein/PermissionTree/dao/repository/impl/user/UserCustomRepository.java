@@ -1,5 +1,10 @@
 package com.hossein.PermissionTree.dao.repository.impl.user;
 
-public interface UserCustomRepository {
+import java.util.List;
 
+import com.hossein.PermissionTree.controller.viewModel.User.UserViewModel;
+
+public interface UserCustomRepository {
+	
+	List<UserViewModel> findUsersByRoleId(Long roleId);
 }

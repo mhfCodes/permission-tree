@@ -1,6 +1,7 @@
 package com.hossein.PermissionTree.service.impl.user;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hossein.PermissionTree.controller.viewModel.User.UserViewModel;
 import com.hossein.PermissionTree.dao.repository.role.IRoleRepository;
 import com.hossein.PermissionTree.dao.repository.user.IUserRepository;
 import com.hossein.PermissionTree.exception.ApplicationException;
@@ -50,6 +52,11 @@ public class UserService implements IUserService {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserModel loggedInUser = this.iUserRepository.findByUsername(user.getUsername()).orElse(null);
 		return loggedInUser;
+	}
+
+	@Override
+	public List<UserViewModel> getUsersByRoleId(Long roleId) {
+		return this.iUserRepository.findUsersByRoleId(roleId);
 	}
 
 }
