@@ -101,11 +101,11 @@
         });
         const data = await response.text();
         if (data > 0) {
-            window.location.reload();
-            
             dialogContent.textContent = "Role Added Successfully";
             chooseDialog("info");
             fadeIn();
+            
+            setTimeout(() => window.location.reload(), 3000);
         }
     }
 
@@ -128,7 +128,11 @@
 
         const data = await response.text();
         if (data > 0) {
-            window.location.reload();
+            dialogContent.textContent = "Role Edited Successfully";
+            chooseDialog("info");
+            fadeIn();
+            
+            setTimeout(() => window.location.reload(), 3000);
         }
         
     }
@@ -148,7 +152,11 @@
             chooseDialog("error");
             fadeIn();
         } else if (data === "true") {
-            window.location.reload();
+            dialogContent.textContent = "Role Deleted Successfully";
+            chooseDialog("info");
+            fadeIn();
+            
+            setTimeout(() => window.location.reload(), 3000);
         }
     }
 
