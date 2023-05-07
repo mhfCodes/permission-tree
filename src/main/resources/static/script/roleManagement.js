@@ -5,6 +5,8 @@
     const deleteModal = document.querySelector(".delete-modal");
     const overlay = document.querySelector(".overlay");
     const searchBox = document.querySelector(".search-box");
+    const dialogBox = document.querySelector(".dialog-box");
+    const dialogContent = document.querySelector(".dialog-content");
 
     const addBtn = document.querySelector(".btn-add");
     const addModalCloseBtn = document.querySelector(".add-modal-btn-close");
@@ -100,6 +102,10 @@
         const data = await response.text();
         if (data > 0) {
             window.location.reload();
+            
+            dialogContent.textContent = "Role Added Successfully";
+            chooseDialog("info");
+            fadeIn();
         }
     }
 
@@ -137,7 +143,11 @@
         })
         const data = await response.text();
 
-        if (data === "true") {
+        if (response.status == 400) {
+            dialogContent.textContent = "A User Is Connected To This Role.";
+            chooseDialog("error");
+            fadeIn();
+        } else if (data === "true") {
             window.location.reload();
         }
     }
@@ -255,6 +265,49 @@
         dropdownContent.classList.toggle("hidden");
         arrowUp.classList.toggle("hidden");
         arrowDown.classList.toggle("hidden");
+    }
+
+    const fadeIn = () => {
+        let opacity = 0;
+        dialogBox.style.display = "block";
+        let fadeInInterval = setInterval(() => {
+            if (opacity < 1) {
+                opacity += 0.1;
+                dialogBox.style.opacity = opacity;
+            } else {
+                clearInterval(fadeInInterval);
+                setTimeout(fadeOut, 2000);
+            }
+        }, 50);
+    }
+
+    const fadeOut = () => {
+        let opacity = parseFloat(dialogBox.style.opacity);
+        let fadeOutInterval = setInterval(() => {
+            if (opacity > 0) {
+                opacity -= 0.1;
+                dialogBox.style.opacity = opacity;    
+            } else {
+                clearInterval(fadeOutInterval);
+                dialogBox.style.display = "none";
+            }
+        }, 50);
+    }
+
+    const chooseDialog = (dialogType) => {
+        if (dialogType === "info") {
+            dialogBox.classList.add("info");
+            dialogBox.classList.remove("error");
+            dialogBox.classList.remove("warning");
+        } else if (dialogType === "warning") {
+            dialogBox.classList.add("warning");
+            dialogBox.classList.remove("info");
+            dialogBox.classList.remove("error");
+        } else if (dialogType === "error") {
+            dialogBox.classList.add("error");
+            dialogBox.classList.remove("info");
+            dialogBox.classList.remove("warning");
+        }
     }
 
     document.addEventListener('DOMContentLoaded', init);
