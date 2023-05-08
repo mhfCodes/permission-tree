@@ -5,6 +5,8 @@
     const deleteModal = document.querySelector(".delete-modal");
     const overlay = document.querySelector(".overlay");
     const searchBox = document.querySelector(".search-box");
+    const dialogBox = document.querySelector(".dialog-box");
+    const dialogContent = document.querySelector(".dialog-content");
 
     const addBtn = document.querySelector(".btn-add");
     const addModalCloseBtn = document.querySelector(".add-modal-btn-close");
@@ -91,14 +93,25 @@
     const saveProduct = async (e) => {
         e.preventDefault();
 
+        if (nameInput.value == "" || priceInput.value == "" ||  countInput.value == "") {
+            dialogContent.textContent = "Empty Fields Are Not Allowed";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
         if (priceInput.value < 0) {
-            alert("Price can not be less than 0");
-            throw new Error("Price can not be less than 0");
+            dialogContent.textContent = "Price can not be less than 0";
+            chooseDialog("error");
+            fadeIn();
+            return;
         }
 
         if (countInput.value < 0) {
-            alert("Count can not be less than 0");
-            throw new Error("Count can not be less than 0");
+            dialogContent.textContent = "Count can not be less than 0";
+            chooseDialog("error");
+            fadeIn();
+            return;
         }
 
         const productObj = {
@@ -119,21 +132,36 @@
         });
         const data = await response.text();
         if (data > 0) {
-            window.location.reload();
+            dialogContent.textContent = "Product Added Successfully";
+            chooseDialog("info");
+            fadeIn();
+            
+            setTimeout(() => window.location.reload(), 3000);
         }
     }
 
     const editProduct = async (e) => {
         e.preventDefault();
 
+        if (nameInput.value == "" || priceInput.value == "" ||  countInput.value == "") {
+            dialogContent.textContent = "Empty Fields Are Not Allowed";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
         if (priceInput.value < 0) {
-            alert("Price can not be less than 0");
-            throw new Error("Price can not be less than 0");
+            dialogContent.textContent = "Price can not be less than 0";
+            chooseDialog("error");
+            fadeIn();
+            return;
         }
 
         if (countInput.value < 0) {
-            alert("Count can not be less than 0");
-            throw new Error("Count can not be less than 0");
+            dialogContent.textContent = "Count can not be less than 0";
+            chooseDialog("error");
+            fadeIn();
+            return;
         }
 
         const productObj = {
@@ -156,7 +184,11 @@
 
         const data = await response.text();
         if (data > 0) {
-            window.location.reload();
+            dialogContent.textContent = "Product Edited Successfully";
+            chooseDialog("info");
+            fadeIn();
+            
+            setTimeout(() => window.location.reload(), 3000);
         }
         
     }
@@ -171,21 +203,33 @@
         })
         const data = await response.text();
 
-        if (data === "true") {
-            window.location.reload();
+        if (response.status == 400) {
+            dialogContent.textContent = "Operation Not Successful";
+            chooseDialog("error");
+            fadeIn();
+        } else if (data === "true") {
+            dialogContent.textContent = "Product Deleted Successfully";
+            chooseDialog("info");
+            fadeIn();
+            
+            setTimeout(() => window.location.reload(), 3000);
         }
     }
 
     const find = async () => {
 
         if (searchPriceInput.value < 0) {
-            alert("Price can not be less than 0");
-            throw new Error("Price can not be less than 0");
+            dialogContent.textContent = "Price can not be less than 0";
+            chooseDialog("error");
+            fadeIn();
+            return;
         }
 
         if (searchCountInput.value < 0) {
-            alert("Count can not be less than 0");
-            throw new Error("Count can not be less than 0");
+            dialogContent.textContent = "Count can not be less than 0";
+            chooseDialog("error");
+            fadeIn();
+            return;
         }
 
         const searchProductObj = {
@@ -305,6 +349,49 @@
         dropdownContent.classList.toggle("hidden");
         arrowUp.classList.toggle("hidden");
         arrowDown.classList.toggle("hidden");
+    }
+
+    const fadeIn = () => {
+        let opacity = 0;
+        dialogBox.style.display = "block";
+        let fadeInInterval = setInterval(() => {
+            if (opacity < 1) {
+                opacity += 0.1;
+                dialogBox.style.opacity = opacity;
+            } else {
+                clearInterval(fadeInInterval);
+                setTimeout(fadeOut, 2000);
+            }
+        }, 50);
+    }
+
+    const fadeOut = () => {
+        let opacity = parseFloat(dialogBox.style.opacity);
+        let fadeOutInterval = setInterval(() => {
+            if (opacity > 0) {
+                opacity -= 0.1;
+                dialogBox.style.opacity = opacity;    
+            } else {
+                clearInterval(fadeOutInterval);
+                dialogBox.style.display = "none";
+            }
+        }, 50);
+    }
+
+    const chooseDialog = (dialogType) => {
+        if (dialogType === "info") {
+            dialogBox.classList.add("info");
+            dialogBox.classList.remove("error");
+            dialogBox.classList.remove("warning");
+        } else if (dialogType === "warning") {
+            dialogBox.classList.add("warning");
+            dialogBox.classList.remove("info");
+            dialogBox.classList.remove("error");
+        } else if (dialogType === "error") {
+            dialogBox.classList.add("error");
+            dialogBox.classList.remove("info");
+            dialogBox.classList.remove("warning");
+        }
     }
 
     document.addEventListener('DOMContentLoaded', init);

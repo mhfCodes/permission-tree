@@ -367,3 +367,29 @@ li {
 #arrow-down, #arrow-up {
     vertical-align: middle;
 }
+
+.dialog-box {
+    width: 35%;
+    text-align: center;
+    padding: 30px;
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%, 0);
+    font-size: 1.5rem;
+    opacity: 0;
+    z-index: 9999;
+}
+
+.dialog-box.info {
+    background-color: #1aff32;
+}
+
+.dialog-box.warning {
+    background-color: #fffe1a;
+}
+
+.dialog-box.error {
+    background-color: #ff1a5a;
+}
