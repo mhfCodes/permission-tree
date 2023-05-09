@@ -8,7 +8,6 @@ public class RoleViewModel {
 	
 	private Long roleId;
 	private String roleName;
-	private Set<PermissionViewModel> permissions;
 	
 	public Long getRoleId() {
 		return roleId;
@@ -21,12 +20,6 @@ public class RoleViewModel {
 	}
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
-	}
-	public Set<PermissionViewModel> getPermissions() {
-		return permissions;
-	}
-	public void setPermissions(Set<PermissionViewModel> permissions) {
-		this.permissions = permissions;
 	}
 
 }

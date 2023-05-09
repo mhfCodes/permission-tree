@@ -11,7 +11,7 @@ import com.hossein.PermissionTree.model.product.Product;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
-
+	
 	Product mapDtoE(ProductDto dto);
 	
 	@Mapping(source = "id", target = "productId")

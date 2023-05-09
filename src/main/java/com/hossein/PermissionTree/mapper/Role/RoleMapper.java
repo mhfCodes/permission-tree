@@ -7,13 +7,9 @@ import org.mapstruct.Mapping;
 
 import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.dto.role.RoleDto;
-import com.hossein.PermissionTree.mapper.Permission.PermissionMapper;
 import com.hossein.PermissionTree.model.role.Role;
 
-@Mapper(
-		componentModel = "spring",
-		uses = PermissionMapper.class
-		)
+@Mapper(componentModel = "spring")
 public interface RoleMapper {
 	
 	@Mapping(source = "id", target = "id")
