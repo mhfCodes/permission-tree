@@ -145,6 +145,7 @@ li {
 }
 
 .btn-delete {
+    margin-right: 10px;
     background-color: rgb(241, 111, 111);
 }
 
@@ -392,4 +393,60 @@ li {
 
 .dialog-box.error {
     background-color: #ff1a5a;
+}
+
+.permission-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 500px;
+    padding: 1.3rem;
+    min-height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    z-index: 2;
+}
+
+.permission-modal .grid {
+    display: grid;
+    row-gap: 1rem;
+    margin-bottom: 35px;
+    justify-content: center;
+}
+
+.permission-modal input {
+    padding: 0.7rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    width: 350px;
+}
+
+.permission-modal .count {
+    width: 5rem;
+}
+
+.permission-modal .btn-permission-submit {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -25%);
+    margin-top: 1rem;
+    bottom: 1%;
+}
+
+.btn-permission {
+    background-color: rgb(111, 241, 124);
+}
+
+.btn-permission:hover {
+    font-size: 0.9rem;
+    padding: 12px;
+    background-color: rgb(111, 241, 124);
+    color: #000;
 }

@@ -1,6 +1,5 @@
 package com.hossein.PermissionTree.model.permission;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "PERMISSION")
@@ -40,6 +40,9 @@ public class Permission {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parentPermission")
 	private Permission parent;
+	
+	@Transient
+	private String selected;
 
 	public Permission() {
 	}
@@ -90,6 +93,14 @@ public class Permission {
 
 	public void setMenuItem(Boolean menuItem) {
 		this.menuItem = menuItem;
+	}
+
+	public String getSelected() {
+		return selected;
+	}
+
+	public void setSelected(String selected) {
+		this.selected = selected;
 	}
 
 }

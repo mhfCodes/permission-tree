@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hossein.PermissionTree.controller.viewModel.Permission.PermissionTreeViewModel;
 import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.dto.role.RoleDto;
 import com.hossein.PermissionTree.mapper.Role.RoleMapper;
@@ -57,6 +58,12 @@ public class RoleManagementController {
 	@PreAuthorize("hasRole('ROLE_17')")
 	public Boolean delete(@PathVariable Long id) {
 		return this.iRoleService.delete(id);
+	}
+	
+	@GetMapping("/permissionTree/{roleId}")
+	@PreAuthorize("hasRole('ROLE_41')")
+	public List<PermissionTreeViewModel> getPermissionTree(@PathVariable Long roleId) {
+		return this.iRoleService.makePermissionTree(roleId);
 	}
 	
 	

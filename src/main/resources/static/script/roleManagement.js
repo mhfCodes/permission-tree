@@ -3,6 +3,7 @@
     const tableBody = document.querySelector(".table-body");
     const addModal = document.querySelector(".add-modal");
     const deleteModal = document.querySelector(".delete-modal");
+    const permissionModal = document.querySelector(".permission-modal");
     const overlay = document.querySelector(".overlay");
     const searchBox = document.querySelector(".search-box");
     const dialogBox = document.querySelector(".dialog-box");
@@ -11,6 +12,7 @@
     const addBtn = document.querySelector(".btn-add");
     const addModalCloseBtn = document.querySelector(".add-modal-btn-close");
     const deleteModalCloseBtn = document.querySelector(".delete-modal-btn-close");
+    const permissionModalCloseBtn = document.querySelector(".permission-modal-btn-close");
     const saveBtn = document.querySelector(".btn-submit");
     const searchBtn = document.querySelector(".btn-search");
     const findBtn = document.querySelector(".btn-find");
@@ -77,11 +79,12 @@
 
         roles.forEach(role => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${role.roleId}</td><td>${role.roleName}</td><td class="hidden" data-has-any-permission="ROLE_16,ROLE_17"><button class="btn btn-small btn-edit hidden" data-roleId="${role.roleId}" data-has-permission="ROLE_16">Edit</button><button class="btn btn-small btn-delete hidden" data-roleId="${role.roleId}" data-has-permission="ROLE_17">Delete</button></td>`;
+            tr.innerHTML = `<td>${role.roleId}</td><td>${role.roleName}</td><td class="hidden" data-has-any-permission="ROLE_16,ROLE_17"><button class="btn btn-small btn-edit hidden" data-roleId="${role.roleId}" data-has-permission="ROLE_16">Edit</button><button class="btn btn-small btn-delete hidden" data-roleId="${role.roleId}" data-has-permission="ROLE_17">Delete</button><button class="btn btn-small btn-permission hidden" data-roleId="${role.roleId}" data-has-permission="ROLE_41">Permissions</button></td>`;
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
         addDeleteClickEventListener();
+        addPermissionClickEventListener();
     }
 
     const saveRole = async (e) => {
@@ -180,11 +183,13 @@
         tableBody.innerHTML = "";
         data.forEach(role => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${role.roleId}</td><td>${role.roleName}</td><td class="hidden" data-has-any-permission="ROLE_16,ROLE_17"><button class="btn btn-small btn-edit hidden" data-roleId="${role.roleId}" data-has-permission="ROLE_16">Edit</button><button class="btn btn-small btn-delete hidden" data-roleId="${role.roleId}" data-has-permission="ROLE_17">Delete</button></td>`;
+            tr.innerHTML = `<td>${role.roleId}</td><td>${role.roleName}</td><td class="hidden" data-has-any-permission="ROLE_16,ROLE_17"><button class="btn btn-small btn-edit hidden" data-roleId="${role.roleId}" data-has-permission="ROLE_16">Edit</button><button class="btn btn-small btn-delete hidden" data-roleId="${role.roleId}" data-has-permission="ROLE_17">Delete</button><button class="btn btn-small btn-permission hidden" data-roleId="${role.roleId}" data-has-permission="ROLE_41">Permissions</button></td>`;
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
         addDeleteClickEventListener();
+        addPermissionClickEventListener();
+        
 
         hasPermissionElements = document.querySelectorAll("[data-has-permission]");
         hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
@@ -207,6 +212,19 @@
 
     }
 
+    const loadRolePermissions = async (e) => {
+        const response = await fetch(`http://localhost:8080/api/role/permissionTree/${currentRoleId}`, {
+            headers: {
+                Authorization: jwtToken
+            }
+        });
+
+        const data = await response.json();
+
+        console.log(data);
+
+    }
+
     const addEditClickEventListener = () => {
         const editBtns = document.querySelectorAll(".btn-edit");
         editBtns.forEach(editBtn => {
@@ -226,6 +244,18 @@
                 overlay.classList.remove("hidden");
                 currentRoleId = e.target.dataset.roleid;
             });
+        })
+    }
+
+    const addPermissionClickEventListener = () => {
+        const permissionBtns = document.querySelectorAll(".btn-permission");
+        permissionBtns.forEach(permissionBtn => {
+            permissionBtn.addEventListener('click', (e) => {
+                permissionModal.classList.remove("hidden");
+                overlay.classList.remove("hidden");
+                currentRoleId = e.target.dataset.roleid;
+                loadRolePermissions();
+            })
         })
     }
 
@@ -352,6 +382,10 @@
     })
     deleteModalCloseBtn.addEventListener('click', () => {
         deleteModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+    })
+    permissionModalCloseBtn.addEventListener('click', () => {
+        permissionModal.classList.add("hidden");
         overlay.classList.add("hidden");
     })
     noDelBtn.addEventListener('click', () => {

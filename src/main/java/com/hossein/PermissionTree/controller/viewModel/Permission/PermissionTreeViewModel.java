@@ -1,13 +1,15 @@
 package com.hossein.PermissionTree.controller.viewModel.Permission;
 
-public class PermissionViewModel {
-	
+import java.util.List;
+
+public class PermissionTreeViewModel {
+
 	private Long permissionId;
 	private String permissionName;
 	private String permissionHierarchy;
 	private Boolean permissionMenuItem;
-	private String permissionSelected;
-	private Long permissionParentId;
+	private Boolean permissionSelected;
+	private List<PermissionTreeViewModel> permissionChildren;
 	
 	public Long getPermissionId() {
 		return permissionId;
@@ -33,17 +35,16 @@ public class PermissionViewModel {
 	public void setPermissionHierarchy(String permissionHierarchy) {
 		this.permissionHierarchy = permissionHierarchy;
 	}
-	public String getPermissionSelected() {
+	public Boolean getPermissionSelected() {
 		return permissionSelected;
 	}
-	public void setPermissionSelected(String permissionSelected) {
+	public void setPermissionSelected(Boolean permissionSelected) {
 		this.permissionSelected = permissionSelected;
 	}
-	public Long getPermissionParentId() {
-		return permissionParentId;
+	public List<PermissionTreeViewModel> getPermissionChildren() {
+		return permissionChildren;
 	}
-	public void setPermissionParentId(Long permissionParentId) {
-		this.permissionParentId = permissionParentId;
+	public void setPermissionChildren(List<PermissionTreeViewModel> permissionChildren) {
+		this.permissionChildren = permissionChildren;
 	}
-
 }
