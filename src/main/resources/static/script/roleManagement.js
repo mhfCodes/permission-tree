@@ -8,6 +8,7 @@
     const searchBox = document.querySelector(".search-box");
     const dialogBox = document.querySelector(".dialog-box");
     const dialogContent = document.querySelector(".dialog-content");
+    const permissionWrapper = document.querySelector(".permission-wrapper");
 
     const addBtn = document.querySelector(".btn-add");
     const addModalCloseBtn = document.querySelector(".add-modal-btn-close");
@@ -221,8 +222,70 @@
 
         const data = await response.json();
 
-        console.log(data);
+        makePermissionTree(data);
+    }
 
+    const makePermissionTree = (permissions) => {
+
+        const permissionContainer = document.createElement("ul");
+        permissionContainer.classList.add("permission-container");
+        permissionContainer.innerHTML = ``;
+
+        permissions.forEach(rootPermission => {
+            let hasChild = rootPermission.permissionChildren.length > 0;
+            let rootPermissionHTML = `<li class="${hasChild ? 'parentNode' : 'childNode'}">${hasChild ? '<a href="#" class="permission-toggler"><i class="bx bxs-right-arrow"></i></a>' : '<i class="bx bx-wifi-0"></i>'}${rootPermission.permissionName}</li>`;
+
+            if (rootPermission.permissionChildren.length > 0) {
+                let childOfRootPermissionHTML = makeChildNodes(rootPermission.permissionChildren);
+                rootPermissionHTML += childOfRootPermissionHTML;
+            }
+
+            permissionContainer.innerHTML += rootPermissionHTML;
+        });
+
+        permissionWrapper.insertAdjacentElement("beforeend", permissionContainer);
+        addPermissionTogglerClickEventListener();
+    }
+
+    const makeChildNodes = (children) => {
+
+        let childrenHTML = `<li class="childNode hidden"><ul>`;
+
+        children.forEach(child => {
+            let hasChild = child.permissionChildren.length > 0;
+            let childPermissionHTML = `<li class="${hasChild ? 'parentNode' : 'childNode'}">${hasChild ? '<a href="#" class="permission-toggler"><i class="bx bxs-right-arrow"></i></a>' : '<i class="bx bx-wifi-0"></i>'}${child.permissionName}</li>`;
+
+            if (child.permissionChildren.length > 0) {
+                let childOfChildPermissionHTML = makeChildNodes(child.permissionChildren);
+                childPermissionHTML += childOfChildPermissionHTML;
+            }
+
+            childrenHTML += childPermissionHTML;
+        });
+        
+        childrenHTML += `</ul></li>`;
+        return childrenHTML;
+    }
+
+    const addPermissionTogglerClickEventListener = () => {
+        const permissionTogglers = document.querySelectorAll(".permission-toggler");
+        permissionTogglers.forEach(permissionToggler => {
+            permissionToggler.addEventListener('click', () => {
+
+                const arrow = permissionToggler.firstChild;
+                if (arrow.classList.contains("bxs-right-arrow")) {
+                    arrow.classList.remove("bxs-right-arrow");
+                    arrow.classList.add("bxs-down-arrow");
+                } else if (arrow.classList.contains("bxs-down-arrow")) {
+                    arrow.classList.remove("bxs-down-arrow");
+                    arrow.classList.add("bxs-right-arrow");
+                }
+
+                const parentLi = permissionToggler.parentElement;
+                const childLi = parentLi.nextElementSibling;
+                childLi.classList.toggle("hidden");
+            })
+        })
     }
 
     const addEditClickEventListener = () => {
@@ -387,6 +450,8 @@
     permissionModalCloseBtn.addEventListener('click', () => {
         permissionModal.classList.add("hidden");
         overlay.classList.add("hidden");
+
+        permissionWrapper.innerHTML = "";
     })
     noDelBtn.addEventListener('click', () => {
         deleteModal.classList.add("hidden");

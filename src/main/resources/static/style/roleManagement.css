@@ -211,7 +211,7 @@ li {
     border-radius: 50%;
     position: absolute;
     top: 15px;
-    right: 20px;
+    right: 15px;
     vertical-align: middle;
 }
 
@@ -435,9 +435,14 @@ li {
 .permission-modal .btn-permission-submit {
     position: absolute;
     left: 50%;
-    transform: translate(-50%, -25%);
+    transform: translate(-50%, -20%);
     margin-top: 1rem;
     bottom: 1%;
+    background-color: #c8e5ff;
+}
+
+.btn-permission-submit:hover {
+    background-color: rgb(158, 212, 108);
 }
 
 .btn-permission {
@@ -449,4 +454,27 @@ li {
     padding: 12px;
     background-color: rgb(111, 241, 124);
     color: #000;
+}
+
+.role-permission-form ul {
+    padding: revert;
+}
+
+.role-permission-form .grid {
+    height: 500px;
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.permission-wrapper {
+    height: 95%;
+    width: 350px;
+    overflow: auto;
+    border: 1px solid #c1c1c1;
+    padding: 5px;
+}
+
+.permission-container li {
+    padding: 5px;
 }
