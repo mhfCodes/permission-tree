@@ -227,7 +227,7 @@
             }
         });
         permissionIds = permissionIds.slice(0, -1);
-        
+
         if (permissionIds.length === 0) {
             dialogContent.textContent = "No Permission Has Been Chosen";
             chooseDialog("error");
@@ -296,6 +296,7 @@
 
         permissionWrapper.insertAdjacentElement("beforeend", permissionContainer);
         addPermissionTogglerClickEventListener();
+        addPermissionCheckBoxClickEventListener();
     }
 
     const makeChildNodes = (children) => {
@@ -337,6 +338,30 @@
                 childLi.classList.toggle("hidden");
             })
         })
+    }
+
+    // downward hierarchical click event listener
+    const addPermissionCheckBoxClickEventListener = () => {
+        
+        const permissionCheckBoxes = document.querySelectorAll(".permission-checkbox");
+
+        permissionCheckBoxes.forEach(permissionCheckBox => {
+
+            permissionCheckBox.addEventListener('click', () => {
+
+                const parentLi = permissionCheckBox.parentElement;
+                const childLi = parentLi.nextElementSibling;
+
+                if (parentLi.classList.contains("parentNode")) {
+                    const childCheckBoxes = childLi.querySelectorAll(".permission-checkbox");
+                    childCheckBoxes.forEach(childCheckBox => {
+                        childCheckBox.checked = permissionCheckBox.checked;
+                    })
+                }
+
+            });
+        });
+
     }
 
     const addEditClickEventListener = () => {
