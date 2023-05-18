@@ -19,6 +19,7 @@
     const findBtn = document.querySelector(".btn-find");
     const yesDelBtn = document.querySelector(".btn-yes");
     const noDelBtn = document.querySelector(".btn-no");
+    const permissionUpdateBtn = document.querySelector(".btn-permission-submit");
 
     const nameInput = document.getElementById("name");
 
@@ -213,6 +214,56 @@
 
     }
 
+    const updatePermissions = async (e) => {
+        e.preventDefault();
+
+        let permissionIds = "";
+
+        const permissionCheckBoxes = document.querySelectorAll(".permission-checkbox");
+        permissionCheckBoxes.forEach(permissionCheckBox => {
+
+            if (permissionCheckBox.checked) {
+                permissionIds += permissionCheckBox.dataset.permissionId + ",";
+            }
+        });
+        permissionIds = permissionIds.slice(0, -1);
+        
+        if (permissionIds.length === 0) {
+            dialogContent.textContent = "No Permission Has Been Chosen";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+        const rolePermissionObj = {
+            roleId: parseInt(currentRoleId),
+            rolePermissionIds: permissionIds
+        }
+
+        const response = await fetch (`http://localhost:8080/api/role/permission`, {
+            method: 'POST',
+            body: JSON.stringify(rolePermissionObj),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: jwtToken
+            }
+        });
+
+        const data = await response.json();
+
+        if (data > 0) {
+            dialogContent.textContent = "Role's Permissions Updated Successfully";
+            chooseDialog("info");
+            fadeIn();
+
+            setTimeout(() => window.location.reload(), 3000);
+        } else {
+            dialogContent.textContent = "Role's Permissions Update Operation Was Not Successful";
+            chooseDialog("error");
+            fadeIn();
+        }
+    }
+
     const loadRolePermissions = async (e) => {
         const response = await fetch(`http://localhost:8080/api/role/permissionTree/${currentRoleId}`, {
             headers: {
@@ -233,7 +284,7 @@
 
         permissions.forEach(rootPermission => {
             let hasChild = rootPermission.permissionChildren.length > 0;
-            let rootPermissionHTML = `<li class="${hasChild ? 'parentNode' : 'childNode'}"><input type="checkbox" class="permission-checkbox" ${rootPermission.permissionSelected ? "checked" : ""}/>${hasChild ? '<span class="permission-toggler"><i class="bx bxs-right-arrow"></i></span>' : '<i class="bx bx-wifi-0"></i>'}${rootPermission.permissionName}</li>`;
+            let rootPermissionHTML = `<li class="${hasChild ? 'parentNode' : 'childNode'}"><input type="checkbox" class="permission-checkbox" ${rootPermission.permissionSelected ? "checked" : ""} data-permission-id="${rootPermission.permissionId}"/>${hasChild ? '<span class="permission-toggler"><i class="bx bxs-right-arrow"></i></span>' : '<i class="bx bx-wifi-0"></i>'}${rootPermission.permissionName}</li>`;
 
             if (rootPermission.permissionChildren.length > 0) {
                 let childOfRootPermissionHTML = makeChildNodes(rootPermission.permissionChildren);
@@ -253,7 +304,7 @@
 
         children.forEach(child => {
             let hasChild = child.permissionChildren.length > 0;
-            let childPermissionHTML = `<li class="${hasChild ? 'parentNode' : 'childNode'}"><input type="checkbox" class="permission-checkbox" ${child.permissionSelected ? "checked" : ""} />${hasChild ? '<span class="permission-toggler"><i class="bx bxs-right-arrow"></i></span>' : '<i class="bx bx-wifi-0"></i>'}${child.permissionName}</li>`;
+            let childPermissionHTML = `<li class="${hasChild ? 'parentNode' : 'childNode'}"><input type="checkbox" class="permission-checkbox" ${child.permissionSelected ? "checked" : ""} data-permission-id="${child.permissionId}"/>${hasChild ? '<span class="permission-toggler"><i class="bx bxs-right-arrow"></i></span>' : '<i class="bx bx-wifi-0"></i>'}${child.permissionName}</li>`;
 
             if (child.permissionChildren.length > 0) {
                 let childOfChildPermissionHTML = makeChildNodes(child.permissionChildren);
@@ -419,6 +470,7 @@
             saveRole(e);
         }
     });
+    permissionUpdateBtn.addEventListener('click', updatePermissions);
     dropdownBtn.addEventListener('click', dropdownContentToggle);
     findBtn.addEventListener('click', () => {
         if (permissions.includes("ROLE_15")) {

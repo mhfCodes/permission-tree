@@ -460,6 +460,10 @@ li {
     padding: revert;
 }
 
+.permission-container {
+    padding-left: 15px!important;
+}
+
 .role-permission-form .grid {
     height: 500px;
     width: 90%;
@@ -492,4 +496,5 @@ li {
 .permission-checkbox {
     margin-right: 5px;
     transform: scale(1.2);
+    cursor: pointer;
 }
