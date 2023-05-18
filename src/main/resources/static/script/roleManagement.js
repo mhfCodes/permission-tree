@@ -233,7 +233,7 @@
 
         permissions.forEach(rootPermission => {
             let hasChild = rootPermission.permissionChildren.length > 0;
-            let rootPermissionHTML = `<li class="${hasChild ? 'parentNode' : 'childNode'}">${hasChild ? '<a href="#" class="permission-toggler"><i class="bx bxs-right-arrow"></i></a>' : '<i class="bx bx-wifi-0"></i>'}${rootPermission.permissionName}</li>`;
+            let rootPermissionHTML = `<li class="${hasChild ? 'parentNode' : 'childNode'}"><input type="checkbox" class="permission-checkbox" ${rootPermission.permissionSelected ? "checked" : ""}/>${hasChild ? '<span class="permission-toggler"><i class="bx bxs-right-arrow"></i></span>' : '<i class="bx bx-wifi-0"></i>'}${rootPermission.permissionName}</li>`;
 
             if (rootPermission.permissionChildren.length > 0) {
                 let childOfRootPermissionHTML = makeChildNodes(rootPermission.permissionChildren);
@@ -253,7 +253,7 @@
 
         children.forEach(child => {
             let hasChild = child.permissionChildren.length > 0;
-            let childPermissionHTML = `<li class="${hasChild ? 'parentNode' : 'childNode'}">${hasChild ? '<a href="#" class="permission-toggler"><i class="bx bxs-right-arrow"></i></a>' : '<i class="bx bx-wifi-0"></i>'}${child.permissionName}</li>`;
+            let childPermissionHTML = `<li class="${hasChild ? 'parentNode' : 'childNode'}"><input type="checkbox" class="permission-checkbox" ${child.permissionSelected ? "checked" : ""} />${hasChild ? '<span class="permission-toggler"><i class="bx bxs-right-arrow"></i></span>' : '<i class="bx bx-wifi-0"></i>'}${child.permissionName}</li>`;
 
             if (child.permissionChildren.length > 0) {
                 let childOfChildPermissionHTML = makeChildNodes(child.permissionChildren);

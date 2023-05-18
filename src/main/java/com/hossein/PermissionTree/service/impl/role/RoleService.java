@@ -16,9 +16,11 @@ import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.controller.viewModel.User.UserViewModel;
 import com.hossein.PermissionTree.dao.repository.role.IRoleRepository;
 import com.hossein.PermissionTree.dto.role.RoleDto;
+import com.hossein.PermissionTree.dto.role.RolePermissionDto;
 import com.hossein.PermissionTree.exception.ApplicationException;
 import com.hossein.PermissionTree.model.permission.Permission;
 import com.hossein.PermissionTree.model.role.Role;
+import com.hossein.PermissionTree.service.permission.IPermissionService;
 import com.hossein.PermissionTree.service.role.IRoleService;
 import com.hossein.PermissionTree.service.user.IUserService;
 
@@ -30,6 +32,9 @@ public class RoleService implements IRoleService {
 	
 	@Autowired
 	private IUserService iUserService;
+	
+	@Autowired
+	private IPermissionService iPermissionService;
 	
 	// for avoiding multiple database calls while making the tree
 	// which would be more expensive, we would use a map and store
@@ -138,6 +143,28 @@ public class RoleService implements IRoleService {
 						);
 		
 		return treeViewModel;
+	}
+
+	@Override
+	@Transactional
+	public long updateRolePermissions(RolePermissionDto dto) {
+		Role role = this.iRoleRepository.findById(dto.getRoleId())
+				.orElseThrow(() -> new ApplicationException("Role Not Found"));
+		
+		String[] permissionIds = dto.getRolePermissionIds().split(",");
+		
+		role.getPermissions().clear();
+		
+		for (int i = 0; i < permissionIds.length; i++) {
+			
+			Long permissionId = Long.parseLong(permissionIds[i]);
+			Permission permission = this.iPermissionService.load(permissionId);
+			
+			role.getPermissions().add(permission);
+		}
+		
+		Role updatedRole = this.iRoleRepository.save(role);
+		return updatedRole.getId();
 	}
 
 }

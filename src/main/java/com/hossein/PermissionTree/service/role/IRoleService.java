@@ -5,6 +5,7 @@ import java.util.List;
 import com.hossein.PermissionTree.controller.viewModel.Permission.PermissionTreeViewModel;
 import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.dto.role.RoleDto;
+import com.hossein.PermissionTree.dto.role.RolePermissionDto;
 import com.hossein.PermissionTree.model.role.Role;
 
 public interface IRoleService {
@@ -20,4 +21,6 @@ public interface IRoleService {
 	Boolean delete(Long id);
 	
 	List<PermissionTreeViewModel> makePermissionTree(Long roleId);
+	
+	long updateRolePermissions(RolePermissionDto dto);
 }
