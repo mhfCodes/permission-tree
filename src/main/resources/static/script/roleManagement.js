@@ -340,7 +340,6 @@
         })
     }
 
-    // downward hierarchical click event listener
     const addPermissionCheckBoxClickEventListener = () => {
         
         const permissionCheckBoxes = document.querySelectorAll(".permission-checkbox");
@@ -351,7 +350,9 @@
 
                 const parentLi = permissionCheckBox.parentElement;
                 const childLi = parentLi.nextElementSibling;
+                let parentUl = parentLi.parentElement;
 
+                // downward hierarchical click event listener
                 if (parentLi.classList.contains("parentNode")) {
                     const childCheckBoxes = childLi.querySelectorAll(".permission-checkbox");
                     childCheckBoxes.forEach(childCheckBox => {
@@ -359,9 +360,52 @@
                     })
                 }
 
+                // upward hierarchical click event listener
+                let allDescendantPermissionAreChecked = validatePermissionChecked(parentUl);
+
+                let allParentPermissionDescendantPermissionAreChecked = true;
+
+                while (!parentUl.classList.contains("permission-container")) {
+                    const parentPermissionCheckBox = parentUl.parentElement.previousElementSibling.querySelector(".permission-checkbox");
+                    if (allDescendantPermissionAreChecked && allParentPermissionDescendantPermissionAreChecked) {
+                        parentPermissionCheckBox.checked = true;
+                    } else {
+                        parentPermissionCheckBox.checked = false;
+                    }
+                    parentUl = parentUl.parentElement.parentElement;
+                    allParentPermissionDescendantPermissionAreChecked = validatePermissionChecked(parentUl);
+                }
+
             });
         });
 
+    }
+
+    const validatePermissionChecked = (parentUl) => {
+
+        if (!parentUl.classList.contains("permission-container")) {
+
+            let countOfChecked = 0;
+            let allDirectLiDescendants = parentUl.querySelectorAll("li");
+
+            allDirectLiDescendants = Array.from(allDirectLiDescendants).filter(li => {
+
+                let firstChild = li.firstElementChild;
+                return firstChild.tagName.toLowerCase() != "ul";
+            });
+
+            let allDirectCheckBoxDescendants = allDirectLiDescendants.map(li => {
+                return li.querySelector(".permission-checkbox");
+            });
+
+            allDirectCheckBoxDescendants.forEach(checkBox => {
+                if (checkBox.checked) {
+                    countOfChecked++;
+                }
+            });
+
+            return countOfChecked == allDirectCheckBoxDescendants.length;
+        }
     }
 
     const addEditClickEventListener = () => {
