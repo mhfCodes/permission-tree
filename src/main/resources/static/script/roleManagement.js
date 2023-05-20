@@ -539,7 +539,11 @@
             saveRole(e);
         }
     });
-    permissionUpdateBtn.addEventListener('click', updatePermissions);
+    permissionUpdateBtn.addEventListener('click', (e) => {
+        if (permissions.includes("ROLE_18")) {
+            updatePermissions(e);
+        }
+    });
     dropdownBtn.addEventListener('click', dropdownContentToggle);
     findBtn.addEventListener('click', () => {
         if (permissions.includes("ROLE_15")) {
