@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../style/userManagement.css">
+    <title>User Management</title>
+</head>
+<body>
+    
+    <div class="wrapper">
+        <nav class="navbar">
+            <div class="logo">PRODPRO</div>
+            <div class="menu">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="nav-products hidden" data-has-permission="ROLE_3"><a href="product.html">Products</a></li>
+                    <li class="nav-management hidden" data-has-any-permission="ROLE_10,ROLE_15">
+                        <button class="btn-dropdown">Management <i class="bx bx-chevron-down" id="arrow-down"></i><i class='bx bx-chevron-up hidden' id="arrow-up"></i></button>
+                        <div class="dropdown-content hidden">
+                            <a href="userManagement.html" data-has-permission="ROLE_10">User Management</a>
+                            <hr />
+                            <a href="roleManagement.html" data-has-permission="ROLE_15">Role Management</a>
+                        </div>
+                    </li>
+                    <li class="nav-login"><a href="login.html">Login</a></li>
+                    <li class="nav-logout hidden"><a href="#" class="logout">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="dialog-box">
+            <p class="dialog-content"></p>
+        </div>
+        <section class="password-modal hidden">
+            <button class="btn btn-close password-modal-btn-close">X</button>
+            <form action="#" class="change-password-form">
+                <div class="grid-item new-password-wrapper">
+                    <label for="newPassword">New Password: </label>
+                    <input type="password" id="newPassword" name="newPassword" />
+                </div>
+                <div class="grid-item">
+                    <label for="confirmPassword">Confirm Password: </label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" />
+                </div>
+                <button class="btn btn-password-submit" data-has-permission="ROLE_11">Update</button>
+            </form>
+        </section>
+        <section class="add-modal hidden">
+            <button class="btn btn-close add-modal-btn-close">X</button>
+            <form action="#" class="user-form">
+                <div class="grid">
+                    <div class="grid-item">
+                        <label for="username">Username: </label>
+                        <input type="text" id="username" name="username" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="firstName">First Name: </label>
+                        <input type="text" id="firstName" name="firstName" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="lastName">Last Name: </label>
+                        <input type="text" id="lastName" name="lastName" />
+                    </div>
+                </div>
+                <button class="btn btn-submit">Save</button>
+            </form>
+        </section>
+        <section class="delete-modal hidden">
+            <button class="btn btn-close delete-modal-btn-close">X</button>
+            <p>Delete This User?</p>
+            <div class="buttons">
+                <button class="btn btn-yes">Yes</button>
+                <button class="btn btn-no">No</button>
+            </div>
+        </section>
+        <div class="overlay hidden"></div>
+        <div class="container">
+            <div class="buttons" data-has-any-permission="ROLE_9,ROLE_10">
+                <button class="btn btn-add" data-has-permission="ROLE_9"><span class="add-icon">+</span> Add</button>
+                <button class="btn btn-search" data-has-permission="ROLE_10">Search</button>
+            </div>
+            <div class="search-box hidden">
+                <div class="grid">
+                    <div class="grid-item">
+                        <label for="username">Username: </label>
+                        <input type="text" id="search-username" name="username" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="firstName">First Name: </label>
+                        <input type="text" id="search-firstName" name="firstName" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="lastName">Last Name: </label>
+                        <input type="text" id="search-lastName" name="lastName" />
+                    </div>
+                </div>
+                <button class="btn btn-find">Find</button>
+            </div>
+            <table class="styled-table" data-has-permission="ROLE_10">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th class="hidden" data-has-any-permission="ROLE_9,ROLE_11,ROLE_12">Operation</th>
+                    </tr>
+                </thead>
+                <tbody class="table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="../script/userManagement.js"></script>
+</body>
+</html>

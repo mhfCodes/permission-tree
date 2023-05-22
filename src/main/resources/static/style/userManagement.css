@@ -1,0 +1,467 @@
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+    background-image: linear-gradient(rgb(32, 253, 234), rgb(217, 253, 250));
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-attachment: fixed;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.wrapper {
+    width: 100%;
+}
+
+.container {
+    max-width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: teal;
+    color: #fff;
+}
+
+.nav-links a {
+    color: #fff;
+}
+
+.logo {
+    font-size: 32px;
+}
+
+.menu ul {
+    display: flex;
+    gap: 1em;
+    font-size: 18px;
+}
+
+.menu li:hover {
+    background-color: #4c9e9e;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.menu li {
+    padding: 5px 14px;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 70px auto;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: center;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    transition: all 0.3s;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr:hover {
+    font-weight: bold;
+    color: #009879;
+    cursor: pointer;
+}
+
+.buttons {
+    margin-top: 50px;
+}
+
+.btn {
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.btn-small {
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+
+.btn:hover {
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 18px;
+    background-color: rgb(158, 212, 108);
+    color: #000;
+}
+
+.btn-add {
+    background-color: #79ffe4;
+    margin-right: 80px;
+}
+
+.btn-search {
+    background-color: #41d0f8;
+}
+
+.btn-edit {
+    margin-right: 10px;
+    background-color: rgb(211, 241, 100);
+}
+
+.btn-delete {
+    margin-right: 10px;
+    background-color: rgb(241, 111, 111);
+}
+
+.btn-change-password {
+    background-color: rgb(236 255 59);
+}
+
+.btn-change-password:hover {
+    font-size: 0.9rem;
+    padding: 12px;
+    background-color: rgb(111, 241, 124);
+    color: #000;
+}
+
+.btn-edit:hover {
+    font-size: 0.9rem;
+    padding: 12px;
+    background-color: rgb(211, 241, 100);
+    color: #000;
+}
+
+.btn-delete:hover {
+    font-size: 0.9rem;
+    padding: 12px;
+    background-color: rgb(241, 111, 111);
+    color: #000;
+}
+
+.btn-change-password:hover {
+    font-size: 0.9rem;
+    padding: 12px;
+    background-color: rgb(111, 241, 124);
+    color: #000;
+}
+
+.hidden {
+    display: none!important;
+}
+
+.add-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 800px;
+    padding: 1.3rem;
+    min-height: 250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    z-index: 2;
+}
+
+.add-modal .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 1rem;
+    margin-bottom: 15px;
+    justify-content: space-between;
+}
+
+.add-modal input {
+    padding: 0.7rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.btn-close {
+    font-weight: bold;
+    padding: 0.5rem 0.7rem;
+    background: #eee;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    vertical-align: middle;
+}
+
+.btn-close:hover {
+    font-size: initial;
+    padding: 0.5rem 0.7rem;
+    background-color: rgb(26, 26, 26);
+    color: #ddd;
+}
+
+.btn-submit {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -25%);
+    margin-top: 1rem;
+}
+
+.btn-submit:hover {
+    font-size: initial;
+    font-weight: bold;
+    background-color: #96e5fb;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 1;
+}
+
+.search-box {
+    margin: 2rem auto -20px auto;
+    max-width: 70%;
+    background-color: #a1cacc;
+    padding: 1rem 2rem;
+    border-radius: 20px;
+}
+
+.search-box .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 2rem;
+}
+
+.search-box .grid-item {
+    text-align: left;
+}
+
+.search-box .grid-item input {
+    padding: 0.7rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.btn-find {
+    margin-top: 10px;
+}
+
+.delete-modal {
+    width: 300px;
+    padding: 50px;
+    min-height: 250px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    z-index: 2;
+}
+
+.delete-modal .btn-close {
+    top: 20px;
+}
+
+.delete-modal p {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+}
+
+.delete-modal .buttons {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 1%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.delete-modal .buttons .btn {
+    background-color: transparent;
+    border: 2px solid black;
+}
+
+.delete-modal .buttons .btn-yes:hover {
+    color: rgb(2, 255, 2);
+    border: 2px solid rgb(2, 255, 2);
+} 
+
+.delete-modal .buttons .btn-no:hover {
+    color: red;
+    border: 2px solid red;
+}
+
+.btn-dropdown {
+    background-color: inherit;
+    color: #fff;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    position: absolute;
+    text-align: center;
+    width: 200px;
+    margin-top: 0.3rem;
+    background: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 2px;
+    transition: all 0.5s;
+}
+
+.dropdown-content a {
+    color: #2f2f2f;
+    display: block;
+    padding: 10px;
+}
+
+.dropdown-content a:hover {
+    background-color: #ccc;
+}
+
+#arrow-down, #arrow-up {
+    vertical-align: middle;
+}
+
+.dialog-box {
+    width: 35%;
+    text-align: center;
+    padding: 30px;
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    transform: translate(-50%, 0);
+    font-size: 1.5rem;
+    opacity: 0;
+    z-index: 9999;
+}
+
+.dialog-box.info {
+    background-color: #1aff32;
+}
+
+.dialog-box.warning {
+    background-color: #fffe1a;
+}
+
+.dialog-box.error {
+    background-color: #ff1a5a;
+}
+
+.password-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 600px;
+    padding: 1.3rem;
+    height: 320px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    z-index: 2;
+}
+
+.password-modal .grid {
+    display: grid;
+    row-gap: 1rem;
+    margin-bottom: 35px;
+    justify-content: center;
+}
+
+.password-modal input {
+    padding: 0.7rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    width: 350px;
+}
+
+.password-modal .change-password-form {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+}
+
+.password-modal .new-password-wrapper {
+    margin-bottom: 50px;
+}
+
+.password-modal #newPassword {
+    margin-left: 25px;
+}
+
+.password-modal .btn-password-submit {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    margin-top: 1rem;
+    bottom: 1%;
+    background-color: #c8e5ff;
+}
+
+.btn-password-submit:hover {
+    background-color: rgb(158, 212, 108);
+}
+
+

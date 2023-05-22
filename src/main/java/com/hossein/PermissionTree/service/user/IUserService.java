@@ -22,5 +22,7 @@ public interface IUserService {
 	
 	long save(UserModel entity);
 	
+	long changePassword(UserDto dto);
+	
 	Boolean delete(Long id);
 }

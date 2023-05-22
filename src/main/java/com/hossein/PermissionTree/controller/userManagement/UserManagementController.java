@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import com.hossein.PermissionTree.service.user.IUserService;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin
 public class UserManagementController {
 
 	@Autowired
@@ -49,6 +51,12 @@ public class UserManagementController {
 	@PreAuthorize("hasAnyRole('ROLE_9', 'ROLE_11')")
 	public long save(@RequestBody UserDto dto) {
 		return this.iUserService.save(this.mapper.mapDToE(dto));
+	}
+	
+	@PostMapping("/changePassword")
+	@PreAuthorize("hasRole('ROLE_11')")
+	public long changePassword(@RequestBody UserDto dto) {
+		return this.iUserService.changePassword(dto);
 	}
 	
 	@DeleteMapping("/{id}")

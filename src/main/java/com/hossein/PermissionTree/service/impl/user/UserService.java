@@ -94,7 +94,6 @@ public class UserService implements IUserService {
 	@Override
 	@Transactional
 	public long save(UserModel entity) {
-		entity.setPassword(encoder.encode(entity.getPassword()));
 		return this.iUserRepository.save(entity).getId();
 	}
 	
@@ -103,6 +102,16 @@ public class UserService implements IUserService {
 	public Boolean delete(Long id) {
 		this.iUserRepository.deleteById(id);
 		return this.iUserRepository.findById(id).orElse(null) == null;
+	}
+
+	@Override
+	@Transactional
+	public long changePassword(UserDto dto) {
+		UserModel user = this.iUserRepository.findById(dto.getUserId())
+				.orElseThrow(() -> new ApplicationException("User Not Found"));
+		user.setPassword(encoder.encode(dto.getPassword()));
+		UserModel updatedUser = this.iUserRepository.save(user);
+		return updatedUser.getId();
 	}
 
 }
