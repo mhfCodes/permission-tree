@@ -192,7 +192,7 @@ li {
     gap: 0.4rem;
     width: 800px;
     padding: 1.3rem;
-    min-height: 250px;
+    min-height: 305px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -218,6 +218,26 @@ li {
     font-size: 0.9rem;
 }
 
+.add-modal #username {
+    margin-left: 65px;
+}
+
+.add-modal #confirmPassword {
+    margin-left: 5px;
+}
+
+.add-modal #lastName {
+    margin-left: 61px;
+}
+
+.add-modal #firstName {
+    margin-left: 5px;
+}
+
+.add-modal #password {
+    margin-left: 16px;
+}
+
 .btn-close {
     font-weight: bold;
     padding: 0.5rem 0.7rem;
@@ -239,7 +259,7 @@ li {
 .btn-submit {
     position: absolute;
     left: 50%;
-    transform: translate(-50%, -25%);
+    transform: translate(-50%, -20%);
     margin-top: 1rem;
 }
 
@@ -285,6 +305,18 @@ li {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 0.9rem;
+}
+
+.search-box #search-lastName {
+    margin-left: 5px;
+}
+
+.search-box #search-username {
+    margin-left: 10px;
+}
+
+.search-box #search-firstName {
+    margin-left: 5px;
 }
 
 .btn-find {

@@ -18,7 +18,10 @@
     const findBtn = document.querySelector(".btn-find");
     const yesDelBtn = document.querySelector(".btn-yes");
     const noDelBtn = document.querySelector(".btn-no");
-    const changePasswordBtn = document.querySelector(".btn-password-submit");
+    const updatePasswordBtn = document.querySelector(".btn-password-submit");
+
+    const passwordContainer = document.querySelector(".password");
+    const confirmPasswordContainer = document.querySelector(".confirmPassword");
 
     const usernameInput = document.getElementById("username");
     const firstNameInput = document.getElementById("firstName");
@@ -27,6 +30,9 @@
     const searchUsernameInput = document.getElementById("search-username");
     const searchFirstNameInput = document.getElementById("search-firstName");
     const searchLastNameInput = document.getElementById("search-lastName");
+
+    const newPasswordInput = document.getElementById("newPassword");
+    const confirmNewPasswordInput = document.getElementById("confirmNewPassword");
 
     const navLogin = document.querySelector(".nav-login");
     const navLogout = document.querySelector(".nav-logout");
@@ -89,6 +95,7 @@
         });
         addEditClickEventListener();
         addDeleteClickEventListener();
+        addChangePasswordClickEventListener();
     }
 
     const saveUser = async (e) => {
@@ -196,7 +203,8 @@
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
-        addDeleteClickEventListener();        
+        addDeleteClickEventListener();
+        addChangePasswordClickEventListener();        
 
         hasPermissionElements = document.querySelectorAll("[data-has-permission]");
         hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
@@ -204,7 +212,11 @@
     };
 
     const loadUser = async (e) => {
-        const response = await fetch(`http://localhost:8080/api/user/${e.target.dataset.userId}`, {
+
+        passwordContainer.style.display = "none";
+        confirmPasswordContainer.style.display = "none";
+
+        const response = await fetch(`http://localhost:8080/api/user/${e.target.dataset.userid}`, {
             headers: {
                 Authorization: jwtToken
             }
@@ -216,7 +228,7 @@
         saveBtn.textContent = "Edit";
         usernameInput.value = currentUser.username;
         firstNameInput.value = currentUser.userFirstName;
-        lastNameInput.value = currentUseruserLastName;
+        lastNameInput.value = currentUser.userLastName;
         isEditing = true;
 
     }
@@ -238,8 +250,21 @@
             deleteBtn.addEventListener('click', (e) => {
                 deleteModal.classList.remove("hidden");
                 overlay.classList.remove("hidden");
-                currentUserId = e.target.dataset.userId;
+                currentUserId = e.target.dataset.userid;
             });
+        })
+    }
+
+    const addChangePasswordClickEventListener = () => {
+        const changePasswordBtns = document.querySelectorAll(".btn-change-password");
+        changePasswordBtns.forEach(changePasswordBtn => {
+            changePasswordBtn.addEventListener('click', (e) => {
+                changePasswordModal.classList.remove("hidden");
+                overlay.classList.remove("hidden");
+                newPasswordInput.value = "";
+                confirmNewPasswordInput.value = "";
+                currentUserId = e.target.dataset.userid;
+            })
         })
     }
 
@@ -354,6 +379,10 @@
     logoutBtn.addEventListener('click', logout);
 
     addBtn.addEventListener('click', () => {
+
+        passwordContainer.style.display = "block";
+        confirmPasswordContainer.style.display = "block";
+
         addModal.classList.remove("hidden");
         overlay.classList.remove("hidden");
         saveBtn.textContent = "Save";
@@ -364,6 +393,10 @@
     });
     addModalCloseBtn.addEventListener('click', () => {
         addModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+    })
+    changePasswordModalCloseBtn.addEventListener('click', () => {
+        changePasswordModal.classList.add("hidden");
         overlay.classList.add("hidden");
     })
     deleteModalCloseBtn.addEventListener('click', () => {
