@@ -1,6 +1,7 @@
 (function() {
 
     const tableBody = document.querySelector(".table-body");
+    const roleTableBody = document.querySelector(".role-table-body");
     const addModal = document.querySelector(".add-modal");
     const deleteModal = document.querySelector(".delete-modal");
     const changePasswordModal = document.querySelector(".password-modal");
@@ -96,6 +97,24 @@
         addEditClickEventListener();
         addDeleteClickEventListener();
         addChangePasswordClickEventListener();
+    }
+
+    const fetchRoles = async () => {
+
+        const response = await fetch("http://localhost:8080/api/role", {
+            headers: {
+                Authorization: jwtToken
+            }
+        });
+        const roles = await response.json();
+        console.log(roles);
+
+        roles.forEach(role => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `<td class="role"><input type="checkbox" data-roleId="${role.roleId}"/></td><td>${role.roleName}</td>`;
+            roleTableBody.insertAdjacentElement("beforeend", tr);
+        });
+
     }
 
     const saveUser = async (e) => {
@@ -390,6 +409,10 @@
         firstNameInput.value = "";
         lastNameInput.value = "";
         isEditing = false;
+
+        if (permissions.includes("ROLE_15")) {
+            fetchRoles();
+        }
     });
     addModalCloseBtn.addEventListener('click', () => {
         addModal.classList.add("hidden");
@@ -410,5 +433,4 @@
     searchBtn.addEventListener('click', () => {
         searchBox.classList.toggle("hidden");
     });
-    //TODO add change password modal open and close
 })();
