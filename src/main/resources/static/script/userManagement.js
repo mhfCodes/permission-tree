@@ -52,6 +52,7 @@
     let hasPermissionElements = document.querySelectorAll("[data-has-permission]");
     let hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
     let permissions = [];
+    let selectedRoles = [];
 
     const init = async () => {
 
@@ -107,7 +108,6 @@
             }
         });
         const roles = await response.json();
-        console.log(roles);
 
         roles.forEach(role => {
             const tr = document.createElement("tr");
@@ -117,10 +117,87 @@
 
     }
 
+    const fillRolesList = () => {
+
+        const roles = document.querySelectorAll(".role");
+
+        roles.forEach(role => {
+            let checkbox = role.firstElementChild;
+            if (checkbox.checked) {
+                let roleObj = {
+                    id: parseInt(checkbox.dataset.roleid),
+                    name: role.nextElementSibling.textContent
+                }
+                selectedRoles.push(roleObj);
+            }
+        })
+
+    }
+
+    const validatePassword = (password, passwordConfirmation) => {
+
+        if (password !== passwordConfirmation) {
+            dialogContent.textContent = "Password Confirmation Is Different From Password";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+        if (password.length < 8) {
+            dialogContent.textContent = "Password Must Be At Least 8 Characters Long";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+        if (password.length > 16) {
+            dialogContent.textContent = "Password Length Cannot Be More Than 16 Characters";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+        if (!/(?=.*?[A-Z])/.test(password)) {
+            dialogContent.textContent = "Password Must Contain At Least One Upper Case English Letter";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+        if (!/(?=.*?[a-z])/.test(password)) {
+            dialogContent.textContent = "Password Must Contain At Least One Lower Case English Letter";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+        if (!/(?=.*?[0-9])/.test(password)) {
+            dialogContent.textContent = "Password Must Contain At Least One Number";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+        if (!/(?=.*?[#?!@$%^&*-])/.test(password)) {
+            dialogContent.textContent = "Password Must Contain At Least One Special Character";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+    }
+
     const saveUser = async (e) => {
         e.preventDefault();
 
-        //TODO add role values
+        let passwordValue = passwordContainer.querySelector("#password").value;
+        let passwordConfirmationValue = confirmPasswordContainer.querySelector("#confirmPassword").value;
+
+        validatePassword(passwordValue, passwordConfirmationValue);
+
+        fillRolesList();
+
+        // TODO add role values
         const userObj = {
             id: null,
             username: usernameInput.value,
@@ -143,6 +220,7 @@
             
             setTimeout(() => window.location.reload(), 3000);
         }
+
     }
 
     const editUser = async (e) => {
@@ -397,10 +475,14 @@
     });
     logoutBtn.addEventListener('click', logout);
 
-    addBtn.addEventListener('click', () => {
+    addBtn.addEventListener('click', async () => {
 
         passwordContainer.style.display = "block";
         confirmPasswordContainer.style.display = "block";
+        
+        if (permissions.includes("ROLE_15")) {
+           await fetchRoles();
+        }
 
         addModal.classList.remove("hidden");
         overlay.classList.remove("hidden");
@@ -410,9 +492,6 @@
         lastNameInput.value = "";
         isEditing = false;
 
-        if (permissions.includes("ROLE_15")) {
-            fetchRoles();
-        }
     });
     addModalCloseBtn.addEventListener('click', () => {
         addModal.classList.add("hidden");
