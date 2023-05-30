@@ -20,6 +20,7 @@
     const yesDelBtn = document.querySelector(".btn-yes");
     const noDelBtn = document.querySelector(".btn-no");
     const updatePasswordBtn = document.querySelector(".btn-password-submit");
+    const allRolesSelectorBtn = document.getElementById("allRolesSelector");
 
     const passwordContainer = document.querySelector(".password");
     const confirmPasswordContainer = document.querySelector(".confirmPassword");
@@ -92,7 +93,7 @@
 
         users.forEach(user => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${user.username}</td><td>${user.userFirstName}</td><td>${user.userLastName}</td><td class="hidden" data-has-any-permission="ROLE_11,ROLE_12"><button class="btn btn-small btn-edit hidden" data-userId="${user.userId}" data-has-permission="ROLE_11">Edit</button><button class="btn btn-small btn-delete hidden" data-userId="${user.userId}" data-has-permission="ROLE_12">Delete</button><button class="btn btn-small btn-change-password hidden" data-userId="${user.userId}" data-has-permission="ROLE_11">Change Password</button></td>`;
+            tr.innerHTML = `<td>${user.username}</td><td>${user.userFirstName != null ? user.userFirstName : '-'}</td><td>${user.userLastName != null ? user.userLastName : '-'}</td><td class="hidden" data-has-any-permission="ROLE_11,ROLE_12"><button class="btn btn-small btn-edit hidden" data-userId="${user.userId}" data-has-permission="ROLE_11">Edit</button><button class="btn btn-small btn-delete hidden" data-userId="${user.userId}" data-has-permission="ROLE_12">Delete</button><button class="btn btn-small btn-change-password hidden" data-userId="${user.userId}" data-has-permission="ROLE_11">Change Password</button></td>`;
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
@@ -135,6 +136,13 @@
     }
 
     const validatePassword = (password, passwordConfirmation) => {
+
+        if (password.trim().length === 0) {
+            dialogContent.textContent = "Password Can Not Be Empty";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
 
         if (password !== passwordConfirmation) {
             dialogContent.textContent = "Password Confirmation Is Different From Password";
@@ -190,6 +198,13 @@
     const saveUser = async (e) => {
         e.preventDefault();
 
+        if (usernameInput.value.trim().length === 0) {
+            dialogContent.textContent = "Username Can Not Be Empty";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
         let passwordValue = passwordContainer.querySelector("#password").value;
         let passwordConfirmationValue = confirmPasswordContainer.querySelector("#confirmPassword").value;
 
@@ -197,13 +212,23 @@
 
         fillRolesList();
 
+        if (selectedRoles.length === 0) {
+            dialogContent.textContent = "You Must At Least Select A Role For This User";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
         // TODO add role values
         const userObj = {
             id: null,
             username: usernameInput.value,
+            password: passwordValue,
             userFirstName: firstNameInput.value,
-            userLastName: lastNameInput.value
+            userLastName: lastNameInput.value,
+            roles: selectedRoles
         }
+
         const response = await fetch("http://localhost:8080/api/user", {
             body: JSON.stringify(userObj),
             method: 'POST',
@@ -219,6 +244,10 @@
             fadeIn();
             
             setTimeout(() => window.location.reload(), 3000);
+        } else if (data == 0) {
+            dialogContent.textContent = "Username Exists";
+            chooseDialog("error");
+            fadeIn();
         }
 
     }
@@ -296,7 +325,7 @@
         tableBody.innerHTML = "";
         data.forEach(user => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${user.username}</td><td>${user.userFirstName}</td><td>${user.userLastName}</td><td class="hidden" data-has-any-permission="ROLE_11,ROLE_12"><button class="btn btn-small btn-edit hidden" data-userId="${user.userId}" data-has-permission="ROLE_11">Edit</button><button class="btn btn-small btn-delete hidden" data-userId="${user.userId}" data-has-permission="ROLE_12">Delete</button><button class="btn btn-small btn-change-password hidden" data-userId="${user.userId}" data-has-permission="ROLE_11">Change Password</button></td>`;
+            tr.innerHTML = `<td>${user.username}</td><td>${user.userFirstName != null ? user.userFirstName : '-'}</td><td>${user.userLastName != null ? user.userLastName : '-'}</td><td class="hidden" data-has-any-permission="ROLE_11,ROLE_12"><button class="btn btn-small btn-edit hidden" data-userId="${user.userId}" data-has-permission="ROLE_11">Edit</button><button class="btn btn-small btn-delete hidden" data-userId="${user.userId}" data-has-permission="ROLE_12">Delete</button><button class="btn btn-small btn-change-password hidden" data-userId="${user.userId}" data-has-permission="ROLE_11">Change Password</button></td>`;
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
@@ -512,4 +541,12 @@
     searchBtn.addEventListener('click', () => {
         searchBox.classList.toggle("hidden");
     });
+    allRolesSelectorBtn.addEventListener('click', () => {
+
+        const roles = document.querySelectorAll(".role");
+        roles.forEach(role => {
+            let roleCheckBox = role.firstElementChild;
+            roleCheckBox.checked = allRolesSelectorBtn.checked;
+        });
+    })
 })();

@@ -92,8 +92,22 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	@Transactional
+//	@Transactional
 	public long save(UserModel entity) {
+		
+		//TODO bug report: fail entity saving first time
+		// don't close the modal and send again with new info
+		// it will throw oracle exception unique constraint
+		if (entity.getId() == null) {
+			// saving a new user
+			// check for duplicate username
+			UserModel user = this.iUserRepository.findByUsername(entity.getUsername())
+					.orElse(null);
+			if (user != null) return 0;
+		}
+		
+		entity.setPassword(encoder.encode(entity.getPassword()));
+		
 		return this.iUserRepository.save(entity).getId();
 	}
 	
