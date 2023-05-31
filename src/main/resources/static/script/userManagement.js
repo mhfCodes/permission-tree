@@ -119,6 +119,7 @@
     }
 
     const fillRolesList = () => {
+        selectedRoles = [];
 
         const roles = document.querySelectorAll(".role");
 
