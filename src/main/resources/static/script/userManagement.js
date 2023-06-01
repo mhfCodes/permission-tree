@@ -3,6 +3,8 @@
     const tableBody = document.querySelector(".table-body");
     const addModalRoleTableBody = document.querySelector(".add-modal-role-table-body");
     const addModal = document.querySelector(".add-modal");
+    const selectRolesModal = document.querySelector(".role-modal");
+    const selectRolesModalTablebBody = document.querySelector(".role-modal-role-table-body");
     const deleteModal = document.querySelector(".delete-modal");
     const changePasswordModal = document.querySelector(".password-modal");
     const overlay = document.querySelector(".overlay");
@@ -14,13 +16,18 @@
     const addModalCloseBtn = document.querySelector(".add-modal-btn-close");
     const deleteModalCloseBtn = document.querySelector(".delete-modal-btn-close");
     const changePasswordModalCloseBtn = document.querySelector(".password-modal-btn-close");
+    const selectRolesModalCloseBtn = document.querySelector(".role-modal-btn-close");
+    const deleteSelectedRolesBtn = document.querySelector(".btn-delete-selected-roles");
     const saveBtn = document.querySelector(".btn-submit");
     const searchBtn = document.querySelector(".btn-search");
     const findBtn = document.querySelector(".btn-find");
     const yesDelBtn = document.querySelector(".btn-yes");
     const noDelBtn = document.querySelector(".btn-no");
     const updatePasswordBtn = document.querySelector(".btn-password-submit");
-    const allRolesSelectorBtn = document.getElementById("allRolesSelector");
+    const addModalAllRolesSelector = document.getElementById("addModalAllRolesSelector");
+    const selectRolesModalAllRolesSelector = document.getElementById("selectRolesModalAllRolesSelector");
+    const selectRolesModalBtn = document.querySelector(".btn-select-role");
+    const selectRolesModalSaveBtn = document.querySelector(".role-modal-btn-submit");
 
     const passwordContainer = document.querySelector(".password");
     const confirmPasswordContainer = document.querySelector(".confirmPassword");
@@ -32,6 +39,7 @@
     const searchUsernameInput = document.getElementById("search-username");
     const searchFirstNameInput = document.getElementById("search-firstName");
     const searchLastNameInput = document.getElementById("search-lastName");
+    const searchRoleInput = document.getElementById("search-roles");
 
     const newPasswordInput = document.getElementById("newPassword");
     const confirmNewPasswordInput = document.getElementById("confirmNewPassword");
@@ -135,7 +143,6 @@
             }
         })
 
-        console.log(selectedRoles);
     }
 
     const validatePassword = (password, passwordConfirmation) => {
@@ -177,8 +184,7 @@
 
     const saveUser = async (e) => {
         e.preventDefault();
-        fillRolesList(addModalRoleTableBody);
-
+        
         if (usernameInput.value.trim().length === 0) {
             dialogContent.textContent = "Username Can Not Be Empty";
             chooseDialog("error");
@@ -196,7 +202,8 @@
             fadeIn();
             return;
         }
-
+        
+        fillRolesList(addModalRoleTableBody);
 
         if (selectedRoles.length === 0) {
             dialogContent.textContent = "You Must At Least Select A Role For This User";
@@ -345,6 +352,21 @@
 
     }
 
+    const selectSearchRoles = (e) => {
+        e.preventDefault();
+
+        fillRolesList(selectRolesModalTablebBody);
+
+        let selectedRoleNames = "";
+        selectedRoles.forEach(role => {
+            selectedRoleNames += role.name + ", ";
+        });
+        selectedRoleNames = selectedRoleNames.slice(0, -2);
+        searchRoleInput.value = selectedRoleNames;
+
+        selectRolesModalCloseBtn.click();
+    }
+
     const addEditClickEventListener = () => {
         const editBtns = document.querySelectorAll(".btn-edit");
         editBtns.forEach(editBtn => {
@@ -477,6 +499,9 @@
             saveUser(e);
         }
     });
+    selectRolesModalSaveBtn.addEventListener('click', (e) => {
+        selectSearchRoles(e);
+    })
     dropdownBtn.addEventListener('click', dropdownContentToggle);
     findBtn.addEventListener('click', () => {
         if (permissions.includes("ROLE_10")) {
@@ -508,9 +533,23 @@
         isEditing = false;
 
     });
+    selectRolesModalBtn.addEventListener('click', async () => {
+
+        if (permissions.includes("ROLE_15")) {
+            await fetchRoles(selectRolesModalTablebBody);
+        }
+
+        selectRolesModal.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+    })
+    deleteSelectedRolesBtn.addEventListener('click', () => {
+        selectedRoles = [];
+        searchRoleInput.value = "";
+    })
     addModalCloseBtn.addEventListener('click', () => {
         addModal.classList.add("hidden");
         overlay.classList.add("hidden");
+        addModalAllRolesSelector.checked = false;
     })
     changePasswordModalCloseBtn.addEventListener('click', () => {
         changePasswordModal.classList.add("hidden");
@@ -520,6 +559,12 @@
         deleteModal.classList.add("hidden");
         overlay.classList.add("hidden");
     })
+    selectRolesModalCloseBtn.addEventListener('click', () => {
+        selectRolesModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+
+        selectRolesModalAllRolesSelector.checked = false;
+    })
     noDelBtn.addEventListener('click', () => {
         deleteModal.classList.add("hidden");
         overlay.classList.add("hidden");
@@ -527,12 +572,22 @@
     searchBtn.addEventListener('click', () => {
         searchBox.classList.toggle("hidden");
     });
-    allRolesSelectorBtn.addEventListener('click', () => {
+    addModalAllRolesSelector.addEventListener('click', (e) => {
+        const tableBody = e.target.parentElement.parentElement.parentElement.nextElementSibling;
 
-        const roles = document.querySelectorAll(".role");
+        const roles = tableBody.querySelectorAll(".role");
         roles.forEach(role => {
             let roleCheckBox = role.firstElementChild;
-            roleCheckBox.checked = allRolesSelectorBtn.checked;
+            roleCheckBox.checked = addModalAllRolesSelector.checked;
         });
-    })
+    });
+    selectRolesModalAllRolesSelector.addEventListener('click', (e) => {
+        const tableBody = e.target.parentElement.parentElement.parentElement.nextElementSibling;
+
+        const roles = tableBody.querySelectorAll(".role");
+        roles.forEach(role => {
+            let roleCheckBox = role.firstElementChild;
+            roleCheckBox.checked = selectRolesModalAllRolesSelector.checked;
+        });
+    });
 })();

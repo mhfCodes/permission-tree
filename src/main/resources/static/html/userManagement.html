@@ -76,7 +76,7 @@
                     <table class="styled-table role-styled-table" data-has-permission="ROLE_15">
                         <thead>
                             <tr>
-                                <th><input type="checkbox" name="allRolesSelector" id="allRolesSelector" /></th>
+                                <th><input type="checkbox" name="allRolesSelector" id="addModalAllRolesSelector" class="allRolesSelector"/></th>
                                 <th class="role-name-header">Role Name</th>
                             </tr>
                         </thead>
@@ -85,6 +85,24 @@
                     </table>
                 </div>
                 <button class="btn btn-submit">Save</button>
+            </form>
+        </section>
+        <section class="role-modal hidden">
+            <button class="btn btn-close role-modal-btn-close">X</button>
+            <form action="#" class="role-form">
+                <div class="role-table-wrapper">
+                    <table class="styled-table role-styled-table" data-has-permission="ROLE_15">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" name="allRolesSelector" id="selectRolesModalAllRolesSelector" class="allRolesSelector"/></th>
+                                <th class="role-name-header">Role Name</th>
+                            </tr>
+                        </thead>
+                        <tbody class="role-table-body role-modal-role-table-body">
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn role-modal-btn-submit">Select</button>
             </form>
         </section>
         <section class="delete-modal hidden">
@@ -104,16 +122,24 @@
             <div class="search-box hidden">
                 <div class="grid">
                     <div class="grid-item">
-                        <label for="username">Username: </label>
+                        <label for="search-username">Username: </label>
                         <input type="text" id="search-username" name="username" />
                     </div>
                     <div class="grid-item">
-                        <label for="firstName">First Name: </label>
+                        <label for="search-firstName">First Name: </label>
                         <input type="text" id="search-firstName" name="firstName" />
                     </div>
                     <div class="grid-item">
-                        <label for="lastName">Last Name: </label>
+                        <label for="search-lastName">Last Name: </label>
                         <input type="text" id="search-lastName" name="lastName" />
+                    </div>
+                    <div class="grid-item search-select-roles-wrapper">
+                        <label for="search-roles" class="search-roles-text">Roles: </label>
+                        <textarea type="" id="search-roles" name="roles" rows="6" cols="26" disabled></textarea>
+                        <div class="search-select-roles-buttons-wrapper">
+                            <button type="button" title="Select Roles" class="btn btn-select-role"><i class='bx bx-select-multiple'></i></button>
+                            <button type="button" title="Delete Selected Roles" class="btn btn-delete-selected-roles"><i class='bx bxs-eraser'></i></button>
+                        </div>
                     </div>
                 </div>
                 <button class="btn btn-find">Find</button>

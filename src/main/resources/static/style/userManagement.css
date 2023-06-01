@@ -123,7 +123,7 @@ li {
     font-size: 1.2rem;
 }
 
-.role-styled-table #allRolesSelector {
+.role-styled-table .allRolesSelector {
     transform: scale(1.5);
     cursor: pointer;
 }
@@ -213,7 +213,7 @@ li {
     display: none!important;
 }
 
-.add-modal {
+.add-modal, .role-modal {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
@@ -350,6 +350,98 @@ li {
 
 .search-box #search-firstName {
     margin-left: 5px;
+}
+
+.search-box .search-select-roles-wrapper {
+    position: relative;
+}
+
+.search-box #search-roles {
+    margin-left: 43.5px;
+    resize: none;
+    background-color: rgb(217, 214, 214);
+    border-radius: 5px;
+}
+
+.search-box .search-roles-text {
+    vertical-align: top;
+}
+
+.search-box .btn-select-role {
+    padding: 10px!important;
+    border-radius: 5px!important;
+    margin-left: 5px;
+    background-color: #a2ffc7;
+    vertical-align: top;
+}
+
+.search-box .btn-select-role:hover {
+    padding: 11px!important;
+    background-color: #84fbb4;
+}
+
+.btn-select-role .bx-select-multiple {
+    font-size: 1.2rem;
+    vertical-align: middle;
+    color: #3d3d3d;
+}
+
+.btn-select-role:hover .bx-select-multiple {
+    color: #000;
+}
+
+.search-select-roles-buttons-wrapper {
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 35px;
+}
+
+.search-select-roles-buttons-wrapper .btn-delete-selected-roles {
+    padding: 10px!important;
+    border-radius: 5px!important;
+    margin-left: 5px;
+    background-color: #fd3131;
+    vertical-align: top;
+    margin-top: 12px;
+}
+
+.search-select-roles-buttons-wrapper .btn-delete-selected-roles:hover {
+    padding: 11px!important;
+    background-color: #fe2424;
+}
+
+.btn-delete-selected-roles .bxs-eraser {
+    font-size: 1.2rem;
+    vertical-align: middle;
+    color: #3d3d3d;
+}
+
+.btn-delete-selected-roles:hover .bxs-eraser {
+    color: #000;
+}
+
+.role-modal {
+    width: 650px!important;
+    padding: 1rem!important;
+    min-height: 300px!important;
+}
+
+.role-form {
+    text-align: center;
+}
+
+.role-modal .role-table-wrapper {
+    max-width: 87%;
+    margin-bottom: 30px!important;
+    margin-top: 60px!important;
+}
+
+.role-modal .role-modal-btn-submit:hover {
+    font-size: initial;
+    font-weight: bold;
+    background-color: #96e5fb;
 }
 
 .btn-find {
