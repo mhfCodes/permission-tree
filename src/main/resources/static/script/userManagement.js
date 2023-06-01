@@ -302,7 +302,8 @@
             id: null,
             username: searchUsernameInput.value,
             userFirstName: searchFirstNameInput.value,
-            userLastName: searchLastNameInput.value
+            userLastName: searchLastNameInput.value,
+            roles: selectedRoles
         }
 
         const response = await fetch ("http://localhost:8080/api/user/search", {

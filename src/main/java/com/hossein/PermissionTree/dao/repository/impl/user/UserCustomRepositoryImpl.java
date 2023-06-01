@@ -40,7 +40,7 @@ public class UserCustomRepositoryImpl extends GenericRepository implements UserC
 		Map<String, Object> params = new HashMap<>();
 		StringBuilder hql = new StringBuilder();
 		
-		hql.append("select"
+		hql.append("select distinct"
 				+ " e.id as userId, e.username as username,"
 				+ " e.firstName as userFirstName, e.lastName as userLastName"
 				+ " from UserModel e"
@@ -62,10 +62,12 @@ public class UserCustomRepositoryImpl extends GenericRepository implements UserC
 			params.put("userLastName", "%"+data.getUserLastName()+"%");
 		}
 		
-		if (StringUtils.hasText(data.getRoleIds())) {
+		if (data.getRoleIds() != null && data.getRoleIds().size() > 0) {
 			hql.append(" and r.id in (:roleIds)");
 			params.put("roleIds", data.getRoleIds());
 		}
+		
+		hql.append(" order by e.id");
 		
 		return super.getAll(hql.toString(), params, UserViewModel.class);
 	}

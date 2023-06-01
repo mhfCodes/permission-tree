@@ -1,5 +1,6 @@
 package com.hossein.PermissionTree.dto.user;
 
+import java.util.List;
 import java.util.Set;
 
 import com.hossein.PermissionTree.dto.role.RoleDto;
@@ -12,7 +13,7 @@ public class UserDto {
 	private String userFirstName;
 	private String userLastName;
 	private Set<RoleDto> roles;
-	private String roleIds;
+	private List<Long> roleIds;
 	
 	public Long getUserId() {
 		return userId;
@@ -50,10 +51,10 @@ public class UserDto {
 	public void setRoles(Set<RoleDto> roles) {
 		this.roles = roles;
 	}
-	public String getRoleIds() {
+	public List<Long> getRoleIds() {
 		return roleIds;
 	}
-	public void setRoleIds(String roleIds) {
+	public void setRoleIds(List<Long> roleIds) {
 		this.roleIds = roleIds;
 	}
 	

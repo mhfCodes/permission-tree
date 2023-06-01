@@ -77,18 +77,18 @@ public class UserService implements IUserService {
 
 	@Override
 	public List<UserViewModel> search(UserDto data) {
-
-		if (data.getRoleIds() != null) {
-			List<String> roleIdsList = new ArrayList<>();
-			data.getRoles().forEach(role -> {
-				roleIdsList.add(String.valueOf(role.getId()));
-			});
-			
-			String roleIds = String.join(",", roleIdsList);
-			data.setRoleIds(roleIds);
-		}
 		
-		return this.iUserRepository.getAll(data);
+		List<Long> roleIds = new ArrayList<>();
+		if (data.getRoles() != null && data.getRoles().size() > 0) {
+			
+			data.getRoles().forEach(role -> {
+				roleIds.add(role.getId());
+			});
+		}
+		data.setRoleIds(roleIds);
+		
+		List<UserViewModel> result = this.iUserRepository.getAll(data);
+		return result;
 	}
 
 	@Override
