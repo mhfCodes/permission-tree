@@ -1,7 +1,7 @@
 (function() {
 
     const tableBody = document.querySelector(".table-body");
-    const roleTableBody = document.querySelector(".role-table-body");
+    const addModalRoleTableBody = document.querySelector(".add-modal-role-table-body");
     const addModal = document.querySelector(".add-modal");
     const deleteModal = document.querySelector(".delete-modal");
     const changePasswordModal = document.querySelector(".password-modal");
@@ -101,7 +101,8 @@
         addChangePasswordClickEventListener();
     }
 
-    const fetchRoles = async () => {
+    const fetchRoles = async (tableBody) => {
+        tableBody.innerHTML = "";
 
         const response = await fetch("http://localhost:8080/api/role", {
             headers: {
@@ -113,15 +114,15 @@
         roles.forEach(role => {
             const tr = document.createElement("tr");
             tr.innerHTML = `<td class="role"><input type="checkbox" data-roleId="${role.roleId}"/></td><td>${role.roleName}</td>`;
-            roleTableBody.insertAdjacentElement("beforeend", tr);
+            tableBody.insertAdjacentElement("beforeend", tr);
         });
 
     }
 
-    const fillRolesList = () => {
+    const fillRolesList = (tableBody) => {
         selectedRoles = [];
 
-        const roles = document.querySelectorAll(".role");
+        const roles = tableBody.querySelectorAll(".role");
 
         roles.forEach(role => {
             let checkbox = role.firstElementChild;
@@ -134,70 +135,49 @@
             }
         })
 
+        console.log(selectedRoles);
     }
 
     const validatePassword = (password, passwordConfirmation) => {
 
         if (password.trim().length === 0) {
-            dialogContent.textContent = "Password Can Not Be Empty";
-            chooseDialog("error");
-            fadeIn();
-            return;
+            return "Password Can Not Be Empty";
         }
 
         if (password !== passwordConfirmation) {
-            dialogContent.textContent = "Password Confirmation Is Different From Password";
-            chooseDialog("error");
-            fadeIn();
-            return;
+            return "Password Confirmation Is Different From Password";
         }
 
         if (password.length < 8) {
-            dialogContent.textContent = "Password Must Be At Least 8 Characters Long";
-            chooseDialog("error");
-            fadeIn();
-            return;
+            return "Password Must Be At Least 8 Characters Long";
         }
 
         if (password.length > 16) {
-            dialogContent.textContent = "Password Length Cannot Be More Than 16 Characters";
-            chooseDialog("error");
-            fadeIn();
-            return;
+            return "Password Length Cannot Be More Than 16 Characters";
         }
 
         if (!/(?=.*?[A-Z])/.test(password)) {
-            dialogContent.textContent = "Password Must Contain At Least One Upper Case English Letter";
-            chooseDialog("error");
-            fadeIn();
-            return;
+            return "Password Must Contain At Least One Upper Case English Letter";
         }
 
         if (!/(?=.*?[a-z])/.test(password)) {
-            dialogContent.textContent = "Password Must Contain At Least One Lower Case English Letter";
-            chooseDialog("error");
-            fadeIn();
-            return;
+            return "Password Must Contain At Least One Lower Case English Letter";
         }
 
         if (!/(?=.*?[0-9])/.test(password)) {
-            dialogContent.textContent = "Password Must Contain At Least One Number";
-            chooseDialog("error");
-            fadeIn();
-            return;
+            return "Password Must Contain At Least One Number";
         }
 
         if (!/(?=.*?[#?!@$%^&*-])/.test(password)) {
-            dialogContent.textContent = "Password Must Contain At Least One Special Character";
-            chooseDialog("error");
-            fadeIn();
-            return;
+            return "Password Must Contain At Least One Special Character";
         }
 
+        return null;
     }
 
     const saveUser = async (e) => {
         e.preventDefault();
+        fillRolesList(addModalRoleTableBody);
 
         if (usernameInput.value.trim().length === 0) {
             dialogContent.textContent = "Username Can Not Be Empty";
@@ -208,10 +188,15 @@
 
         let passwordValue = passwordContainer.querySelector("#password").value;
         let passwordConfirmationValue = confirmPasswordContainer.querySelector("#confirmPassword").value;
+        let passwordValidationResult = validatePassword(passwordValue, passwordConfirmationValue);
 
-        validatePassword(passwordValue, passwordConfirmationValue);
+        if(passwordValidationResult != null) {
+            dialogContent.textContent = passwordValidationResult;
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
 
-        fillRolesList();
 
         if (selectedRoles.length === 0) {
             dialogContent.textContent = "You Must At Least Select A Role For This User";
@@ -511,7 +496,7 @@
         confirmPasswordContainer.style.display = "block";
         
         if (permissions.includes("ROLE_15")) {
-           await fetchRoles();
+           await fetchRoles(addModalRoleTableBody);
         }
 
         addModal.classList.remove("hidden");
