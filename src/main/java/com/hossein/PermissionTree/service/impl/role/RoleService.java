@@ -18,6 +18,7 @@ import com.hossein.PermissionTree.dao.repository.role.IRoleRepository;
 import com.hossein.PermissionTree.dto.role.RoleDto;
 import com.hossein.PermissionTree.dto.role.RolePermissionDto;
 import com.hossein.PermissionTree.exception.ApplicationException;
+import com.hossein.PermissionTree.mapper.Role.RoleMapper;
 import com.hossein.PermissionTree.model.permission.Permission;
 import com.hossein.PermissionTree.model.role.Role;
 import com.hossein.PermissionTree.service.permission.IPermissionService;

@@ -57,7 +57,7 @@ public class RoleCustomRepositoryImpl extends GenericRepository implements RoleC
 		}
 		
 		hql.append(" from Role e"
-				+ " join e.permissions p"
+				+ " right join e.permissions p"
 				+ " group by p.id, p.name, p.hierarchy, p.menuItem, p.parent.id"
 				+ " order by p.id");
 		

@@ -18,6 +18,7 @@ public interface RoleMapper {
 
 	@Mapping(source = "id", target = "roleId")
 	@Mapping(source = "name", target = "roleName")
+	@Mapping(source = "selected", target = "roleSelected", defaultValue = "false")
 	RoleViewModel mapEToV(Role entity);
 	
 	List<RoleViewModel> mapEToVList(List<Role> entityList);

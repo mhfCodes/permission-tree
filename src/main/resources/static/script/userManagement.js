@@ -109,10 +109,10 @@
         addChangePasswordClickEventListener();
     }
 
-    const fetchRoles = async (tableBody) => {
+    const fetchRoles = async (tableBody, userId) => {
         tableBody.innerHTML = "";
 
-        const response = await fetch("http://localhost:8080/api/role", {
+        const response = await fetch(`http://localhost:8080/api/user/userRoles/${userId}`, {
             headers: {
                 Authorization: jwtToken
             }
@@ -121,7 +121,7 @@
 
         roles.forEach(role => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td class="role"><input type="checkbox" data-roleId="${role.roleId}"/></td><td>${role.roleName}</td>`;
+            tr.innerHTML = `<td class="role"><input type="checkbox" ${role.roleSelected == "true" ? "checked" : ""} data-roleId="${role.roleId}"/></td><td>${role.roleName}</td>`;
             tableBody.insertAdjacentElement("beforeend", tr);
         });
 
@@ -248,12 +248,29 @@
     const editUser = async (e) => {
         e.preventDefault();
 
-        //TODO add role values
+        if (usernameInput.value.trim().length === 0) {
+            dialogContent.textContent = "Username Can Not Be Empty";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+        
+        fillRolesList(addModalRoleTableBody);
+
+        if (selectedRoles.length === 0) {
+            dialogContent.textContent = "You Must At Least Select A Role For This User";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
         const userObj = {
-            id: currentUser.userId,
+            userId: currentUser.userId,
             username: usernameInput.value,
+            password: "dummyText",
             userFirstName: firstNameInput.value,
-            userLastName: lastNameInput.value
+            userLastName: lastNameInput.value,
+            roles: selectedRoles
         }
 
         const response = await fetch("http://localhost:8080/api/user", {
@@ -272,6 +289,10 @@
             fadeIn();
             
             setTimeout(() => window.location.reload(), 3000);
+        }  else if (data == 0) {
+            dialogContent.textContent = "Username Exists";
+            chooseDialog("error");
+            fadeIn();
         }
         
     }
@@ -297,7 +318,6 @@
 
     const find = async () => {
 
-        //TODO add role values
         const searchUserObj = {
             id: null,
             username: searchUsernameInput.value,
@@ -336,12 +356,18 @@
         passwordContainer.style.display = "none";
         confirmPasswordContainer.style.display = "none";
 
-        const response = await fetch(`http://localhost:8080/api/user/${e.target.dataset.userid}`, {
+        let userId = e.target.dataset.userid;
+
+        const response = await fetch(`http://localhost:8080/api/user/${userId}`, {
             headers: {
                 Authorization: jwtToken
             }
         });
         currentUser = await response.json();
+
+        if (permissions.includes("ROLE_15")) {
+            await fetchRoles(addModalRoleTableBody, userId);
+        }
         
         addModal.classList.remove("hidden");
         overlay.classList.remove("hidden");
@@ -522,7 +548,7 @@
         confirmPasswordContainer.style.display = "block";
         
         if (permissions.includes("ROLE_15")) {
-           await fetchRoles(addModalRoleTableBody);
+           await fetchRoles(addModalRoleTableBody, 0);
         }
 
         addModal.classList.remove("hidden");
@@ -537,7 +563,7 @@
     selectRolesModalBtn.addEventListener('click', async () => {
 
         if (permissions.includes("ROLE_15")) {
-            await fetchRoles(selectRolesModalTablebBody);
+            await fetchRoles(selectRolesModalTablebBody, 0);
         }
 
         selectRolesModal.classList.remove("hidden");

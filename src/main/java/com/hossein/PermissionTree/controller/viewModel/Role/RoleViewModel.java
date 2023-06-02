@@ -8,6 +8,7 @@ public class RoleViewModel {
 	
 	private Long roleId;
 	private String roleName;
+	private String roleSelected;
 	
 	public Long getRoleId() {
 		return roleId;
@@ -20,6 +21,12 @@ public class RoleViewModel {
 	}
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+	public String getRoleSelected() {
+		return roleSelected;
+	}
+	public void setRoleSelected(String roleSelected) {
+		this.roleSelected = roleSelected;
 	}
 
 }

@@ -14,11 +14,13 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.controller.viewModel.User.UserViewModel;
 import com.hossein.PermissionTree.dao.repository.role.IRoleRepository;
 import com.hossein.PermissionTree.dao.repository.user.IUserRepository;
 import com.hossein.PermissionTree.dto.user.UserDto;
 import com.hossein.PermissionTree.exception.ApplicationException;
+import com.hossein.PermissionTree.mapper.Role.RoleMapper;
 import com.hossein.PermissionTree.model.role.Role;
 import com.hossein.PermissionTree.model.user.UserModel;
 import com.hossein.PermissionTree.service.user.IUserService;
@@ -37,6 +39,9 @@ public class UserService implements IUserService {
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	
+	@Autowired
+	private RoleMapper roleMapper;
 	
 	@Override
 	@Transactional
@@ -92,20 +97,26 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-//	@Transactional
+	@Transactional
 	public long save(UserModel entity) {
+		// check for duplicate username before saving or updating
+		UserModel user = this.iUserRepository.getUserByUsername(entity.getUsername(), entity.getId());
+		if (user != null) return 0;
 		
 		if (entity.getId() == null) {
 			// saving a new user
-			// check for duplicate username
-			UserModel user = this.iUserRepository.findByUsername(entity.getUsername())
-					.orElse(null);
-			if (user != null) return 0;
+			entity.setPassword(encoder.encode(entity.getPassword()));
+			return this.iUserRepository.save(entity).getId();
 		}
 		
-		entity.setPassword(encoder.encode(entity.getPassword()));
-		
-		return this.iUserRepository.save(entity).getId();
+		// updating a user
+		UserModel existingUser = this.iUserRepository.findById(entity.getId())
+								.orElseThrow(() -> new ApplicationException("User Does Not Exist"));
+		existingUser.setUsername(entity.getUsername());
+		existingUser.setFirstName(entity.getFirstName());
+		existingUser.setLastName(entity.getLastName());
+		existingUser.setRoles(entity.getRoles());
+		return this.iUserRepository.save(existingUser).getId();
 	}
 	
 	@Override
@@ -123,6 +134,13 @@ public class UserService implements IUserService {
 		user.setPassword(encoder.encode(dto.getPassword()));
 		UserModel updatedUser = this.iUserRepository.save(user);
 		return updatedUser.getId();
+	}
+	
+	@Override
+	public List<RoleViewModel> getUserRoles(Long userId) {
+		if (userId == 0) return this.roleMapper.mapEToVList(this.iRoleRepository.findAll());
+		
+		return this.iUserRepository.getAllRolesByUserId(userId);
 	}
 
 }

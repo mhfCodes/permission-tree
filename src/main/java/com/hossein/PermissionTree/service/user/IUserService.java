@@ -2,6 +2,7 @@ package com.hossein.PermissionTree.service.user;
 
 import java.util.List;
 
+import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.controller.viewModel.User.UserViewModel;
 import com.hossein.PermissionTree.dto.user.UserDto;
 import com.hossein.PermissionTree.model.user.UserModel;
@@ -25,4 +26,6 @@ public interface IUserService {
 	long changePassword(UserDto dto);
 	
 	Boolean delete(Long id);
+	
+	List<RoleViewModel> getUserRoles(Long userId);
 }

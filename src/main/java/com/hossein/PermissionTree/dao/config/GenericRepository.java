@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Session;
@@ -59,7 +60,15 @@ public class GenericRepository {
 		
 		params.keySet().forEach(k -> query.setParameter(k, params.get(k)));
 		
-		return query.getSingleResult();
+		T result = null;
+		
+		try {
+			result = query.getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("No Result Found");
+		}
+		
+		return result;
 	}	
 
 }

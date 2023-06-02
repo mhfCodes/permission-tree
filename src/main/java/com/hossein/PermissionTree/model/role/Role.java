@@ -2,7 +2,6 @@ package com.hossein.PermissionTree.model.role;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.hossein.PermissionTree.model.permission.Permission;
 
@@ -43,6 +43,9 @@ public class Role {
 				inverseJoinColumns = {@JoinColumn(name = "permissionId")}
 			)
 	private Set<Permission> permissions;
+	
+	@Transient
+	private String selected;
 
 	public Role() {
 	}
@@ -74,6 +77,14 @@ public class Role {
 
 	public void setPermissions(Set<Permission> permissions) {
 		this.permissions = permissions;
+	}
+
+	public String getSelected() {
+		return selected;
+	}
+
+	public void setSelected(String selected) {
+		this.selected = selected;
 	}
 	
 }

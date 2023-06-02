@@ -433,11 +433,11 @@
     const addPermissionClickEventListener = () => {
         const permissionBtns = document.querySelectorAll(".btn-permission");
         permissionBtns.forEach(permissionBtn => {
-            permissionBtn.addEventListener('click', (e) => {
+            permissionBtn.addEventListener('click', async (e) => {
+                currentRoleId = e.target.dataset.roleid;
+                await loadRolePermissions();
                 permissionModal.classList.remove("hidden");
                 overlay.classList.remove("hidden");
-                currentRoleId = e.target.dataset.roleid;
-                loadRolePermissions();
             })
         })
     }

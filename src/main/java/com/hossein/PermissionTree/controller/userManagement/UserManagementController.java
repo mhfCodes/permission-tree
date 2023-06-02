@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.controller.viewModel.User.UserViewModel;
 import com.hossein.PermissionTree.dto.user.UserDto;
 import com.hossein.PermissionTree.mapper.User.UserMapper;
@@ -63,6 +64,12 @@ public class UserManagementController {
 	@PreAuthorize("hasRole('ROLE_12')")
 	public Boolean delete(@PathVariable Long id) {
 		return this.iUserService.delete(id);
+	}
+	
+	@GetMapping("/userRoles/{id}")
+	@PreAuthorize("hasRole('ROLE_15')")
+	public List<RoleViewModel> getUserRoles(@PathVariable Long id) {
+		return this.iUserService.getUserRoles(id);
 	}
 	
 }
