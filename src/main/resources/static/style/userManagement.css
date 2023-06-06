@@ -438,7 +438,8 @@ li {
     margin-top: 60px!important;
 }
 
-.role-modal .role-modal-btn-submit:hover {
+.role-modal .role-modal-btn-submit:hover,
+.password-modal .btn-password-submit:hover {
     font-size: initial;
     font-weight: bold;
     background-color: #96e5fb;

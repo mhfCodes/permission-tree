@@ -212,7 +212,6 @@
             return;
         }
 
-        // TODO add role values
         const userObj = {
             id: null,
             username: usernameInput.value,
@@ -350,6 +349,49 @@
         hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
         auditPermissions();
     };
+
+    const changePassword = async (e) => {
+        e.preventDefault();
+
+        let newPasswordValue = newPasswordInput.value;
+        let newPasswordConfirmationValue = confirmNewPasswordInput.value;
+        let passwordValidationResult = validatePassword(newPasswordValue, newPasswordConfirmationValue);
+
+        if(passwordValidationResult != null) {
+            dialogContent.textContent = passwordValidationResult;
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+        const changePasswordObj = {
+            userId: parseInt(currentUserId),
+            password: newPasswordInput.value
+        }
+
+        const response = await fetch("http://localhost:8080/api/user/changePassword", {
+            method: 'POST',
+            body: JSON.stringify(changePasswordObj),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: jwtToken
+            }
+        });
+
+        const data = await response.text();
+
+        if (data == currentUserId) {
+            dialogContent.textContent = "Password Changed Successfully";
+            chooseDialog("info");
+            fadeIn();
+            
+            setTimeout(() => window.location.reload(), 3000);
+        } else {
+            dialogContent.textContent = "Operation Was Not Successful";
+            chooseDialog("error");
+            fadeIn();
+        }
+    }
 
     const loadUser = async (e) => {
 
@@ -617,4 +659,5 @@
             roleCheckBox.checked = selectRolesModalAllRolesSelector.checked;
         });
     });
+    updatePasswordBtn.addEventListener('click', (e) => changePassword(e))
 })();
