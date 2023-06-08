@@ -28,4 +28,6 @@ public interface IUserService {
 	Boolean delete(Long id);
 	
 	List<RoleViewModel> getUserRoles(Long userId);
+	
+	long updateAccount(UserModel entity);
 }

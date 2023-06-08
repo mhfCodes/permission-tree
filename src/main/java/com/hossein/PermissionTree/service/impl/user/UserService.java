@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.hossein.PermissionTree.controller.viewModel.Role.RoleViewModel;
 import com.hossein.PermissionTree.controller.viewModel.User.UserViewModel;
@@ -141,6 +142,24 @@ public class UserService implements IUserService {
 		if (userId == 0) return this.roleMapper.mapEToVList(this.iRoleRepository.findAll());
 		
 		return this.iUserRepository.getAllRolesByUserId(userId);
+	}
+
+	@Override
+	@Transactional
+	public long updateAccount(UserModel entity) {
+		// check for duplicate username before saving or updating
+		UserModel duplicateUser = this.iUserRepository.getUserByUsername(entity.getUsername(), entity.getId());
+		if (duplicateUser != null) return 0;
+		
+		UserModel user = this.iUserRepository.findById(entity.getId())
+							.orElseThrow(() -> new ApplicationException("User Not Found"));
+		
+		user.setUsername(StringUtils.hasText(entity.getUsername()) ? entity.getUsername() : user.getUsername());
+		user.setFirstName(StringUtils.hasText(entity.getFirstName()) ? entity.getFirstName() : user.getFirstName());
+		user.setLastName(StringUtils.hasText(entity.getLastName()) ? entity.getLastName() : user.getLastName());
+		user.setPassword(StringUtils.hasText(entity.getPassword()) ? encoder.encode(entity.getPassword()) : user.getPassword());
+		
+		return this.iUserRepository.save(user).getId();
 	}
 
 }
