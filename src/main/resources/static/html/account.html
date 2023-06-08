@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../style/style.css">
-    <title>Home</title>
+    <link rel="stylesheet" href="../style/account.css">
+    <title>Account</title>
 </head>
 <body>
     
@@ -33,12 +33,38 @@
             </div>
         </nav>
         <div class="container">
-            <h1>Welcome To Product App</h1>
-            <br/>
-            <p>Today is <span id="date"></span></p>
+            <form action="#" method="post" class="account-form">
+                <div class="account-box grid grid-col-2">
+                    <div class="grid-item">
+                        <label for="username">Username: </label>
+                        <input type="text" id="username" name="username" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="firstName">First Name: </label>
+                        <input type="text" id="firstName" name="firstName" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="lastName">Last Name: </label>
+                        <input type="text" id="lastName" name="lastName" />
+                    </div>
+                    <div class="grid-item">
+                        <label for="oldPassword">Old Password: </label>
+                        <input type="password" id="oldPassword" name="oldPassword">
+                    </div>
+                    <div class="grid-item">
+                        <label for="newPassword">New Password: </label>
+                        <input type="password" id="newPassword" name="newPassword">
+                    </div>
+                    <div class="grid-item">
+                        <label for="confirmPassword">Confirm New Password: </label>
+                        <input type="password" id="confirmPassword" name="confirmPassword">
+                    </div>
+                </div>
+                <button class="btn btn-account-update">Update Account</button>
+            </form>
         </div>
     </div>
 
-    <script src="../script/script.js"></script>
+    <script src="../script/account.js"></script>
 </body>
 </html>

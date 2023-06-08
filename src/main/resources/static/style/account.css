@@ -1,0 +1,197 @@
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+    background-image: linear-gradient(rgb(32, 253, 234), rgb(217, 253, 250));
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-attachment: fixed;
+}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.wrapper {
+    width: 100%;
+}
+
+.container {
+    max-width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: teal;
+    color: #fff;
+}
+
+.nav-links a {
+    color: #fff;
+}
+
+.logo {
+    font-size: 32px;
+}
+
+.menu ul {
+    display: flex;
+    gap: 1em;
+    font-size: 18px;
+}
+
+.menu li:hover {
+    background-color: #4c9e9e;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.menu li {
+    padding: 5px 14px;
+}
+
+.container form {
+    margin-top: 150px;
+    position: relative;
+}
+
+.btn {
+    padding: 16px;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 18px;
+    background-color: rgb(158, 212, 108);
+    color: #000;
+}
+
+.account-box {
+    box-shadow: 31px 28px 15px 0px rgba(0,0,0,0.1);
+    width: 85%;
+    height: 450px;
+    padding-top: 70px;
+    padding-bottom: 50px;
+    margin: 0 auto;
+    border-radius: 20px;
+    background-image: linear-gradient(rgb(36 245 226), rgb(120 245 234));
+}
+
+.grid {
+    display: grid;
+    row-gap: 1rem;
+    margin-bottom: 15px;
+}
+
+.grid-col-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.account-box input {
+    padding: 0.7rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.account-box .grid-item:nth-of-type(1) input {
+    margin-left: 52px;
+}
+
+.account-box .grid-item:nth-of-type(2) input {
+    margin-left: 104px;
+}
+
+.account-box .grid-item:nth-of-type(3) input {
+    margin-left: 48px;
+}
+
+.account-box .grid-item:nth-of-type(4) input {
+    margin-left: 86px;
+}
+
+.account-box .grid-item:nth-of-type(5) input {
+    margin-left: 19px;
+}
+
+.account-box .grid-item:nth-of-type(6) input {
+    margin-left: 15px;
+}
+
+input#password {
+    margin-left: 4px;
+}
+
+.btn-account-update {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translate(-50%, -10%);
+}
+
+.btn-account-update:hover {
+    font-size: initial;
+    font-weight: bold;
+    background-color: #fe7575;
+}
+
+.container h1 {
+    margin-top: 200px;
+}
+
+.btn-dropdown {
+    background-color: inherit;
+    color: #fff;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    position: absolute;
+    text-align: center;
+    width: 200px;
+    margin-top: 0.3rem;
+    background: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border-radius: 2px;
+    transition: all 0.5s;
+}
+
+.dropdown-content a {
+    color: #2f2f2f;
+    display: block;
+    padding: 10px;
+}
+
+.dropdown-content a:hover {
+    background-color: #ccc;
+}
+
+#arrow-down, #arrow-up {
+    vertical-align: middle;
+}
