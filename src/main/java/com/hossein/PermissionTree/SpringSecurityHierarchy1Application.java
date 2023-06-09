@@ -129,6 +129,12 @@ public class SpringSecurityHierarchy1Application {
 ////			
 ////			iUserRepository.saveAll(List.of(productReadOnlyUser, productReadAndCreateOnlyUser, productReadAndUpdateOnlyUser, productReadAndDeleteOnlyUser));
 //
+////			Permission productsPermission = iPermissionRepository.findById(1L).orElse(null);
+////			
+////			Permission buyProductPermission = iPermissionRepository.save(new Permission("Buy Product", "1-81", false, productsPermission));
+//
+//			
+//			
 //		};
 //		
 //	}
