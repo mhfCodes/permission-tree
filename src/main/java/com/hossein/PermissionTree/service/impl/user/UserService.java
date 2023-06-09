@@ -143,6 +143,14 @@ public class UserService implements IUserService {
 		
 		return this.iUserRepository.getAllRolesByUserId(userId);
 	}
+	
+	@Override
+	public Boolean checkOldPassword(UserDto dto) {
+		UserModel user = this.iUserRepository.findById(dto.getUserId())
+							.orElseThrow(() -> new ApplicationException("User Not Found"));
+		
+		return encoder.matches(dto.getPassword(), user.getPassword());
+	}
 
 	@Override
 	@Transactional
@@ -154,9 +162,9 @@ public class UserService implements IUserService {
 		UserModel user = this.iUserRepository.findById(entity.getId())
 							.orElseThrow(() -> new ApplicationException("User Not Found"));
 		
-		user.setUsername(StringUtils.hasText(entity.getUsername()) ? entity.getUsername() : user.getUsername());
-		user.setFirstName(StringUtils.hasText(entity.getFirstName()) ? entity.getFirstName() : user.getFirstName());
-		user.setLastName(StringUtils.hasText(entity.getLastName()) ? entity.getLastName() : user.getLastName());
+		user.setUsername(entity.getUsername());
+		user.setFirstName(entity.getFirstName());
+		user.setLastName(entity.getLastName());
 		user.setPassword(StringUtils.hasText(entity.getPassword()) ? encoder.encode(entity.getPassword()) : user.getPassword());
 		
 		return this.iUserRepository.save(user).getId();

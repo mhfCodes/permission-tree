@@ -6,6 +6,8 @@
     const navLogout = document.querySelector(".nav-logout");
     const logoutBtn = document.querySelector(".logout");
     const navSignup = document.querySelector(".nav-signup");
+    const dialogBox = document.querySelector(".dialog-box");
+    const dialogContent = document.querySelector(".dialog-content");
 
     const usernameInput = document.getElementById("username");
     const firstNameInput = document.getElementById("firstName");
@@ -23,6 +25,8 @@
     const hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
     let permissions = [];
 
+    let userId;
+    let currentUsername = "";
     let jwtToken = "";
 
     const init = async () => {
@@ -36,6 +40,7 @@
             navLogout.classList.remove("hidden");
             
             const userData = await getUserData();
+            currentUsername = userData.username;
             permissions = userData.permissionIds;
             auditPermissions();
         } else {
@@ -50,33 +55,140 @@
 
     }
 
+    const checkOldPassword = async (oldPassword) => {
+
+        const userObj = {
+            userId: userId,
+            password: oldPassword
+        }
+
+        const response = await fetch("http://localhost:8080/api/account/checkOldPassword", {
+            method: 'POST',
+            body: JSON.stringify(userObj),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: jwtToken
+            }
+        });
+
+        const data = await response.text();
+
+        return data == "true";
+    }
+
+    const validatePassword = async (oldPassword, newPassword, passwordConfirmation) => {
+
+        let checkOldPasswordResult = await checkOldPassword(oldPassword);
+
+        if (!checkOldPasswordResult) {
+            return "Old Password Is Not Correct";
+        }
+
+        if (newPassword.trim().length === 0) {
+            return "Password Can Not Be Empty";
+        }
+
+        if (newPassword !== passwordConfirmation) {
+            return "Password Confirmation Is Different From Password";
+        }
+
+        if (newPassword.length < 8) {
+            return "Password Must Be At Least 8 Characters Long";
+        }
+
+        if (newPassword.length > 16) {
+            return "Password Length Cannot Be More Than 16 Characters";
+        }
+
+        if (!/(?=.*?[A-Z])/.test(newPassword)) {
+            return "Password Must Contain At Least One Upper Case English Letter";
+        }
+
+        if (!/(?=.*?[a-z])/.test(newPassword)) {
+            return "Password Must Contain At Least One Lower Case English Letter";
+        }
+
+        if (!/(?=.*?[0-9])/.test(newPassword)) {
+            return "Password Must Contain At Least One Number";
+        }
+
+        if (!/(?=.*?[#?!@$%^&*-])/.test(newPassword)) {
+            return "Password Must Contain At Least One Special Character";
+        }
+
+        return null;
+    }
+
     const updateAccount = async (e) => {
-        // e.preventDefault();
+        e.preventDefault();
 
-        // const authReq = {
-        //     username: usernameInput.value,
-        //     password: passwordInput.value
-        // }
+        if (usernameInput.value.trim().length === 0) {
+            dialogContent.textContent = "Username Can Not Be Empty";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
 
-        // const response = await fetch("http://localhost:8080/login", {
-        //     method: 'POST',
-        //     body: JSON.stringify(authReq),
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     }
-        // });
+        let oldPasswordValue = oldPasswordInput.value;
+        let newPasswordValue = newPasswordInput.value;
+        let confirmNewPasswordValue = confirmPasswordInput.value;
 
-        // const data = await response.json();
+        if (oldPasswordValue.length == 0 && (newPasswordValue.length > 0 || confirmNewPasswordValue.length > 0)) {
+            dialogContent.textContent = "Old Password Can Not Be Empty";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+        let passwordValidationResult = (oldPasswordValue.length > 0) ? await validatePassword(oldPasswordValue, newPasswordValue, confirmNewPasswordValue) : "empty";
+
+        if(passwordValidationResult != null && passwordValidationResult != "empty") {
+            dialogContent.textContent = passwordValidationResult;
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
+        const userObj = {
+            userId: userId,
+            username: usernameInput.value,
+            password: (passwordValidationResult == "empty") ? null : newPasswordValue,
+            userFirstName: firstNameInput.value,
+            userLastName: lastNameInput.value
+        }
+
+        const response = await fetch("http://localhost:8080/api/account", {
+            method: 'POST',
+            body: JSON.stringify(userObj),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: jwtToken
+            }
+        });
+
+        const data = await response.json();
         
-        // if (response.status == 400) {
-        //     invCred.classList.remove("hidden");
-        //     setTimeout(() => {
-        //         invCred.classList.add("hidden");
-        //     }, 3000);
-        // } else if (data && response.status == 200) {
-        //     localStorage.setItem("jwt", data.jwtToken);
-        //     window.location.reload();
-        // }
+        if (data == 0) {
+
+            dialogContent.textContent = "Username Exists";
+            chooseDialog("error");
+            fadeIn();
+        } else if (data > 0 && currentUsername.localeCompare(userObj.username) !== 0) {
+
+            dialogContent.textContent = "Account Updated Successfully (Login Again Please)";
+            chooseDialog("info");
+            fadeIn();
+            
+            setTimeout(logout, 3000);
+        } else if (data > 0) {
+
+            dialogContent.textContent = "Account Updated Successfully";
+            chooseDialog("info");
+            fadeIn();
+            
+            setTimeout(() => window.location.reload(), 3000);
+        }
+
     }
 
     const logout = () => {
@@ -92,6 +204,7 @@
         })
         const data = await response.json();
 
+        userId = data.userId;
         usernameInput.value = data.username;
         firstNameInput.value = data.userFirstName;
         lastNameInput.value = data.userLastName;
@@ -126,6 +239,49 @@
         dropdownContent.classList.toggle("hidden");
         arrowUp.classList.toggle("hidden");
         arrowDown.classList.toggle("hidden");
+    }
+
+    const fadeIn = () => {
+        let opacity = 0;
+        dialogBox.style.display = "block";
+        let fadeInInterval = setInterval(() => {
+            if (opacity < 1) {
+                opacity += 0.1;
+                dialogBox.style.opacity = opacity;
+            } else {
+                clearInterval(fadeInInterval);
+                setTimeout(fadeOut, 2000);
+            }
+        }, 50);
+    }
+
+    const fadeOut = () => {
+        let opacity = parseFloat(dialogBox.style.opacity);
+        let fadeOutInterval = setInterval(() => {
+            if (opacity > 0) {
+                opacity -= 0.1;
+                dialogBox.style.opacity = opacity;    
+            } else {
+                clearInterval(fadeOutInterval);
+                dialogBox.style.display = "none";
+            }
+        }, 50);
+    }
+
+    const chooseDialog = (dialogType) => {
+        if (dialogType === "info") {
+            dialogBox.classList.add("info");
+            dialogBox.classList.remove("error");
+            dialogBox.classList.remove("warning");
+        } else if (dialogType === "warning") {
+            dialogBox.classList.add("warning");
+            dialogBox.classList.remove("info");
+            dialogBox.classList.remove("error");
+        } else if (dialogType === "error") {
+            dialogBox.classList.add("error");
+            dialogBox.classList.remove("info");
+            dialogBox.classList.remove("warning");
+        }
     }
 
     document.addEventListener('DOMContentLoaded', init);

@@ -33,6 +33,12 @@ public class AccountController {
 		return this.mapper.mapEToV(this.iUserService.loadLoggedInUser());
 	}
 	
+	@PostMapping("/checkOldPassword")
+	@PreAuthorize("hasRole('ROLE_23')")
+	public Boolean checkOldPassword(@RequestBody UserDto dto) {
+		return this.iUserService.checkOldPassword(dto);
+	}
+	
 	@PostMapping
 	@PreAuthorize("hasRole('ROLE_23')")
 	public long updateAccount(@RequestBody UserDto dto) {

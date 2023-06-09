@@ -29,5 +29,7 @@ public interface IUserService {
 	
 	List<RoleViewModel> getUserRoles(Long userId);
 	
+	Boolean checkOldPassword(UserDto dto);
+	
 	long updateAccount(UserModel entity);
 }
