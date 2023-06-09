@@ -35,6 +35,15 @@
         <div class="dialog-box">
             <p class="dialog-content"></p>
         </div>
+        <section class="delete-modal hidden">
+            <button class="btn btn-close delete-modal-btn-close">X</button>
+            <p>Are You Sure You Want To Delete Your Account?</p>
+            <div class="buttons">
+                <button class="btn btn-yes">Yes</button>
+                <button class="btn btn-no">No</button>
+            </div>
+        </section>
+        <div class="overlay hidden"></div>
         <div class="container">
             <form action="#" method="post" class="account-form">
                 <div class="account-box grid grid-col-2">
@@ -64,6 +73,7 @@
                     </div>
                 </div>
                 <button class="btn btn-account-update">Update Account</button>
+                <button class="btn btn-account-delete">Delete Account</button>
             </form>
         </div>
     </div>

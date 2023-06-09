@@ -1,7 +1,12 @@
 (function() {
 
-    const accountForm = document.querySelector(".account-form");
     const updateAccountBtn = document.querySelector(".btn-account-update");
+    const deleteAccountBtn = document.querySelector(".btn-account-delete");
+    const yesDelAccBtn = document.querySelector(".btn-yes");
+    const noDelAccBtn = document.querySelector(".btn-no");
+    const deleteModal = document.querySelector(".delete-modal");
+    const deleteModalCloseBtn = document.querySelector(".delete-modal-btn-close");
+    const overlay = document.querySelector(".overlay");
     const navLogin = document.querySelector(".nav-login");
     const navLogout = document.querySelector(".nav-logout");
     const logoutBtn = document.querySelector(".logout");
@@ -191,6 +196,32 @@
 
     }
 
+    const deleteAccount = async (e) => {
+        e.preventDefault();
+
+        const response = await fetch(`http://localhost:8080/api/account/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                Authorization: jwtToken
+            }
+        });
+        
+        const data = await response.text();
+
+        if (response.status == 400) {
+            dialogContent.textContent = "Operation Not Successful";
+            chooseDialog("error");
+            fadeIn();
+        } else if (data === "true") {
+            dialogContent.textContent = "Account Deleted Successfully";
+            chooseDialog("info");
+            fadeIn();
+            
+            setTimeout(logout, 3000);
+        }
+
+    }
+
     const logout = () => {
         localStorage.removeItem("jwt");
         window.location.replace("/html/index.html");
@@ -287,6 +318,24 @@
     document.addEventListener('DOMContentLoaded', init);
     dropdownBtn.addEventListener('click', dropdownContentToggle);
     updateAccountBtn.addEventListener('click', updateAccount);
+    deleteAccountBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        deleteModal.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+    });
+    yesDelAccBtn.addEventListener('click', (e) => {
+        if (permissions.includes("ROLE_24")) {
+            deleteAccount(e);
+        }
+    });
+    noDelAccBtn.addEventListener('click', () => {
+        deleteModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+    })
+    deleteModalCloseBtn.addEventListener('click', () => {
+        deleteModal.classList.add("hidden");
+        overlay.classList.add("hidden");
+    })
     logoutBtn.addEventListener('click', logout);
 
 })();
