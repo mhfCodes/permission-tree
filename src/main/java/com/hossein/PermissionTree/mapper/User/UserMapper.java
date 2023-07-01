@@ -25,12 +25,14 @@ public interface UserMapper {
 	@Mapping(source = "password", target = "password")
 	@Mapping(source = "userFirstName", target = "firstName")
 	@Mapping(source = "userLastName", target = "lastName")
+	@Mapping(source = "userBalance", target = "balance")
 	UserModel mapDToE(UserDto dto);
 	
 	@Mapping(source = "id", target = "userId")
 	@Mapping(source = "username", target = "username")
 	@Mapping(source = "firstName", target = "userFirstName")
 	@Mapping(source = "lastName", target = "userLastName")
+	@Mapping(source = "balance", target = "userBalance")
 	UserViewModel mapEToV(UserModel entity);
 	
 	List<UserViewModel> mapEToVList(List<UserModel> entityList);

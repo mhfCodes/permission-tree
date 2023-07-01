@@ -14,6 +14,7 @@ public class UserDto {
 	private String userLastName;
 	private Set<RoleDto> roles;
 	private List<Long> roleIds;
+	private Long userBalance;
 	
 	public Long getUserId() {
 		return userId;
@@ -56,6 +57,12 @@ public class UserDto {
 	}
 	public void setRoleIds(List<Long> roleIds) {
 		this.roleIds = roleIds;
+	}
+	public Long getUserBalance() {
+		return userBalance;
+	}
+	public void setUserBalance(Long userBalance) {
+		this.userBalance = userBalance;
 	}
 	
 }

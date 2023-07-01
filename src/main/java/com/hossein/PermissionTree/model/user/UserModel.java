@@ -52,6 +52,9 @@ public class UserModel {
 				inverseJoinColumns = {@JoinColumn(name = "roleId")}
 			)
 	private Set<Role> roles;
+	
+	@Column(name = "balance", columnDefinition = "NUMBER(19,0) DEFAULT 0")
+	private Long balance;
 
 	public UserModel() {
 	}
@@ -110,6 +113,14 @@ public class UserModel {
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public Long getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Long balance) {
+		this.balance = balance;
 	}
 	
 }

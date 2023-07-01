@@ -133,7 +133,11 @@ public class SpringSecurityHierarchy1Application {
 ////			
 ////			Permission buyProductPermission = iPermissionRepository.save(new Permission("Buy Product", "1-81", false, productsPermission));
 //
-//			
+////			Permission accountUpdatePermission= iPermissionRepository.findById(23L).orElse(null);
+////			Permission editUserBalancePermission = iPermissionRepository.save(new Permission("Edit User Balance", "1-101", false, accountUpdatePermission));			
+////			Role userRole = iRoleRepository.findById(3L).orElse(null);
+////			userRole.getPermissions().add(editUserBalancePermission);
+////			iRoleRepository.save(userRole);
 //			
 //		};
 //		

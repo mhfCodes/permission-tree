@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -166,6 +167,15 @@ public class UserService implements IUserService {
 		user.setFirstName(entity.getFirstName());
 		user.setLastName(entity.getLastName());
 		user.setPassword(StringUtils.hasText(entity.getPassword()) ? encoder.encode(entity.getPassword()) : user.getPassword());
+		
+		List<Role> userRoles = user.getRoles().stream().filter(role -> role.getId() == 3L)
+				.collect(Collectors.toList());
+		
+		if (entity.getBalance() > 0 && userRoles.get(0) != null) {
+			user.setBalance(entity.getBalance());
+		} else {
+			user.setBalance(0L);
+		}
 		
 		return this.iUserRepository.save(user).getId();
 	}

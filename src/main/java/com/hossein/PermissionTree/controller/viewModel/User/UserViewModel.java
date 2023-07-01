@@ -12,6 +12,7 @@ public class UserViewModel {
 	private String userLastName;
 	private Set<String> permissionIds;
 	private Set<RoleViewModel> roles;
+	private Long userBalance;
 	
 	public Long getUserId() {
 		return userId;
@@ -48,6 +49,12 @@ public class UserViewModel {
 	}
 	public void setRoles(Set<RoleViewModel> roles) {
 		this.roles = roles;
+	}
+	public Long getUserBalance() {
+		return userBalance;
+	}
+	public void setUserBalance(Long userBalance) {
+		this.userBalance = userBalance;
 	}
 	
 }
