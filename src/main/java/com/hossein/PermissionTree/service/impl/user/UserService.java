@@ -168,10 +168,11 @@ public class UserService implements IUserService {
 		user.setLastName(entity.getLastName());
 		user.setPassword(StringUtils.hasText(entity.getPassword()) ? encoder.encode(entity.getPassword()) : user.getPassword());
 		
-		List<Role> userRoles = user.getRoles().stream().filter(role -> role.getId() == 3L)
-				.collect(Collectors.toList());
 		
-		if (entity.getBalance() > 0 && userRoles.get(0) != null) {
+		Role userRole = user.getRoles().stream().filter(role -> role.getId() == 3)
+				.findAny().orElse(null);
+		
+		if (entity.getBalance() > 0 && userRole != null) {
 			user.setBalance(entity.getBalance());
 		} else {
 			user.setBalance(0L);
