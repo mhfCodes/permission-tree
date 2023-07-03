@@ -20,6 +20,7 @@
     const oldPasswordInput = document.getElementById("oldPassword");
     const newPasswordInput = document.getElementById("newPassword");
     const confirmPasswordInput = document.getElementById("confirmPassword");
+    const balanceInput = document.getElementById("balance");
 
     const dropdownBtn = document.querySelector(".btn-dropdown");
     const dropdownContent = document.querySelector(".dropdown-content");
@@ -154,12 +155,20 @@
             return;
         }
 
+        if (balanceInput.value < 0) {
+            dialogContent.textContent = "Balance Value Can Not Be Less Than 0";
+            chooseDialog("error");
+            fadeIn();
+            return;
+        }
+
         const userObj = {
             userId: userId,
             username: usernameInput.value,
             password: (passwordValidationResult == "empty") ? null : newPasswordValue,
             userFirstName: firstNameInput.value,
-            userLastName: lastNameInput.value
+            userLastName: lastNameInput.value,
+            userBalance: balanceInput.value
         }
 
         const response = await fetch("http://localhost:8080/api/account", {
@@ -239,6 +248,7 @@
         usernameInput.value = data.username;
         firstNameInput.value = data.userFirstName;
         lastNameInput.value = data.userLastName;
+        balanceInput.value = data.userBalance;
 
         return data;
     }

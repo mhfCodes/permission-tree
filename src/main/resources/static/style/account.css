@@ -33,7 +33,7 @@ li {
 
 .container {
     max-width: 80%;
-    margin: 0 auto;
+    margin: 0 auto 200px;
     text-align: center;
 }
 
@@ -204,7 +204,7 @@ li {
 .account-box {
     box-shadow: 31px 28px 15px 0px rgba(0,0,0,0.1);
     width: 85%;
-    height: 450px;
+    height: 550px;
     padding-top: 70px;
     padding-bottom: 50px;
     margin: 0 auto;
@@ -251,6 +251,10 @@ li {
 
 .account-box .grid-item:nth-of-type(6) input {
     margin-left: 15px;
+}
+
+.account-box .grid-item:nth-of-type(7) input {
+    margin-left: 66px;
 }
 
 input#password {
