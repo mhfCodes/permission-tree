@@ -5,10 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hossein.PermissionTree.controller.viewModel.Order.OrderViewModel;
+import com.hossein.PermissionTree.dto.order.OrderDto;
 import com.hossein.PermissionTree.mapper.Order.OrderMapper;
 import com.hossein.PermissionTree.service.order.IOrderService;
 
@@ -26,6 +30,18 @@ public class OrderController {
 	@PreAuthorize("hasRole('ROLE_103')")
 	public List<OrderViewModel> getAll() {
 		return this.mapper.mapEToVList(this.iOrderService.getAll());
+	}
+	
+	@PostMapping("/search")
+	@PreAuthorize("hasRole('ROLE_103')")
+	public List<OrderViewModel> search(@RequestBody OrderDto dto) {
+		return this.iOrderService.search(dto);
+	}
+	
+	@GetMapping("/{id}")
+	@PreAuthorize("hasRole('ROLE_103')")
+	public OrderViewModel load(@PathVariable Long id) {
+		return this.mapper.mapEToV(this.iOrderService.load(id));
 	}
 	
 	

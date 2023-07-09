@@ -15,6 +15,7 @@ public class OrderDto {
 	private String description;
 	private String orderDate;
 	private Set<OrderProductDto> orderProducts;
+	private String productIds;
 	
 	
 	public Long getId() {
@@ -58,6 +59,12 @@ public class OrderDto {
 	}
 	public void setOrderProducts(Set<OrderProductDto> orderProducts) {
 		this.orderProducts = orderProducts;
+	}
+	public String getProductIds() {
+		return productIds;
+	}
+	public void setProductIds(String productIds) {
+		this.productIds = productIds;
 	}
 
 }
