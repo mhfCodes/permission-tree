@@ -18,6 +18,7 @@ import com.hossein.PermissionTree.mapper.Order.OrderMapper;
 import com.hossein.PermissionTree.mapper.OrderProduct.OrderProductMapper;
 import com.hossein.PermissionTree.model.order.OrderModel;
 import com.hossein.PermissionTree.model.order.OrderProduct;
+import com.hossein.PermissionTree.model.order.OrderStatus;
 import com.hossein.PermissionTree.service.order.IOrderService;
 import com.hossein.PermissionTree.service.orderProduct.IOrderProductService;
 
@@ -58,7 +59,7 @@ public class OrderService implements IOrderService {
 	@Override
 	public OrderModel load(Long id) {
 		return this.iOrderRepository.findById(id)
-				.orElseThrow(() -> new ApplicationException("Order Id Not Found"));
+				.orElseThrow(() -> new ApplicationException("Order Not Found"));
 	}
 
 	@Override
@@ -74,6 +75,24 @@ public class OrderService implements IOrderService {
 		this.iOrderProductService.saveAll(orderProducts);
 		
 		return order.getId();
+	}
+
+	@Override
+	@Transactional
+	public Boolean cancelOrder(Long id) {
+		
+		OrderModel order = this.iOrderRepository.findById(id)
+				.orElseThrow(() -> new ApplicationException("Order Not Found"));
+		
+		try {
+			order.setStatus(OrderStatus.CANCELED);
+			this.iOrderRepository.save(order);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 
 }

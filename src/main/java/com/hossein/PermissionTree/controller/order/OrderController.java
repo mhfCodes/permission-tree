@@ -50,5 +50,10 @@ public class OrderController {
 		return this.iOrderService.save(dto);
 	}
 	
+	@GetMapping("/cancel/{orderId}")
+	@PreAuthorize("hasRole('ROLE_104')")
+	public Boolean cancel(@PathVariable Long orderId) {
+		return this.iOrderService.cancelOrder(orderId);
+	}
 	
 }

@@ -15,4 +15,6 @@ public interface IOrderService {
 	OrderModel load(Long id);
 	
 	long save(OrderDto dto);
+	
+	Boolean cancelOrder(Long id);
 }
