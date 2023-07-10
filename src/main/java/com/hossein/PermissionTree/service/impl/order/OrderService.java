@@ -3,6 +3,9 @@ package com.hossein.PermissionTree.service.impl.order;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +14,10 @@ import com.hossein.PermissionTree.controller.viewModel.Order.OrderViewModel;
 import com.hossein.PermissionTree.dao.repository.order.IOrderRepository;
 import com.hossein.PermissionTree.dto.order.OrderDto;
 import com.hossein.PermissionTree.exception.ApplicationException;
+import com.hossein.PermissionTree.mapper.Order.OrderMapper;
+import com.hossein.PermissionTree.mapper.OrderProduct.OrderProductMapper;
 import com.hossein.PermissionTree.model.order.OrderModel;
+import com.hossein.PermissionTree.model.order.OrderProduct;
 import com.hossein.PermissionTree.service.order.IOrderService;
 import com.hossein.PermissionTree.service.orderProduct.IOrderProductService;
 
@@ -23,6 +29,12 @@ public class OrderService implements IOrderService {
 	
 	@Autowired
 	private IOrderProductService iOrderProductService;
+	
+	@Autowired
+	private OrderMapper orderMapper;
+	
+	@Autowired
+	private OrderProductMapper orderProductMapper;
 	
 	@Override
 	public List<OrderModel> getAll() {
@@ -47,6 +59,21 @@ public class OrderService implements IOrderService {
 	public OrderModel load(Long id) {
 		return this.iOrderRepository.findById(id)
 				.orElseThrow(() -> new ApplicationException("Order Id Not Found"));
+	}
+
+	@Override
+	@Transactional
+	public long save(OrderDto dto) {
+		
+		OrderModel order = this.iOrderRepository.save(this.orderMapper.mapDToE(dto));
+		
+		Set<OrderProduct> orderProducts = this.orderProductMapper.mapDToEList(dto.getOrderProducts());
+		orderProducts.forEach(orderProduct -> {
+			orderProduct.setOrder(order);
+		});
+		this.iOrderProductService.saveAll(orderProducts);
+		
+		return order.getId();
 	}
 
 }

@@ -13,4 +13,6 @@ public interface IOrderService {
 	List<OrderViewModel> search(OrderDto dto);
 
 	OrderModel load(Long id);
+	
+	long save(OrderDto dto);
 }

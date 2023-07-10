@@ -148,6 +148,14 @@ public class SpringSecurityHierarchy1Application {
 ////			userRole.getPermissions().addAll(List.of(orderPermission, orderReadPermission, cancelOrderPermission));
 ////			iRoleRepository.save(userRole);
 //			
+////			Role userRole = iRoleRepository.findById(3L).orElse(null);			
+////			Permission orderPermission = iPermissionRepository.findById(102L).orElse(null);
+////
+////			Permission orderCreatePermission = iPermissionRepository.save(new Permission("Create Order", "102-121", false, orderPermission));
+////			
+////			userRole.getPermissions().add(orderCreatePermission);
+////			iRoleRepository.save(userRole);
+//			
 //		};
 //		
 //	}

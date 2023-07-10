@@ -44,5 +44,11 @@ public class OrderController {
 		return this.mapper.mapEToV(this.iOrderService.load(id));
 	}
 	
+	@PostMapping("/save")
+	@PreAuthorize("hasRole('ROLE_121')")
+	public long save(@RequestBody OrderDto dto) {
+		return this.iOrderService.save(dto);
+	}
+	
 	
 }
