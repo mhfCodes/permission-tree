@@ -152,6 +152,11 @@ li {
     background-color: rgb(230, 250, 8);
 }
 
+.btn-add-to-card[disabled] {
+    background-color: rgb(224, 221, 221);
+    color: rgb(138 136 136)!important;
+}
+
 .btn-edit:hover {
     font-size: 0.9rem;
     padding: 12px;
@@ -172,6 +177,15 @@ li {
     padding: 12px;
     background-color: rgb(230, 250, 8);
     color: #000;
+}
+
+.btn-add-to-card[disabled]:hover {
+    font-size: revert;
+    font-weight: revert;
+    cursor: not-allowed;
+    padding: 10px;
+    background-color: rgb(224, 221, 221);
+    color: rgb(138 136 136)!important;
 }
 
 .hidden {
@@ -405,3 +419,56 @@ li {
 .dialog-box.error {
     background-color: #ff1a5a;
 }
+
+.card-button {
+    display: inline-block;
+    background-color: #ff8ea2;
+    padding: 10px;
+    border-radius: 50%;
+    text-align: center;
+    position: fixed;
+    right: -100%;
+    top: 18%;
+    transition: 0.4s all;
+    transition: 0.7s right;
+}
+
+.card-button-active {
+    right: 5%;
+}
+
+.card-button:hover {
+    cursor: pointer;
+    background-color: #fd778f;
+    padding: 12px;
+}
+
+.card-button .bxs-credit-card {
+    vertical-align: middle;
+    font-size: 1.3rem;
+    color: #222222;
+    transition: 0.4s all;
+}
+
+.card-button:hover .bxs-credit-card {
+    font-size: 1.5rem;
+}
+
+.card-button .card-product-counter {
+    background-color: red;
+    font-size: 0.6rem;
+    padding: 5px;
+    border-radius: 50%;
+    font-weight: bold;
+    position: absolute;
+    top: -10px;
+    right: 0;
+    transition: 0.4s all;
+}
+
+.card-button:hover .card-product-counter {
+    font-size: 0.7rem;
+    padding: 7px;
+}
+
+

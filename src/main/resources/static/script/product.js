@@ -16,6 +16,7 @@
     const findBtn = document.querySelector(".btn-find");
     const yesDelBtn = document.querySelector(".btn-yes");
     const noDelBtn = document.querySelector(".btn-no");
+    const cardButton = document.querySelector(".card-button");
 
     const nameInput = document.getElementById("name");
     const priceInput = document.getElementById("price");
@@ -88,6 +89,7 @@
         });
         addEditClickEventListener();
         addDeleteClickEventListener();
+        addAddToCardButtonClickEventListener();
     }
 
     const saveProduct = async (e) => {
@@ -259,6 +261,7 @@
         });
         addEditClickEventListener();
         addDeleteClickEventListener();
+        addAddToCardButtonClickEventListener();
 
         hasPermissionElements = document.querySelectorAll("[data-has-permission]");
         hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
@@ -302,6 +305,18 @@
                 overlay.classList.remove("hidden");
                 currentProductId = e.target.dataset.productid;
             });
+        })
+    }
+
+    const addAddToCardButtonClickEventListener = () => {
+        const addToCardBtns = document.querySelectorAll(".btn-add-to-card");
+        addToCardBtns.forEach(addToCardBtn => {
+            addToCardBtn.addEventListener('click', (e) => {
+                if (!cardButton.classList.contains("card-button-active")) {
+                    cardButton.classList.add("card-button-active");
+                }
+                e.target.disabled = true;
+            })
         })
     }
 
