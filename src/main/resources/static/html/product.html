@@ -68,7 +68,7 @@
         </section>
         <div class="overlay hidden"></div>
         <div class="container">
-            <div class="buttons" data-has-any-permission="ROLE_2,ROLE_3">
+            <div class="buttons hidden" data-has-any-permission="ROLE_2,ROLE_3">
                 <button class="btn btn-add" data-has-permission="ROLE_2"><span class="add-icon">+</span> Add</button>
                 <button class="btn btn-search" data-has-permission="ROLE_3">Search</button>
             </div>
@@ -103,8 +103,8 @@
                         <th>Name</th>
                         <th>Price</th>
                         <th>Count</th>
-                        <th>Date Added</th>
-                        <th>Date Modified</th>
+                        <th class="hidden" data-has-any-permission="ROLE_4,ROLE_5">Date Added</th>
+                        <th class="hidden" data-has-any-permission="ROLE_4,ROLE_5">Date Modified</th>
                         <th class="hidden" data-has-any-permission="ROLE_4,ROLE_5,ROLE_121">Operation</th>
                     </tr>
                 </thead>

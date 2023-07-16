@@ -84,7 +84,7 @@
 
         products.forEach(product => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td>${product.productDateAdded}</td><td>${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add To Card</button></td>`;
+            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add To Card</button></td>`;
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
@@ -256,7 +256,7 @@
         tableBody.innerHTML = "";
         data.forEach(product => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td>${product.productDateAdded}</td><td>${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add To Card</button></td>`;
+            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add To Card</button></td>`;
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
