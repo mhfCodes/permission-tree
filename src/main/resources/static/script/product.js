@@ -46,6 +46,8 @@
     let hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
     let permissions = [];
 
+    let orderProducts = [];
+
     const init = async () => {
 
         if (localStorage.getItem("jwt") != null && localStorage.getItem("jwt") != "undefined") {
@@ -315,7 +317,8 @@
                 if (!cardButton.classList.contains("card-button-active")) {
                     cardButton.classList.add("card-button-active");
                 }
-                e.target.disabled = true;
+                console.log(e.target.parentElement.previousSibling.previousSibling.previousSibling);
+                // e.target.disabled = true;
             })
         })
     }
