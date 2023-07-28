@@ -188,6 +188,67 @@ li {
     color: rgb(138 136 136)!important;
 }
 
+.prod-inc-dec-container {
+    display: none;
+    user-select: none;
+}
+
+.prod-inc-dec-container:hover {
+    color: #000!important;
+}
+
+.prod-inc-dec-container .product-count {
+    width: 3rem;
+    height: 2rem;
+    background-color: #fdfdfd;
+    border-radius: 10%;
+    text-align: center;
+}
+
+.prod-inc-dec-container .product-count::-webkit-inner-spin-button,
+.prod-inc-dec-container .product-count::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.prod-inc-dec-container .minus-sign {
+    margin-right: 5px;
+    background-color: pink;
+    display: inline-flex;
+    height: 1rem;
+    align-items: center;
+    padding: 12px 8px 12px 8px;
+    vertical-align: middle;
+    border-radius: 25%;
+    font-size: 1.5rem;
+    transition: all 0.2s;
+}
+
+.prod-inc-dec-container .minus-sign:hover {
+    padding: 13px 9px 13px 9px;
+    font-size: 1.6rem;
+    color: #000;
+}
+
+.prod-inc-dec-container .plus-sign {
+    margin-left: 5px;
+    background-color: pink;
+    display: inline-flex;
+    height: 1rem;
+    align-items: center;
+    padding: 12px 8px 12px 8px;
+    vertical-align: middle;
+    border-radius: 25%;
+    font-size: 1.2rem;
+    transition: all 0.2s;
+}
+
+.prod-inc-dec-container .plus-sign:hover {
+    padding: 13px 9px 13px 9px;
+    font-size: 1.4rem;
+    color: #000;
+}
+
 .hidden {
     display: none!important;
 }
