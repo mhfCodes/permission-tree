@@ -7,6 +7,7 @@
     const searchBox = document.querySelector(".search-box");
     const dialogBox = document.querySelector(".dialog-box");
     const dialogContent = document.querySelector(".dialog-content");
+    const cardProductCounter = document.querySelector(".card-product-counter");
 
     const addBtn = document.querySelector(".btn-add");
     const addModalCloseBtn = document.querySelector(".add-modal-btn-close");
@@ -87,6 +88,7 @@
         products.forEach(product => {
             const tr = document.createElement("tr");
             tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add</button><div class="prod-inc-dec-container" data-has-permission="ROLE_121"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count"/><span class="plus-sign increase-product">+</span></div></td>`;
+            tr.setAttribute("data-added-to-card", "false");
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
@@ -261,6 +263,7 @@
         data.forEach(product => {
             const tr = document.createElement("tr");
             tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add</button><div class="prod-inc-dec-container" data-has-permission="ROLE_121"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count"/><span class="plus-sign increase-product">+</span></div></td></td>`;
+            tr.setAttribute("data-added-to-card", "false");
             tableBody.insertAdjacentElement("beforeend", tr);
         });
         addEditClickEventListener();
@@ -318,18 +321,21 @@
         const addToCardBtns = document.querySelectorAll(".btn-add-to-card");
         addToCardBtns.forEach(addToCardBtn => {
             addToCardBtn.addEventListener('click', (e) => {
-                
-                e.target.style.display = "none";
+
+                const productRow = addToCardBtn.parentElement.parentElement;
+                productRow.setAttribute("data-added-to-card", "true");
+
+                cardProductCounter.textContent = parseInt(cardProductCounter.textContent) + 1;
+
+                addToCardBtn.style.display = "none";
                 if (!cardButton.classList.contains("card-button-active")) {
                     cardButton.classList.add("card-button-active");
                 }
 
-                const prodIncDecContainer = e.target.nextElementSibling;
-                e.target.nextElementSibling.style.display = "block";
+                const prodIncDecContainer = addToCardBtn.nextElementSibling;
                 prodIncDecContainer.querySelector(".product-count").value = 1;
+                prodIncDecContainer.style.display = "block";
 
-                // let productName = e.target.parentElement.previousSibling.previousSibling.previousSibling.textContent;
-                // let productPrice = e.target.parentElement.previousSibling.previousSibling.textContent;
             })
         })
     }
@@ -359,6 +365,8 @@
         allDecreasers.forEach(decreaser => {
             decreaser.addEventListener('click', (e) => {
 
+                const productRow = decreaser.parentElement.parentElement.parentElement;
+
                 const prodIncDecContainer = decreaser.parentElement;
                 const addToCardBtn = prodIncDecContainer.previousElementSibling;
 
@@ -370,6 +378,11 @@
                 } else if (productCurrentCount > 1) {
                     decreaser.nextElementSibling.value = --productCurrentCount;
                 } else {
+                    productRow.setAttribute("data-added-to-card", "false");
+                    cardProductCounter.textContent = (parseInt(cardProductCounter.textContent) > 1) ? parseInt(cardProductCounter.textContent) - 1 : 0;
+                    if (parseInt(cardProductCounter.textContent) == 0) {
+                        cardButton.classList.remove("card-button-active");
+                    }
                     prodIncDecContainer.style.display = "none";
                     addToCardBtn.style.display = "table-cell";
                 }
