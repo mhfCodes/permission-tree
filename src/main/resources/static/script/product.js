@@ -17,7 +17,7 @@
     const findBtn = document.querySelector(".btn-find");
     const yesDelBtn = document.querySelector(".btn-yes");
     const noDelBtn = document.querySelector(".btn-no");
-    const cardButton = document.querySelector(".card-button");
+    const cardBtn = document.querySelector(".card-button");
 
     const nameInput = document.getElementById("name");
     const priceInput = document.getElementById("price");
@@ -87,7 +87,8 @@
 
         products.forEach(product => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add</button><div class="prod-inc-dec-container" data-has-permission="ROLE_121"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count"/><span class="plus-sign increase-product">+</span></div></td>`;
+            tr.innerHTML = `<td class="product-name">${product.productName}</td><td class="product-price">${product.productPrice}</td><td>${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add</button><div class="prod-inc-dec-container" data-has-permission="ROLE_121"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count"/><span class="plus-sign increase-product">+</span></div></td>`;
+            tr.setAttribute("data-product-id", product.productId);
             tr.setAttribute("data-added-to-card", "false");
             tableBody.insertAdjacentElement("beforeend", tr);
         });
@@ -262,7 +263,8 @@
         tableBody.innerHTML = "";
         data.forEach(product => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td>${product.productName}</td><td>${product.productPrice}</td><td>${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add</button><div class="prod-inc-dec-container" data-has-permission="ROLE_121"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count"/><span class="plus-sign increase-product">+</span></div></td></td>`;
+            tr.innerHTML = `<td class="product-name">${product.productName}</td><td class="product-price">${product.productPrice}</td><td>${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add</button><div class="prod-inc-dec-container" data-has-permission="ROLE_121"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count"/><span class="plus-sign increase-product">+</span></div></td></td>`;
+            tr.setAttribute("data-product-id", product.productId);
             tr.setAttribute("data-added-to-card", "false");
             tableBody.insertAdjacentElement("beforeend", tr);
         });
@@ -293,6 +295,26 @@
         countInput.value = currentProduct.productCount;
         isEditing = true;
 
+    }
+
+    const processCard = () => {
+        orderProducts = [];
+        const allProductsAddedToCard = document.querySelectorAll("[data-added-to-card='true']");
+        allProductsAddedToCard.forEach(addedProduct => {
+            const orderProductObj = {
+                id: null,
+                productId: parseInt(addedProduct.dataset.productId),
+                product: {
+                    id: parseInt(addedProduct.dataset.productId),
+                    name: addedProduct.querySelector(".product-name").textContent
+                },
+                price: parseInt(addedProduct.querySelector(".product-price").textContent),
+                count: parseInt(addedProduct.querySelector(".product-count").value),
+                totalPrice: parseInt(addedProduct.querySelector(".product-price").textContent) * parseInt(addedProduct.querySelector(".product-count").value) 
+            };
+            orderProducts.push(orderProductObj);
+        })
+        console.log(orderProducts);
     }
 
     const addEditClickEventListener = () => {
@@ -328,8 +350,8 @@
                 cardProductCounter.textContent = parseInt(cardProductCounter.textContent) + 1;
 
                 addToCardBtn.style.display = "none";
-                if (!cardButton.classList.contains("card-button-active")) {
-                    cardButton.classList.add("card-button-active");
+                if (!cardBtn.classList.contains("card-button-active")) {
+                    cardBtn.classList.add("card-button-active");
                 }
 
                 const prodIncDecContainer = addToCardBtn.nextElementSibling;
@@ -381,7 +403,7 @@
                     productRow.setAttribute("data-added-to-card", "false");
                     cardProductCounter.textContent = (parseInt(cardProductCounter.textContent) > 1) ? parseInt(cardProductCounter.textContent) - 1 : 0;
                     if (parseInt(cardProductCounter.textContent) == 0) {
-                        cardButton.classList.remove("card-button-active");
+                        cardBtn.classList.remove("card-button-active");
                     }
                     prodIncDecContainer.style.display = "none";
                     addToCardBtn.style.display = "table-cell";
@@ -525,4 +547,9 @@
     searchBtn.addEventListener('click', () => {
         searchBox.classList.toggle("hidden");
     });
+    cardBtn.addEventListener('click', () => {
+        if (permissions.includes("ROLE_121")) {
+            processCard();
+        }
+    })
 })();
