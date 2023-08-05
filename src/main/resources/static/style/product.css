@@ -532,4 +532,43 @@ li {
     padding: 7px;
 }
 
+.card-modal {
+    width: 500px;
+    padding: 1.3rem;
+    min-height: 700px;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    z-index: 2;
+}
+
+.card-modal .btn-submit {
+    bottom: 0;
+}
+
+.card-modal .order-products-container {
+    width: 90%;
+    height: 470px;
+    margin: 0 auto;
+    background-color: #fbfbfb;
+    border-bottom: 1px solid #cd98d8;
+    margin-top: 50px;
+    overflow-y: auto;
+}
+
+.card-modal .order-total-items {
+    position: absolute;
+    bottom: 115px;
+    margin-left: 22px;
+}
+
+.card-modal .order-total-price {
+    position: absolute;
+    bottom: 80px;
+    margin-left: 22px;
+}
 
