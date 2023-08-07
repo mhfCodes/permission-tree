@@ -8,6 +8,8 @@
     const dialogBox = document.querySelector(".dialog-box");
     const dialogContent = document.querySelector(".dialog-content");
     const cardProductCounter = document.querySelector(".card-product-counter");
+    const cardDialog = document.querySelector(".card-modal");
+    const orderProductsContainer = document.querySelector(".order-products-container");
 
     const addBtn = document.querySelector(".btn-add");
     const addModalCloseBtn = document.querySelector(".add-modal-btn-close");
@@ -18,6 +20,7 @@
     const yesDelBtn = document.querySelector(".btn-yes");
     const noDelBtn = document.querySelector(".btn-no");
     const cardBtn = document.querySelector(".card-button");
+    const cardDialogCloseBtn = document.querySelector(".card-modal-btn-close");
 
     const nameInput = document.getElementById("name");
     const priceInput = document.getElementById("price");
@@ -297,7 +300,7 @@
 
     }
 
-    const processCard = () => {
+    const processCard = async () => {
         orderProducts = [];
         const allProductsAddedToCard = document.querySelectorAll("[data-added-to-card='true']");
         allProductsAddedToCard.forEach(addedProduct => {
@@ -315,6 +318,17 @@
             orderProducts.push(orderProductObj);
         })
         console.log(orderProducts);
+    }
+
+    const openCardDialog = () => {
+        let orderProductsContainerHtml = ``;
+        orderProducts.forEach(orderProduct => {
+            let orderProductHtml = `<div class="order-product"><span class="delete-order-product"><i class="bx bxs-trash"></i></span><div class="order-product-grid"><p class="order-product-name">Item: ${orderProduct.product.name}</p><span></span><p class="order-product-total-price">Total Item Price: $${orderProduct.totalPrice}</p><div class="prod-inc-dec-container"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count" value="${orderProduct.count}"/><span class="plus-sign increase-product">+</span></div></div></div>`;
+            orderProductsContainerHtml += orderProductHtml;
+        });
+        orderProductsContainer.innerHTML = orderProductsContainerHtml;
+        overlay.classList.remove("hidden");
+        cardDialog.classList.remove("hidden");
     }
 
     const addEditClickEventListener = () => {
@@ -547,9 +561,14 @@
     searchBtn.addEventListener('click', () => {
         searchBox.classList.toggle("hidden");
     });
-    cardBtn.addEventListener('click', () => {
+    cardBtn.addEventListener('click', async () => {
         if (permissions.includes("ROLE_121")) {
-            processCard();
+            await processCard();
+            openCardDialog();
         }
+    });
+    cardDialogCloseBtn.addEventListener('click', () => {
+        cardDialog.classList.add("hidden");
+        overlay.classList.add("hidden");
     })
 })();
