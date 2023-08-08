@@ -634,3 +634,20 @@ li {
     justify-self: center;
 }
 
+.card-modal .btn-buy {
+    left: 40%!important;
+    background-color: #a9ffa9!important;
+}
+
+.card-modal .btn-buy:hover {
+    background-color: #77f477!important;
+}
+
+.card-modal .btn-empty-card {
+    left: 61%!important;
+    background-color: #f69898!important;
+}
+
+.card-modal .btn-empty-card:hover {
+    background-color: #fb7777!important;
+}

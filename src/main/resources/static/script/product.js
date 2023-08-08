@@ -21,6 +21,7 @@
     const noDelBtn = document.querySelector(".btn-no");
     const cardBtn = document.querySelector(".card-button");
     const cardDialogCloseBtn = document.querySelector(".card-modal-btn-close");
+    const emptyCardBtn = document.querySelector(".btn-empty-card");
 
     const nameInput = document.getElementById("name");
     const priceInput = document.getElementById("price");
@@ -331,6 +332,20 @@
         cardDialog.classList.remove("hidden");
     }
 
+    const emptyCard = () => {
+        orderProducts = [];
+        const allAddedToCardProducts = document.querySelectorAll("[data-added-to-card='true']");
+        allAddedToCardProducts.forEach(addedToCardProduct => {
+            addedToCardProduct.setAttribute("data-added-to-card", false);
+            addedToCardProduct.querySelector(".prod-inc-dec-container").style.display = "none";
+            addedToCardProduct.querySelector(".btn-add-to-card").style.display = "table-cell";
+        })
+        cardBtn.classList.remove("card-button-active");
+        cardProductCounter.textContent = "0";
+        cardDialog.classList.add("hidden");
+        overlay.classList.add("hidden");
+    }
+
     const addEditClickEventListener = () => {
         const editBtns = document.querySelectorAll(".btn-edit");
         editBtns.forEach(editBtn => {
@@ -570,5 +585,8 @@
     cardDialogCloseBtn.addEventListener('click', () => {
         cardDialog.classList.add("hidden");
         overlay.classList.add("hidden");
+    });
+    emptyCardBtn.addEventListener('click', () => {
+        emptyCard();
     })
 })();
