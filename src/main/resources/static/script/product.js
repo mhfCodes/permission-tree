@@ -324,12 +324,14 @@
     const openCardDialog = () => {
         let orderProductsContainerHtml = ``;
         orderProducts.forEach(orderProduct => {
-            let orderProductHtml = `<div class="order-product"><span class="delete-order-product"><i class="bx bxs-trash"></i></span><div class="order-product-grid"><p class="order-product-name">Item: ${orderProduct.product.name}</p><span></span><p class="order-product-total-price">Total Item Price: $${orderProduct.totalPrice}</p><div class="prod-inc-dec-container"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count" value="${orderProduct.count}"/><span class="plus-sign increase-product">+</span></div></div></div>`;
+            let orderProductHtml = `<div class="order-product"><span class="delete-order-product"><i class="bx bxs-trash"></i></span><div class="order-product-grid"><p class="order-product-name">Item: ${orderProduct.product.name}</p><span></span><p class="order-product-total-price">Total Item Price: $<span class="order-product-total-price-number">${orderProduct.totalPrice}</span></p><div class="prod-inc-dec-container"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count" value="${orderProduct.count}"/><span class="plus-sign increase-product">+</span></div></div></div>`;
             orderProductsContainerHtml += orderProductHtml;
         });
         orderProductsContainer.innerHTML = orderProductsContainerHtml;
         overlay.classList.remove("hidden");
         cardDialog.classList.remove("hidden");
+        updateOrderTotalItemsAndPrice();
+        addDeleteOrderProductClickEventListener();
     }
 
     const emptyCard = () => {
@@ -344,6 +346,21 @@
         cardProductCounter.textContent = "0";
         cardDialog.classList.add("hidden");
         overlay.classList.add("hidden");
+    }
+
+    const updateOrderTotalItemsAndPrice = () => {
+        const cardOrderProducts = cardDialog.querySelectorAll(".order-product");
+        let totalOrderItems = 0;
+        let totalOrderPrice = 0;
+        cardOrderProducts.forEach(cardOrderProduct => {
+            let orderProductCount = parseInt(cardOrderProduct.querySelector(".product-count").value);
+            let orderProductTotalPrice = parseInt(cardOrderProduct.querySelector(".order-product-total-price-number").textContent);
+            
+            totalOrderItems += orderProductCount;
+            totalOrderPrice += orderProductTotalPrice;
+        });
+        cardDialog.querySelector(".order-total-items-number").textContent = totalOrderItems;
+        cardDialog.querySelector(".order-total-price-number").textContent = totalOrderPrice;
     }
 
     const addEditClickEventListener = () => {
@@ -439,6 +456,17 @@
                 }
 
             })
+        })
+    }
+
+    const addDeleteOrderProductClickEventListener = () => {
+        const allDeleteOrderProductBtns = document.querySelectorAll(".delete-order-product");
+        allDeleteOrderProductBtns.forEach(deleteOrderProductBtn => {
+            deleteOrderProductBtn.addEventListener('click', () => {
+                const orderProduct = deleteOrderProductBtn.parentElement;
+                orderProduct.remove();
+                updateOrderTotalItemsAndPrice();
+            });
         })
     }
 
