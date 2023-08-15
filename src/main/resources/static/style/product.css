@@ -201,7 +201,8 @@ li {
     color: #000!important;
 }
 
-.prod-inc-dec-container .product-count {
+.prod-inc-dec-container .product-count,
+.prod-inc-dec-container .order-product-count {
     width: 3rem;
     height: 2rem;
     background-color: #fdfdfd;
@@ -210,7 +211,9 @@ li {
 }
 
 .prod-inc-dec-container .product-count::-webkit-inner-spin-button,
-.prod-inc-dec-container .product-count::-webkit-outer-spin-button {
+.prod-inc-dec-container .order-product-count::-webkit-inner-spin-button,
+.prod-inc-dec-container .product-count::-webkit-outer-spin-button,
+.prod-inc-dec-container .order-product-count::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }

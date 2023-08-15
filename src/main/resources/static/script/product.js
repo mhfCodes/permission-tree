@@ -91,7 +91,7 @@
 
         products.forEach(product => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td class="product-name">${product.productName}</td><td class="product-price">${product.productPrice}</td><td>${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add</button><div class="prod-inc-dec-container" data-has-permission="ROLE_121"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count"/><span class="plus-sign increase-product">+</span></div></td>`;
+            tr.innerHTML = `<td class="product-name">${product.productName}</td><td class="product-price">${product.productPrice}</td><td class="product-available-count">${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add</button><div class="prod-inc-dec-container" data-has-permission="ROLE_121"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count"/><span class="plus-sign increase-product">+</span></div></td>`;
             tr.setAttribute("data-product-id", product.productId);
             tr.setAttribute("data-added-to-card", "false");
             tableBody.insertAdjacentElement("beforeend", tr);
@@ -101,6 +101,7 @@
         addAddToCardButtonClickEventListener();
         addProductPlusClickEventListener();
         addProductMinusClickEventListener();
+        addProductCounterBlurEventListener();
     }
 
     const saveProduct = async (e) => {
@@ -267,7 +268,7 @@
         tableBody.innerHTML = "";
         data.forEach(product => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `<td class="product-name">${product.productName}</td><td class="product-price">${product.productPrice}</td><td>${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add</button><div class="prod-inc-dec-container" data-has-permission="ROLE_121"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count"/><span class="plus-sign increase-product">+</span></div></td></td>`;
+            tr.innerHTML = `<td class="product-name">${product.productName}</td><td class="product-price">${product.productPrice}</td><td class="product-available-count">${product.productCount}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateAdded}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5">${product.productDateModified}</td><td class="hidden" data-has-any-permission="ROLE_4,ROLE_5"><button class="btn btn-small btn-edit hidden" data-productId="${product.productId}" data-has-permission="ROLE_4">Edit</button><button class="btn btn-small btn-delete hidden" data-productId="${product.productId}" data-has-permission="ROLE_5">Delete</button></td><td class="hidden" data-has-permission="ROLE_121"><button class="btn btn-small btn-add-to-card hidden" data-productId="${product.productId}" data-has-permission="ROLE_121">Add</button><div class="prod-inc-dec-container" data-has-permission="ROLE_121"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count"/><span class="plus-sign increase-product">+</span></div></td></td>`;
             tr.setAttribute("data-product-id", product.productId);
             tr.setAttribute("data-added-to-card", "false");
             tableBody.insertAdjacentElement("beforeend", tr);
@@ -277,6 +278,7 @@
         addAddToCardButtonClickEventListener();
         addProductPlusClickEventListener();
         addProductMinusClickEventListener();
+        addProductCounterBlurEventListener();
 
         hasPermissionElements = document.querySelectorAll("[data-has-permission]");
         hasAnyPermissionsElements = document.querySelectorAll("[data-has-any-permission]");
@@ -310,7 +312,8 @@
                 productId: parseInt(addedProduct.dataset.productId),
                 product: {
                     id: parseInt(addedProduct.dataset.productId),
-                    name: addedProduct.querySelector(".product-name").textContent
+                    name: addedProduct.querySelector(".product-name").textContent,
+                    count: addedProduct.querySelector(".product-available-count").textContent
                 },
                 price: parseInt(addedProduct.querySelector(".product-price").textContent),
                 count: parseInt(addedProduct.querySelector(".product-count").value),
@@ -324,7 +327,7 @@
     const openCardDialog = () => {
         let orderProductsContainerHtml = ``;
         orderProducts.forEach(orderProduct => {
-            let orderProductHtml = `<div class="order-product"><span class="delete-order-product"><i class="bx bxs-trash"></i></span><div class="order-product-grid"><p class="order-product-name">Item: ${orderProduct.product.name}</p><span></span><p class="order-product-total-price">Total Item Price: $<span class="order-product-total-price-number">${orderProduct.totalPrice}</span></p><div class="prod-inc-dec-container"><span class="minus-sign decrease-product">-</span><input type="number" class="product-count" value="${orderProduct.count}"/><span class="plus-sign increase-product">+</span></div></div></div>`;
+            let orderProductHtml = `<div class="order-product" data-product-available-count="${orderProduct.product.count}"><span class="delete-order-product"><i class="bx bxs-trash"></i></span><div class="order-product-grid"><p class="order-product-name">Item: ${orderProduct.product.name}</p><span></span><p class="order-product-total-price">Total Item Price: $<span class="order-product-total-price-number">${orderProduct.totalPrice}</span></p><div class="prod-inc-dec-container"><span class="minus-sign decrease-product">-</span><input type="number" class="order-product-count" value="${orderProduct.count}"/><span class="plus-sign increase-product">+</span></div></div></div>`;
             orderProductsContainerHtml += orderProductHtml;
         });
         orderProductsContainer.innerHTML = orderProductsContainerHtml;
@@ -332,6 +335,8 @@
         cardDialog.classList.remove("hidden");
         updateOrderTotalItemsAndPrice();
         addDeleteOrderProductClickEventListener();
+        addOrderProductIncDecClickEventListener();
+        addOrderProductCounterBlurEventListener();
     }
 
     const emptyCard = () => {
@@ -353,7 +358,7 @@
         let totalOrderItems = 0;
         let totalOrderPrice = 0;
         cardOrderProducts.forEach(cardOrderProduct => {
-            let orderProductCount = parseInt(cardOrderProduct.querySelector(".product-count").value);
+            let orderProductCount = parseInt(cardOrderProduct.querySelector(".order-product-count").value);
             let orderProductTotalPrice = parseInt(cardOrderProduct.querySelector(".order-product-total-price-number").textContent);
             
             totalOrderItems += orderProductCount;
@@ -361,6 +366,90 @@
         });
         cardDialog.querySelector(".order-total-items-number").textContent = totalOrderItems;
         cardDialog.querySelector(".order-total-price-number").textContent = totalOrderPrice;
+    }
+
+    const addOrderProductIncDecClickEventListener = () => {
+        const cardOrderProducts = cardDialog.querySelectorAll(".order-product");
+        cardOrderProducts.forEach(cardOrderProduct => {
+            
+            let orderProductCurrentCount = parseInt(cardOrderProduct.querySelector(".order-product-count").value);
+            let orderProductCurrentTotalPrice = parseInt(cardOrderProduct.querySelector(".order-product-total-price-number").textContent);
+
+            const orderProductIncreaser = cardOrderProduct.querySelector(".increase-product");
+            const orderProductDecreaser = cardOrderProduct.querySelector(".decrease-product");
+            const productAvailableCount = parseInt(cardOrderProduct.dataset.productAvailableCount);
+            const productPrice = orderProductCurrentTotalPrice / orderProductCurrentCount;
+
+
+            orderProductIncreaser.addEventListener('click', () => {
+
+                orderProductCurrentCount = parseInt(cardOrderProduct.querySelector(".order-product-count").value);
+                orderProductCurrentTotalPrice = parseInt(cardOrderProduct.querySelector(".order-product-total-price-number").textContent);
+                let orderTotalItems = parseInt(cardDialog.querySelector(".order-total-items-number").textContent);
+                let orderTotalPrice = parseInt(cardDialog.querySelector(".order-total-price-number").textContent);
+
+                if (orderProductCurrentCount < productAvailableCount) {
+                    cardOrderProduct.querySelector(".order-product-count").value = ++orderProductCurrentCount;
+                    cardOrderProduct.querySelector(".order-product-total-price-number").textContent = orderProductCurrentTotalPrice + productPrice;
+                    cardDialog.querySelector(".order-total-items-number").textContent = ++orderTotalItems;
+                    cardDialog.querySelector(".order-total-price-number").textContent = orderTotalPrice + productPrice;
+                }
+            });
+
+            orderProductDecreaser.addEventListener('click', () => {
+
+                orderProductCurrentCount = parseInt(cardOrderProduct.querySelector(".order-product-count").value);
+                orderProductCurrentTotalPrice = parseInt(cardOrderProduct.querySelector(".order-product-total-price-number").textContent);
+                let orderTotalItems = parseInt(cardDialog.querySelector(".order-total-items-number").textContent);
+                let orderTotalPrice = parseInt(cardDialog.querySelector(".order-total-price-number").textContent);
+
+                if (orderProductCurrentCount > 1) {
+                    cardOrderProduct.querySelector(".order-product-count").value = --orderProductCurrentCount;
+                    cardOrderProduct.querySelector(".order-product-total-price-number").textContent = orderProductCurrentTotalPrice - productPrice;
+                    cardDialog.querySelector(".order-total-items-number").textContent = --orderTotalItems;
+                    cardDialog.querySelector(".order-total-price-number").textContent = orderTotalPrice - productPrice;
+                } else {
+                    cardOrderProduct.remove();
+                    cardDialog.querySelector(".order-total-items-number").textContent = --orderTotalItems;
+                    cardDialog.querySelector(".order-total-price-number").textContent = orderTotalPrice - productPrice;
+                }
+
+            })
+
+        })
+
+    }
+
+    const addOrderProductCounterBlurEventListener = () => {
+        const cardOrderProducts = cardDialog.querySelectorAll(".order-product");
+        cardOrderProducts.forEach(cardOrderProduct => {
+
+            let orderProductCurrentCount = parseInt(cardOrderProduct.querySelector(".order-product-count").value);
+            let orderProductCurrentTotalPrice = parseInt(cardOrderProduct.querySelector(".order-product-total-price-number").textContent);
+
+            const orderProductCounter = cardOrderProduct.querySelector(".order-product-count");
+            const productAvailableCount = parseInt(cardOrderProduct.dataset.productAvailableCount);
+            const productPrice = orderProductCurrentTotalPrice / orderProductCurrentCount;
+
+            orderProductCounter.addEventListener('blur', () => {
+
+                orderProductCurrentCount = Math.floor(parseInt(cardOrderProduct.querySelector(".order-product-count").value));
+                orderProductCurrentTotalPrice = parseInt(cardOrderProduct.querySelector(".order-product-total-price-number").textContent);
+
+                if (orderProductCurrentCount > productAvailableCount) {
+                    cardOrderProduct.querySelector(".order-product-count").value = productAvailableCount;
+                    cardOrderProduct.querySelector(".order-product-total-price-number").textContent = productPrice * productAvailableCount;
+                } else if (orderProductCurrentCount <= 0) {
+                    cardOrderProduct.querySelector(".order-product-count").value = 1;
+                    cardOrderProduct.querySelector(".order-product-total-price-number").textContent = productPrice;
+                } else {
+                    cardOrderProduct.querySelector(".order-product-count").value = orderProductCurrentCount;
+                    cardOrderProduct.querySelector(".order-product-total-price-number").textContent = productPrice * orderProductCurrentCount;
+                }
+
+                updateOrderTotalItemsAndPrice();
+            });
+        })
     }
 
     const addEditClickEventListener = () => {
@@ -419,10 +508,6 @@
                 if (productCurrentCount < productAvailableCount) {
                     increaser.previousElementSibling.value = ++productCurrentCount;
                 }
-
-                if (productCurrentCount > productAvailableCount) {
-                    increaser.previousElementSibling.value = productAvailableCount;
-                }
                 
             })
         })
@@ -439,11 +524,8 @@
                 const addToCardBtn = prodIncDecContainer.previousElementSibling;
 
                 let productCurrentCount = parseInt(decreaser.nextElementSibling.value);
-                let productAvailableCount = parseInt(decreaser.parentElement.parentElement.previousElementSibling.textContent);
             
-                if (productCurrentCount > productAvailableCount) {
-                    decreaser.nextElementSibling.value = productAvailableCount - 1;
-                } else if (productCurrentCount > 1) {
+                if (productCurrentCount > 1) {
                     decreaser.nextElementSibling.value = --productCurrentCount;
                 } else {
                     productRow.setAttribute("data-added-to-card", "false");
@@ -457,6 +539,26 @@
 
             })
         })
+    }
+
+    const addProductCounterBlurEventListener = () => {
+        const allProductCounters = document.querySelectorAll(".product-count");
+        allProductCounters.forEach(productCounter => {
+            productCounter.addEventListener('blur', () => {
+
+                const productAvailableCount = parseInt(productCounter.parentElement.parentElement.previousElementSibling.textContent);
+                let productCurrentCount = Math.floor(parseInt(productCounter.value));
+
+                if (productCurrentCount > productAvailableCount) {
+                    productCounter.value = productAvailableCount;
+                } else if (productCurrentCount <= 0) {
+                    productCounter.value = 1;
+                } else {
+                    productCounter.value = Math.floor(parseInt(productCounter.value));
+                }
+
+            });
+        });
     }
 
     const addDeleteOrderProductClickEventListener = () => {
